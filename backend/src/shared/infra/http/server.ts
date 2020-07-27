@@ -4,8 +4,8 @@ import { errors } from 'celebrate';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 
-// import '@shared/infra/typeorm';
-// import '@shared/container';
+import '@shared/infra/typeorm';
+import '@shared/container';
 import AppError from '@shared/errors/AppError';
 // import routes from '@shared/infra/http/routes';
 

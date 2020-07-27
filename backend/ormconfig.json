@@ -7,7 +7,7 @@
     "password": "ekki",
     "database": "ekki",
     "entities": [
-      "./src/modules/**/infra/typeorm/entities/*.ts"
+      "./src/modules/**/entities/*.ts"
     ],
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
