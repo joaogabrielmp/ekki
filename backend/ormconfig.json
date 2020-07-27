@@ -3,9 +3,9 @@
     "type": "postgres",
     "host": "localhost",
     "port": 5432,
-    "username": "postgres",
-    "password": "docker",
-    "database": "gobarber",
+    "username": "ekki",
+    "password": "ekki",
+    "database": "ekki",
     "entities": [
       "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
@@ -15,16 +15,5 @@
     "cli": {
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
     }
-  },
-  {
-    "name": "mongo",
-    "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "gobarber",
-    "useUnifiedTopology": true,
-    "entities": [
-      "./src/modules/**/infra/typeorm/schemas/*.ts"
-    ]
   }
 ]
