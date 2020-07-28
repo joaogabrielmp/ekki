@@ -3,9 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import Account from './Account';
 
 @Entity('users')
 class User {
@@ -22,7 +26,12 @@ class User {
   cellphone: string;
 
   @Column()
+  @Exclude()
   account_id: string;
+
+  @OneToOne(() => Account, { eager: true })
+  @JoinColumn({ name: 'account_id' })
+  account: Account;
 
   @CreateDateColumn()
   @Exclude()
