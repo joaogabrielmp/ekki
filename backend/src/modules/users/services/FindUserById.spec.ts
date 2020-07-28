@@ -17,6 +17,8 @@ describe('FindById', () => {
     const user = await findUserById.execute({ user_id });
 
     expect(user.name).toBe('John Doe');
+    expect(user.cpf).toBe('43271533032');
+    expect(user.cellphone).toBe('37991918282');
   });
 
   it('should not be able to find user by incorrect id', async () => {
