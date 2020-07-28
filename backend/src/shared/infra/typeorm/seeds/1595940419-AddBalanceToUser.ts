@@ -1,0 +1,19 @@
+import { Seeder, Factory } from 'typeorm-seeding';
+import { Connection } from 'typeorm';
+
+export default class AddBalanceToUser implements Seeder {
+  public async run(factory: Factory, connection: Connection): Promise<void> {
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into('users_account')
+      .values([
+        {
+          account_number: '123456',
+          user_id: 'cf41da34-a7c3-4c68-b79f-a42740aaec04',
+          balance: 1000,
+        },
+      ])
+      .execute();
+  }
+}

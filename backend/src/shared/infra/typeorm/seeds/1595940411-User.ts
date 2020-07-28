@@ -1,21 +1,20 @@
 import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 
-const User = [
-  {
-    name: 'John Doe',
-    cpf: '43271533032',
-    cellphone: '37991918282',
-  },
-];
-
-export default class InitialUser implements Seeder {
+export default class User implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {
     await connection
       .createQueryBuilder()
       .insert()
       .into('users')
-      .values(User)
+      .values([
+        {
+          id: 'cf41da34-a7c3-4c68-b79f-a42740aaec04',
+          name: 'John Doe',
+          cpf: '43271533032',
+          cellphone: '37991918282',
+        },
+      ])
       .execute();
   }
 }
