@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateUsersBalance1595889365750
+export default class CreateTransfers1595937119151
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users_balance',
+        name: 'transfers',
         columns: [
           {
             name: 'id',
@@ -19,8 +19,16 @@ export default class CreateUsersBalance1595889365750
             type: 'uuid',
           },
           {
+            name: 'beneficiary_id',
+            type: 'uuid',
+          },
+          {
             name: 'balance',
             type: 'int2',
+          },
+          {
+            name: 'status',
+            type: 'varchar',
           },
           {
             name: 'created_at',
@@ -35,10 +43,18 @@ export default class CreateUsersBalance1595889365750
         ],
         foreignKeys: [
           {
-            name: 'UsersBalance',
+            name: 'UserBeneficiariesSend',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
+          {
+            name: 'UserBeneficiariesReceive',
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            columnNames: ['beneficiary_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
@@ -48,6 +64,6 @@ export default class CreateUsersBalance1595889365750
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users_balance');
+    await queryRunner.dropTable('transfers');
   }
 }
