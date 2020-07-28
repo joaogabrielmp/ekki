@@ -1,5 +1,5 @@
 import 'express-async-errors';
-// import 'reflect-metadata';
+import 'reflect-metadata';
 import { errors } from 'celebrate';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
@@ -7,13 +7,13 @@ import express, { NextFunction, Request, Response } from 'express';
 import '@shared/infra/typeorm';
 import '@shared/container';
 import AppError from '@shared/errors/AppError';
-// import routes from '@shared/infra/http/routes';
+import routes from '@shared/infra/http/routes';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use(routes);
+app.use(routes);
 app.use(errors());
 
 app.use(
