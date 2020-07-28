@@ -21,6 +21,9 @@ class User {
   @Column()
   cellphone: string;
 
+  @Column()
+  account_id: string;
+
   @CreateDateColumn()
   @Exclude()
   created_at: Date;
