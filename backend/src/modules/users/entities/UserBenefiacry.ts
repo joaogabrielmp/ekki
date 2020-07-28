@@ -8,15 +8,15 @@ import {
 } from 'typeorm';
 
 @Entity('accounts')
-class Account {
+class UserBenefiacry {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  account_number: string;
+  user_id: string;
 
   @Column()
-  balance: number;
+  beneficiary_id: string;
 
   @CreateDateColumn()
   @Exclude()
@@ -27,4 +27,4 @@ class Account {
   updated_at: Date;
 }
 
-export default Account;
+export default UserBenefiacry;
