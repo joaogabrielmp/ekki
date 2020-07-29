@@ -1,5 +1,5 @@
-import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
+import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 
 export default interface IUserBeneficiariesRepository {
   create(data: IUserBeneficiaryDTO): Promise<UserBeneficiary>;

@@ -16,4 +16,16 @@ usersRouter.get(
   usersController.getById,
 );
 
+usersRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      cellphone: Joi.string().required(),
+      cpf: Joi.string().required(),
+      name: Joi.string().required(),
+    },
+  }),
+  usersController.create,
+);
+
 export default usersRouter;

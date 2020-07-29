@@ -7,7 +7,7 @@ import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-class CreateUser {
+class CreateUserBeneficiary {
   constructor(
     @inject('UserBeneficiariesRepository')
     private userBeneficiariesRepository: IUserBeneficiariesRepository,
@@ -37,4 +37,4 @@ class CreateUser {
   }
 }
 
-export default CreateUser;
+export default CreateUserBeneficiary;

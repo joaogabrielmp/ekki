@@ -39,7 +39,7 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     let { userBeneficiaries } = this;
 
     userBeneficiaries = this.userBeneficiaries.filter(
-      userBeneficiary => userBeneficiary.id !== id,
+      userBeneficiary => userBeneficiary.id === id,
     );
 
     return userBeneficiaries;
