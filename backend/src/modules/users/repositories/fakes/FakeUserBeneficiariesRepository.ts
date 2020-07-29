@@ -1,0 +1,40 @@
+import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
+import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
+
+import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
+
+class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
+  private userBeneficiaries: UserBeneficiary[] = [];
+
+  public async create({
+    beneficiary_id,
+    user_id,
+  }: IUserBeneficiaryDTO): Promise<UserBeneficiary> {
+    const userBeneficiary = new UserBeneficiary();
+
+    Object.assign(userBeneficiary, {
+      id: 'a756ea69-5103-463f-8946-84e00e8e66e4',
+      beneficiary_id,
+      user_id,
+    });
+
+    this.userBeneficiaries.push(userBeneficiary);
+
+    return userBeneficiary;
+  }
+
+  public async findByUserAndBeneficiary({
+    beneficiary_id,
+    user_id,
+  }: IUserBeneficiaryDTO): Promise<UserBeneficiary | undefined> {
+    const findUserBeneficiaries = this.userBeneficiaries.find(
+      userBeneficiary =>
+        userBeneficiary.beneficiary_id === beneficiary_id &&
+        userBeneficiary.user_id === user_id,
+    );
+
+    return findUserBeneficiaries;
+  }
+}
+
+export default FakeUserBeneficiariesRepository;
