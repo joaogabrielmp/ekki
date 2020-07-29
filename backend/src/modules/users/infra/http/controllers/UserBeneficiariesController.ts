@@ -19,7 +19,7 @@ export default class UsersController {
     return response.json(classToClass(userBeneficiary));
   }
 
-  public async findAll(
+  public async findAllByUser(
     request: Request,
     response: Response,
   ): Promise<Response> {

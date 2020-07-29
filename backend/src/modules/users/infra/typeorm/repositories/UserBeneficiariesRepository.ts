@@ -20,7 +20,7 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return userBeneficiary;
   }
 
-  public async findAll(id: string): Promise<UserBeneficiary[]> {
+  public async findAllByUser(id: string): Promise<UserBeneficiary[]> {
     const userBeneficiaries = await this.ormRepository.find({ user_id: id });
 
     return userBeneficiaries;

@@ -13,7 +13,7 @@ userBeneficiariesRouter.get(
       user_id: Joi.string().uuid().required(),
     },
   }),
-  userBeneficiariesController.findAll,
+  userBeneficiariesController.findAllByUser,
 );
 
 userBeneficiariesRouter.post(

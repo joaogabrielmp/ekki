@@ -12,7 +12,7 @@ class FindAllUserBeneficiary {
   ) {}
 
   public async execute(id: string): Promise<UserBeneficiary[]> {
-    const userBeneficiaries = await this.userBeneficiariesRepository.findAll(
+    const userBeneficiaries = await this.userBeneficiariesRepository.findAllByUser(
       id,
     );
 
