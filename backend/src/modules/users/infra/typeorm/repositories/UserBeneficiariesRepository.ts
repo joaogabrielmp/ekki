@@ -47,12 +47,6 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
 
     return userBeneficiary;
   }
-
-  public async save(
-    userBeneficiary: UserBeneficiary,
-  ): Promise<UserBeneficiary> {
-    return this.ormRepository.save(userBeneficiary);
-  }
 }
 
 export default UserBeneficiariesRepository;

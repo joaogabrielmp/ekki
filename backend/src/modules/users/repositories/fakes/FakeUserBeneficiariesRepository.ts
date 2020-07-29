@@ -57,18 +57,6 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
 
     return findUserBeneficiaries;
   }
-
-  public async save(
-    userBeneficiary: UserBeneficiary,
-  ): Promise<UserBeneficiary> {
-    const findIndex = this.userBeneficiaries.findIndex(
-      findUser => findUser.id === userBeneficiary.id,
-    );
-
-    this.userBeneficiaries[findIndex] = userBeneficiary;
-
-    return userBeneficiary;
-  }
 }
 
 export default FakeUserBeneficiariesRepository;

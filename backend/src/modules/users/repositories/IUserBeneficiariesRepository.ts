@@ -8,5 +8,4 @@ export default interface IUserBeneficiariesRepository {
   findByUserAndBeneficiary(
     data: IUserBeneficiaryDTO,
   ): Promise<UserBeneficiary | undefined>;
-  save(userBeneficiary: UserBeneficiary): Promise<UserBeneficiary>;
 }
