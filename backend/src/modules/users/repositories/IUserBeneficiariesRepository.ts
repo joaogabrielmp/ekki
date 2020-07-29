@@ -3,7 +3,7 @@ import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
 
 export default interface IUserBeneficiariesRepository {
   create(data: IUserBeneficiaryDTO): Promise<UserBeneficiary>;
-  // findAll(id: string): Promise<UserBeneficiary[]>;
+  findAll(id: string): Promise<UserBeneficiary[]>;
   findByUserAndBeneficiary(
     data: IUserBeneficiaryDTO,
   ): Promise<UserBeneficiary | undefined>;

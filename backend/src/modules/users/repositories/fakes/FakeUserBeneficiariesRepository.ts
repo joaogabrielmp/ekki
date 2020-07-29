@@ -23,6 +23,16 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return userBeneficiary;
   }
 
+  public async findAll(id: string): Promise<UserBeneficiary[]> {
+    let { userBeneficiaries } = this;
+
+    userBeneficiaries = this.userBeneficiaries.filter(
+      userBeneficiary => userBeneficiary.user_id === id,
+    );
+
+    return userBeneficiaries;
+  }
+
   public async findByUserAndBeneficiary({
     beneficiary_id,
     user_id,
