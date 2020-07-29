@@ -20,6 +20,16 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return userBeneficiary;
   }
 
+  public async delete(id: string): Promise<boolean> {
+    const userBeneficiary = await this.ormRepository.delete({
+      beneficiary_id: id,
+    });
+
+    const isDeleted = !!userBeneficiary.affected;
+
+    return isDeleted;
+  }
+
   public async findAllByUser(id: string): Promise<UserBeneficiary[]> {
     const userBeneficiaries = await this.ormRepository.find({ user_id: id });
 

@@ -23,11 +23,23 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return userBeneficiary;
   }
 
+  public async delete(id: string): Promise<boolean> {
+    let { userBeneficiaries } = this;
+
+    userBeneficiaries = this.userBeneficiaries.filter(userBeneficiary => {
+      return userBeneficiary.beneficiary_id !== id;
+    });
+
+    const isDeleted = userBeneficiaries?.length === 0;
+
+    return isDeleted;
+  }
+
   public async findAllByUser(id: string): Promise<UserBeneficiary[]> {
     let { userBeneficiaries } = this;
 
     userBeneficiaries = this.userBeneficiaries.filter(
-      userBeneficiary => userBeneficiary.user_id === id,
+      userBeneficiary => userBeneficiary.id !== id,
     );
 
     return userBeneficiaries;

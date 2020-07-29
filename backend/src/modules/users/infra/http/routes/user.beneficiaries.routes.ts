@@ -6,6 +6,16 @@ import UserBeneficiariesController from '@modules/users/infra/http/controllers/U
 const userBeneficiariesRouter = Router();
 const userBeneficiariesController = new UserBeneficiariesController();
 
+userBeneficiariesRouter.delete(
+  '/:beneficiary_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      beneficiary_id: Joi.string().uuid().required(),
+    },
+  }),
+  userBeneficiariesController.delete,
+);
+
 userBeneficiariesRouter.get(
   '/:user_id',
   celebrate({

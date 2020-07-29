@@ -1,8 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
-
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
+import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 
 import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 import AppError from '@shared/errors/AppError';

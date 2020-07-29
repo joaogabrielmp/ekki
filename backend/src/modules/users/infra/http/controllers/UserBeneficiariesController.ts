@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import CreateUserBeneficiary from '@modules/users/services/CreateUserBeneficiary';
+import DeleteBeneficiary from '@modules/users/services/DeleteBeneficiary';
 import FindAllUserBeneficiary from '@modules/users/services/FindAllUserBeneficiary';
 
 export default class UsersController {
@@ -17,6 +18,16 @@ export default class UsersController {
     });
 
     return response.json(classToClass(userBeneficiary));
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { beneficiary_id } = request.params;
+
+    const deleteBeneficiary = container.resolve(DeleteBeneficiary);
+
+    const message = await deleteBeneficiary.execute(beneficiary_id);
+
+    return response.json({ message });
   }
 
   public async findAllByUser(
