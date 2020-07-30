@@ -5,5 +5,5 @@ export default interface IUsersRepository {
   create(data: IUserDTO): Promise<User>;
   findByCPF(cpf: string): Promise<User | undefined>;
   findById(id: string): Promise<User | undefined>;
-  // update(data?: IUserDTO): Promise<void>;
+  update(user: User): Promise<User>;
 }

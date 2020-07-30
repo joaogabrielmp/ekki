@@ -28,4 +28,19 @@ usersRouter.post(
   usersController.create,
 );
 
+usersRouter.put(
+  '/:user_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      user_id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      cellphone: Joi.string(),
+      cpf: Joi.string().length(11),
+      name: Joi.string(),
+    },
+  }),
+  usersController.update,
+);
+
 export default usersRouter;

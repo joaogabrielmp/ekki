@@ -16,7 +16,7 @@ class UsersRepository implements IUsersRepository {
     this.ormAccountRepository = getRepository(Account);
   }
 
-  public async create(data: IUserDTO): Promise<User> {
+  public async create({ cellphone, cpf, name }: IUserDTO): Promise<User> {
     const account_number = await this.generateAccountNumber();
 
     const account = this.ormAccountRepository.create({
@@ -24,7 +24,7 @@ class UsersRepository implements IUsersRepository {
       balance: 0,
     });
 
-    const user = this.ormUserRepository.create(data);
+    const user = this.ormUserRepository.create({ cellphone, cpf, name });
 
     await getManager().transaction(async () => {
       await this.ormAccountRepository.save(account);
@@ -55,6 +55,10 @@ class UsersRepository implements IUsersRepository {
     const account = await this.ormAccountRepository.findOne({ account_number });
 
     return account;
+  }
+
+  public async update(user: User): Promise<User> {
+    return this.ormUserRepository.save(user);
   }
 
   private async generateAccountNumber(): Promise<string> {
