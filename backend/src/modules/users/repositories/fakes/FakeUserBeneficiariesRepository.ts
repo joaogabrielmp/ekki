@@ -35,12 +35,16 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
-  public async findAllByUser(id: string): Promise<UserBeneficiary[]> {
+  public async findAllByUser(
+    page: number,
+    per_page: number,
+    id: string,
+  ): Promise<UserBeneficiary[]> {
     let { userBeneficiaries } = this;
 
-    userBeneficiaries = this.userBeneficiaries.filter(
-      userBeneficiary => userBeneficiary.user_id === id,
-    );
+    userBeneficiaries = this.userBeneficiaries
+      .slice(page - 1, per_page)
+      .filter(userBeneficiary => userBeneficiary.user_id === id);
 
     return userBeneficiaries;
   }
