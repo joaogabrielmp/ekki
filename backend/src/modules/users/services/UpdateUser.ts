@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import IUpdateUserDTO from '@modules/users/dtos/IUpdateUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import User from '@modules/users/entities/User';
@@ -12,12 +13,12 @@ class UpdateUser {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute(
-    cellphone: string,
-    cpf: string,
-    name: string,
-    user_id: string,
-  ): Promise<User> {
+  public async execute({
+    cellphone,
+    cpf,
+    name,
+    user_id,
+  }: IUpdateUserDTO): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {

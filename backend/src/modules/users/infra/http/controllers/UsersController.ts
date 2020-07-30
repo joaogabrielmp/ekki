@@ -40,7 +40,7 @@ export default class UsersController {
 
     const updateUser = container.resolve(UpdateUser);
 
-    const user = await updateUser.execute(cellphone, cpf, name, user_id);
+    const user = await updateUser.execute({ cellphone, cpf, name, user_id });
 
     return response.json(classToClass(user));
   }
