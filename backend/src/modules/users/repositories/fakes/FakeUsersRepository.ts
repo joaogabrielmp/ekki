@@ -58,6 +58,14 @@ class FakeUsersRepository implements IUsersRepository {
 
     return findUser;
   }
+
+  public async update(user: User): Promise<User> {
+    const findIndex = this.users.findIndex(findUser => findUser.id === user.id);
+
+    this.users[findIndex] = user;
+
+    return user;
+  }
 }
 
 export default FakeUsersRepository;
