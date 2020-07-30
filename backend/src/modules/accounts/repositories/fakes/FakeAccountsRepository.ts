@@ -1,4 +1,4 @@
-import IAccountRepository from '@modules/accounts/repositories/IAccountRepository';
+import IAccountRepository from '@modules/accounts/repositories/IAccountsRepository';
 
 import Account from '@modules/accounts/entities/Account';
 
