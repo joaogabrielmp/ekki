@@ -20,10 +20,7 @@ class CreateUser {
       throw new AppError('User already registered');
     }
 
-    const { id } = await this.usersRepository.createAccount();
-
     const user = await this.usersRepository.create({
-      account_id: id,
       cellphone,
       cpf,
       name,

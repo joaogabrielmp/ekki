@@ -17,9 +17,17 @@ class UsersRepository implements IUsersRepository {
   }
 
   public async create(data: IUserDTO): Promise<User> {
+    const account_number = await this.generateAccountNumber();
+
+    const account = this.ormAccountRepository.create({
+      account_number,
+      balance: 0,
+    });
+
     const user = this.ormUserRepository.create(data);
 
-    await this.ormUserRepository.save(user);
+    await this.ormAccountRepository.save(account);
+    await this.ormUserRepository.save({ ...user, account_id: account.id });
 
     return user;
   }
@@ -34,19 +42,6 @@ class UsersRepository implements IUsersRepository {
     const user = await this.ormUserRepository.findOne(id);
 
     return user;
-  }
-
-  public async createAccount(): Promise<Account> {
-    const account_number = await this.generateAccountNumber();
-
-    const account = this.ormAccountRepository.create({
-      account_number,
-      balance: 0,
-    });
-
-    await this.ormAccountRepository.save(account);
-
-    return account;
   }
 
   private async findByAccountNumber(
