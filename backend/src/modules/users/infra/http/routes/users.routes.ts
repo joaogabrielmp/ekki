@@ -21,7 +21,7 @@ usersRouter.post(
   celebrate({
     [Segments.BODY]: {
       cellphone: Joi.string().required(),
-      cpf: Joi.string().required(),
+      cpf: Joi.string().length(11).required(),
       name: Joi.string().required(),
     },
   }),
