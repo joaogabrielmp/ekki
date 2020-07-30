@@ -1,9 +1,8 @@
-import { container, inject, injectable } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import IUserDTO from '@modules/users/dtos/IUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-import CreateAccount from '@modules/accounts/services/CreateAccount';
 import User from '@modules/users/entities/User';
 import AppError from '@shared/errors/AppError';
 
@@ -21,18 +20,16 @@ class CreateUser {
       throw new AppError('User already registered');
     }
 
-    const createAccount = container.resolve(CreateAccount);
+    const { id } = await this.usersRepository.createAccount();
 
-    const { id } = await createAccount.execute();
-
-    const userBeneficiary = await this.usersRepository.create({
+    const user = await this.usersRepository.create({
       account_id: id,
       cellphone,
       cpf,
       name,
     });
 
-    return userBeneficiary;
+    return user;
   }
 }
 

@@ -1,11 +1,11 @@
 import { getRepository, Repository } from 'typeorm';
 
 import IAccountDTO from '@modules/accounts/dtos/IAccountDTO';
-import IAccountRepository from '@modules/accounts/repositories/IAccountRepository';
+import IAccountRepository from '@modules/accounts/repositories/IAccountsRepository';
 
 import Account from '@modules/accounts/entities/Account';
 
-class AccountRepository implements IAccountRepository {
+class AccountsRepository implements IAccountRepository {
   private ormRepository: Repository<Account>;
 
   constructor() {
@@ -29,4 +29,4 @@ class AccountRepository implements IAccountRepository {
   }
 }
 
-export default AccountRepository;
+export default AccountsRepository;

@@ -14,7 +14,7 @@ describe('CreateUserBeneficiary', () => {
     );
   });
 
-  it('should be able to find user by id', async () => {
+  it('should be able to create a new beneficiary', async () => {
     const beneficiary_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const user_id = 'beec37e5-bb27-40d3-a1e0-c02faa9252d7';
 

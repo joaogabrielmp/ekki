@@ -1,20 +1,20 @@
 import { inject, injectable } from 'tsyringe';
 
-import IAccountRepository from '@modules/accounts/repositories/IAccountRepository';
+import IAccountsRepository from '@modules/accounts/repositories/IAccountsRepository';
 
 import Account from '@modules/accounts/entities/Account';
 
 @injectable()
 class CreateAccount {
   constructor(
-    @inject('AccountRepository')
-    private accountRepository: IAccountRepository,
+    @inject('AccountsRepository')
+    private accountsRepository: IAccountsRepository,
   ) {}
 
   public async execute(): Promise<Account> {
     const account_number = await this.generateAccountNumber();
 
-    const account = await this.accountRepository.create({
+    const account = await this.accountsRepository.create({
       account_number,
       balance: 0,
     });
@@ -29,7 +29,7 @@ class CreateAccount {
       Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
     ).toString();
 
-    const hasAccountNumber = await this.accountRepository.findByAccountNumber(
+    const hasAccountNumber = await this.accountsRepository.findByAccountNumber(
       account_number,
     );
 
