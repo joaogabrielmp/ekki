@@ -35,10 +35,16 @@ export default class UsersController {
     response: Response,
   ): Promise<Response> {
     const { user_id } = request.params;
+    const page = Number(request.query.page);
+    const per_page = Number(request.query.per_page);
 
     const findAllUserBeneficiary = container.resolve(FindAllUserBeneficiary);
 
-    const userBeneficiary = await findAllUserBeneficiary.execute(user_id);
+    const userBeneficiary = await findAllUserBeneficiary.execute(
+      page,
+      per_page,
+      user_id,
+    );
 
     return response.json(classToClass(userBeneficiary));
   }

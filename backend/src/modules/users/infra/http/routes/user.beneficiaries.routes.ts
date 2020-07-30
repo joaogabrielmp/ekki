@@ -22,6 +22,10 @@ userBeneficiariesRouter.get(
     [Segments.PARAMS]: {
       user_id: Joi.string().uuid().required(),
     },
+    [Segments.QUERY]: {
+      page: Joi.number().min(1).required(),
+      per_page: Joi.number().required(),
+    },
   }),
   userBeneficiariesController.findAllByUser,
 );

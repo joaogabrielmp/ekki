@@ -11,8 +11,14 @@ class FindAllUserBeneficiary {
     private userBeneficiariesRepository: IUserBeneficiariesRepository,
   ) {}
 
-  public async execute(id: string): Promise<UserBeneficiary[]> {
+  public async execute(
+    page: number,
+    per_page: number,
+    id: string,
+  ): Promise<UserBeneficiary[]> {
     const userBeneficiaries = await this.userBeneficiariesRepository.findAllByUser(
+      page,
+      per_page,
       id,
     );
 

@@ -30,8 +30,16 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
-  public async findAllByUser(id: string): Promise<UserBeneficiary[]> {
-    const userBeneficiaries = await this.ormRepository.find({ user_id: id });
+  public async findAllByUser(
+    page: number,
+    per_page: number,
+    id: string,
+  ): Promise<UserBeneficiary[]> {
+    const userBeneficiaries = await this.ormRepository.find({
+      skip: per_page * page - per_page,
+      take: per_page,
+      where: { user_id: id },
+    });
 
     return userBeneficiaries;
   }
