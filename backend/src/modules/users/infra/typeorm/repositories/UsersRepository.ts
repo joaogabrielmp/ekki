@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getManager, getRepository, Repository } from 'typeorm';
 
 import IUserDTO from '@modules/users/dtos/IUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -26,8 +26,13 @@ class UsersRepository implements IUsersRepository {
 
     const user = this.ormUserRepository.create(data);
 
-    await this.ormAccountRepository.save(account);
-    await this.ormUserRepository.save({ ...user, account_id: account.id });
+    await getManager().transaction(async () => {
+      await this.ormAccountRepository.save(account);
+      await this.ormUserRepository.save({
+        ...user,
+        account_id: account.id,
+      });
+    });
 
     return user;
   }
