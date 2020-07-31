@@ -10,9 +10,11 @@ transfersRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      balance: Joi.number().min(1).required(),
-      beneficiary_id: Joi.string().uuid().required(),
-      user_id: Joi.string().uuid().required(),
+      receive_account_number: Joi.string().required(),
+      receive_user_id: Joi.string().uuid().required(),
+      send_account_number: Joi.string().required(),
+      send_user_id: Joi.string().uuid().required(),
+      value: Joi.number().min(1).required(),
     },
   }),
   transfersController.create,

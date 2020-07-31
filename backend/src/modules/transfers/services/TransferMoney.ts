@@ -16,41 +16,47 @@ class TransferMoney {
   ) {}
 
   public async execute({
-    balance,
-    beneficiary_id,
-    user_id,
+    receive_account_number,
+    receive_user_id,
+    send_account_number,
+    send_user_id,
+    value,
   }: ITransferDTO): Promise<Transfer> {
-    const balanceMultipliedByOneHundred = balance * 100;
+    // const balanceMultipliedByOneHundred = balance * 100;
 
-    const checksTransfer = await this.transfersRepository.findTransfer({
-      balance: balanceMultipliedByOneHundred,
-      beneficiary_id,
-      status: 'approved',
-      user_id,
-    });
+    // const checksTransfer = await this.transfersRepository.findTransfer({
+    //   balance: balanceMultipliedByOneHundred,
+    //   beneficiary_id,
+    //   status: 'approved',
+    //   user_id,
+    // });
 
-    if (checksTransfer) {
-      const { updated_at } = checksTransfer;
-      const UpdateAtTimeZone = subHours(updated_at, 3);
+    // if (checksTransfer) {
+    //   const { updated_at } = checksTransfer;
+    //   const UpdateAtTimeZone = subHours(updated_at, 3);
 
-      const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
-      const lessThanTwoMinutes =
-        timePassed <= transferConfig.timeToCancelInSeconds;
+    //   const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
+    //   const lessThanTwoMinutes =
+    //     timePassed <= transferConfig.timeToCancelInSeconds;
 
-      // if (lessThanTwoMinutes) {
-      //   await this.transfersRepository.cancelTransfer({
-      //     status: 'cancelled',
-      //     transfer_id: checksTransfer.id,
-      //   });
-      // }
-    }
+    //   if (lessThanTwoMinutes) {
+    //     await this.transfersRepository.cancelTransfer({
+    //       status: 'cancelled',
+    //       transfer_id: checksTransfer.id,
+    //     });
+    //   }
+    // }
 
     // processTransfer
 
-    const transfer = await this.transfersRepository.create({
-      balance: balanceMultipliedByOneHundred,
-      beneficiary_id,
-      user_id,
+    const transfer = await this.transfersRepository.processTransfer({
+      receive_account_number,
+      receive_user_id,
+      send_account_number,
+      send_user_id,
+      status: 'approved',
+      transfer_id: '1',
+      value,
     });
 
     return transfer;

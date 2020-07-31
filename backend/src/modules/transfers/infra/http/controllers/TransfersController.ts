@@ -5,14 +5,22 @@ import TransferMoney from '@modules/transfers/services/TransferMoney';
 
 export default class TransfersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { balance, beneficiary_id, user_id } = request.body;
+    const {
+      receive_account_number,
+      receive_user_id,
+      send_account_number,
+      send_user_id,
+      value,
+    } = request.body;
 
     const createTransferMoney = container.resolve(TransferMoney);
 
     await createTransferMoney.execute({
-      balance,
-      beneficiary_id,
-      user_id,
+      receive_account_number,
+      receive_user_id,
+      send_account_number,
+      send_user_id,
+      value,
     });
 
     return response.sendStatus(200);

@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
 
 // import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
 import IFindTransferDTO from '@modules/transfers/dtos/IFindTransferDTO';
@@ -16,28 +16,59 @@ class TransfersRepository implements ITransfersRepository {
   }
 
   public async processTransfer({
+    receive_account_number,
     receive_user_id,
+    send_account_number,
     send_user_id,
     status,
     transfer_id,
     value,
   }: ITransferDTO): Promise<Transfer> {
-    // cancela transferência anterior
-    await this.ormRepository.save({ status, id: transfer_id });
+    // *** cancela transferência anterior
+    // ***caso não cancela transferência
 
-    // salva transferência atual
-    await this.ormRepository.create({
+    const connection = getConnection();
+    const queryRunner = connection.createQueryRunner();
+    await queryRunner.connect();
+
+    const transfer = queryRunner.manager.getRepository(Transfer).create({
       balance: value,
-      beneficiary_id,
-      user_id,
-      status: 'approved',
+      receive_user_id,
+      send_user_id,
+      status,
     });
 
-    // caso não cancela transferência
+    await queryRunner.startTransaction();
 
-    // subtrai saldo usuário enviou
+    try {
+      console.log('1.1 save');
+      await queryRunner.manager.save(transfer);
 
-    // adiciona saldo usuário recebeu
+      console.log('1.2 save');
+      await queryRunner.manager
+        .getRepository(Account)
+        .update(
+          { account_number: send_account_number },
+          { balance: () => `balance - ${value}` },
+        );
+
+      console.log('1.3 save');
+      await queryRunner.manager
+        .getRepository(Account)
+        .update(
+          { account_number: receive_account_number },
+          { balance: () => `balance + ${value}` },
+        );
+
+      console.log('2 commit');
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      console.log('3 err: ', err);
+      await queryRunner.rollbackTransaction();
+    } finally {
+      console.log('4 release');
+      await queryRunner.release();
+    }
 
     return transfer;
   }

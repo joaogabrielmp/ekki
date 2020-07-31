@@ -13,10 +13,10 @@ class Transfer {
   id: string;
 
   @Column()
-  user_id: string;
+  send_user_id: string;
 
   @Column()
-  beneficiary_id: string;
+  receive_user_id: string;
 
   @Column()
   balance: number;
