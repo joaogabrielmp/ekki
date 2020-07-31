@@ -30,6 +30,7 @@ class UsersRepository implements IUsersRepository {
       id: uuid,
       account_number,
       balance: 0,
+      limit: 500,
     });
 
     const user = queryRunner.manager.getRepository(User).create({

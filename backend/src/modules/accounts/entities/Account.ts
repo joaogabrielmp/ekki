@@ -18,6 +18,9 @@ class Account {
   @Column()
   balance: number;
 
+  @Column()
+  limit: number;
+
   @CreateDateColumn()
   @Exclude()
   created_at: Date;

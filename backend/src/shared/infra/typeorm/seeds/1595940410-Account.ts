@@ -12,6 +12,7 @@ export default class Account implements Seeder {
           id: 'a1cf74ef-a4dd-4919-9a71-c4934f69fe66',
           account_number: '1234561',
           balance: 1000,
+          limit: 500,
         },
       ])
       .execute();
