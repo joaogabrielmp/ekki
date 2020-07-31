@@ -22,13 +22,34 @@ class TransferMoney {
     send_user_id,
     value,
   }: ITransferDTO): Promise<Transfer> {
-    // const balanceMultipliedByOneHundred = balance * 100;
+    const checksAccount = await this.transfersRepository.findAccount(
+      send_account_number,
+    );
 
+    if (!checksAccount) {
+      throw new AppError('Account not found');
+    }
+
+    const { balance, limit } = checksAccount;
+
+    const totalAvailable = Number(balance) + Number(limit);
+
+    let debitLimit;
+
+    if (balance >= value) {
+      debitLimit = 0;
+    } else if (totalAvailable >= value) {
+      debitLimit = value - Number(balance);
+    } else {
+      throw new AppError('Balance not available');
+    }
+
+    // cancelar se ter menos que 2 minutos
     // const checksTransfer = await this.transfersRepository.findTransfer({
-    //   balance: balanceMultipliedByOneHundred,
-    //   beneficiary_id,
+    //   receive_user_id,
+    //   send_user_id,
     //   status: 'approved',
-    //   user_id,
+    //   value,
     // });
 
     // if (checksTransfer) {
@@ -48,6 +69,7 @@ class TransferMoney {
     // }
 
     const transfer = await this.transfersRepository.processTransfer({
+      debitLimit,
       receive_account_number,
       receive_user_id,
       send_account_number,

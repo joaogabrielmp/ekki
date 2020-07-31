@@ -1,6 +1,6 @@
 export default interface IFindTransferDTO {
-  balance: number;
-  beneficiary_id: string;
+  receive_user_id: string;
+  send_user_id: string;
   status: 'approved' | 'cancelled';
-  user_id: string;
+  value: number;
 }
