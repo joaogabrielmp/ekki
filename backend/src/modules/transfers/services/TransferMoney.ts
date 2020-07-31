@@ -47,8 +47,6 @@ class TransferMoney {
     //   }
     // }
 
-    // processTransfer
-
     const transfer = await this.transfersRepository.processTransfer({
       receive_account_number,
       receive_user_id,
