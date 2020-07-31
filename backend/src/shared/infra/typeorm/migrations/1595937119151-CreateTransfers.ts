@@ -24,7 +24,10 @@ export default class CreateTransfers1595937119151
           },
           {
             name: 'balance',
-            type: 'int2',
+            type: 'numeric',
+            precision: 10,
+            scale: 2,
+            default: 0,
           },
           {
             name: 'status',

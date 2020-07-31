@@ -19,7 +19,17 @@ export default class CreateAccounts1595936900954 implements MigrationInterface {
           },
           {
             name: 'balance',
-            type: 'int2',
+            type: 'numeric',
+            precision: 10,
+            scale: 2,
+            default: 0,
+          },
+          {
+            name: 'limit',
+            type: 'numeric',
+            precision: 10,
+            scale: 2,
+            default: 0,
           },
           {
             name: 'created_at',
