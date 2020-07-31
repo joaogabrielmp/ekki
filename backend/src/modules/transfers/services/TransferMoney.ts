@@ -1,14 +1,14 @@
-import { differenceInSeconds, getDate, subHours } from 'date-fns';
+import { differenceInSeconds, subHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
-import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
+import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
+
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
 
 import transferConfig from '@config/transfer';
 import Transfer from '@modules/transfers/entities/Transfer';
 import AppError from '@shared/errors/AppError';
-
-import TransferStatus from '@modules/transfers/enums/TransferStatus';
 
 @injectable()
 class TransferMoney {
@@ -49,7 +49,7 @@ class TransferMoney {
     const checksTransfer = await this.transfersRepository.findTransfer({
       receive_user_id,
       send_user_id,
-      status: 'approved',
+      status: TransferStatus.Approved,
       value,
     });
 
@@ -82,7 +82,7 @@ class TransferMoney {
       receive_user_id,
       send_account_number,
       send_user_id,
-      status: 'approved',
+      status: TransferStatus.Approved,
       value,
     });
 

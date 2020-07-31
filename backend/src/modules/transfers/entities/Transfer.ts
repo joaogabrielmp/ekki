@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
+
 @Entity('transfers')
 class Transfer {
   @PrimaryGeneratedColumn('uuid')
@@ -22,7 +24,7 @@ class Transfer {
   balance: number;
 
   @Column('text')
-  status: 'approved' | 'cancelled';
+  status: TransferStatus;
 
   @CreateDateColumn()
   @Exclude()
