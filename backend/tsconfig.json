@@ -21,7 +21,7 @@
   },
   "exclude": [
     "coverage",
-    "jest.config.js",
+    "jest.unit.config.js",
     "prettier.config.js",
     "dist"
   ]
