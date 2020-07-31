@@ -1,5 +1,7 @@
 export default interface ITransferDTO {
-  balance: number;
-  beneficiary_id: string;
-  user_id: string;
+  receive_user_id: string;
+  send_user_id: string;
+  status: 'approved' | 'cancelled';
+  transfer_id?: string;
+  value: number;
 }

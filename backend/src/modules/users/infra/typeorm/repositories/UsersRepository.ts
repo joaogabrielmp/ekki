@@ -1,5 +1,5 @@
 import { getConnection, getRepository, Repository } from 'typeorm';
-import { uuid as uuidv4 } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 import IUserDTO from '@modules/users/dtos/IUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';

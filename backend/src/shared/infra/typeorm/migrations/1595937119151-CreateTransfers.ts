@@ -15,11 +15,11 @@ export default class CreateTransfers1595937119151
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'user_id',
+            name: 'send_user_id',
             type: 'uuid',
           },
           {
-            name: 'beneficiary_id',
+            name: 'receive_user_id',
             type: 'uuid',
           },
           {
@@ -46,18 +46,18 @@ export default class CreateTransfers1595937119151
         ],
         foreignKeys: [
           {
-            name: 'UserBeneficiariesSend',
+            name: 'TransfersSend',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
-            columnNames: ['user_id'],
+            columnNames: ['send_user_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
           {
-            name: 'UserBeneficiariesReceive',
+            name: 'TransfersReceive',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
-            columnNames: ['beneficiary_id'],
+            columnNames: ['receive_user_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },

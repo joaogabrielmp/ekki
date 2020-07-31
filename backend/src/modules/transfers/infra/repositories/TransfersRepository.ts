@@ -1,10 +1,11 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
+// import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
 import IFindTransferDTO from '@modules/transfers/dtos/IFindTransferDTO';
 import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 
+import Account from '@modules/accounts/entities/Account';
 import Transfer from '@modules/transfers/entities/Transfer';
 
 class TransfersRepository implements ITransfersRepository {
@@ -14,27 +15,54 @@ class TransfersRepository implements ITransfersRepository {
     this.ormRepository = getRepository(Transfer);
   }
 
-  public async create(data: ITransferDTO): Promise<Transfer> {
-    const transfer = this.ormRepository.create(data);
-
-    transfer.status = 'approved';
-
-    await this.ormRepository.save(transfer);
-
-    return transfer;
-  }
-
-  public async cancelTransfer({
+  public async processTransfer({
+    receive_user_id,
+    send_user_id,
     status,
     transfer_id,
-  }: ICancelTransferDTO): Promise<Transfer> {
-    const transfer = await this.ormRepository.save({
-      status,
-      id: transfer_id,
+    value,
+  }: ITransferDTO): Promise<Transfer> {
+    // cancela transferência anterior
+    await this.ormRepository.save({ status, id: transfer_id });
+
+    // salva transferência atual
+    await this.ormRepository.create({
+      balance: value,
+      beneficiary_id,
+      user_id,
+      status: 'approved',
     });
+
+    // caso não cancela transferência
+
+    // subtrai saldo usuário enviou
+
+    // adiciona saldo usuário recebeu
 
     return transfer;
   }
+
+  // public async create(data: ITransferDTO): Promise<Transfer> {
+  //   const transfer = this.ormRepository.create(data);
+
+  //   transfer.status = 'approved';
+
+  //   await this.ormRepository.save(transfer);
+
+  //   return transfer;
+  // }
+
+  // public async cancelTransfer({
+  //   status,
+  //   transfer_id,
+  // }: ICancelTransferDTO): Promise<Transfer> {
+  //   const transfer = await this.ormRepository.save({
+  //     status,
+  //     id: transfer_id,
+  //   });
+
+  //   return transfer;
+  // }
 
   public async findTransfer({
     balance,

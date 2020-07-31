@@ -37,13 +37,15 @@ class TransferMoney {
       const lessThanTwoMinutes =
         timePassed <= transferConfig.timeToCancelInSeconds;
 
-      if (lessThanTwoMinutes) {
-        await this.transfersRepository.cancelTransfer({
-          status: 'cancelled',
-          transfer_id: checksTransfer.id,
-        });
-      }
+      // if (lessThanTwoMinutes) {
+      //   await this.transfersRepository.cancelTransfer({
+      //     status: 'cancelled',
+      //     transfer_id: checksTransfer.id,
+      //   });
+      // }
     }
+
+    // processTransfer
 
     const transfer = await this.transfersRepository.create({
       balance: balanceMultipliedByOneHundred,
