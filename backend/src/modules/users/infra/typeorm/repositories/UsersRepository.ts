@@ -1,4 +1,5 @@
-import { getManager, getRepository, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
+import { uuid as uuidv4 } from 'uuidv4';
 
 import IUserDTO from '@modules/users/dtos/IUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -19,20 +20,37 @@ class UsersRepository implements IUsersRepository {
   public async create({ cellphone, cpf, name }: IUserDTO): Promise<User> {
     const account_number = await this.generateAccountNumber();
 
-    const account = this.ormAccountRepository.create({
+    const connection = getConnection();
+    const queryRunner = connection.createQueryRunner();
+    await queryRunner.connect();
+
+    const uuid = uuidv4();
+
+    const account = queryRunner.manager.getRepository(Account).create({
+      id: uuid,
       account_number,
       balance: 0,
     });
 
-    const user = this.ormUserRepository.create({ cellphone, cpf, name });
-
-    await getManager().transaction(async () => {
-      await this.ormAccountRepository.save(account);
-      await this.ormUserRepository.save({
-        ...user,
-        account_id: account.id,
-      });
+    const user = queryRunner.manager.getRepository(User).create({
+      account_id: uuid,
+      cellphone,
+      cpf,
+      name,
     });
+
+    await queryRunner.startTransaction();
+
+    try {
+      await queryRunner.manager.save(account);
+      await queryRunner.manager.save(user);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
 
     return user;
   }

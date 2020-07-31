@@ -37,7 +37,8 @@
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.3.0",
     "typeorm": "^0.2.25",
-    "typeorm-seeding": "^1.6.1"
+    "typeorm-seeding": "^1.6.1",
+    "uuidv4": "^6.2.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
