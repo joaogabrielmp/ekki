@@ -41,10 +41,8 @@ class TransfersRepository implements ITransfersRepository {
     await queryRunner.startTransaction();
 
     try {
-      console.log('1.1 save');
       await queryRunner.manager.save(transfer);
 
-      console.log('1.2 save');
       await queryRunner.manager
         .getRepository(Account)
         .update(
@@ -52,7 +50,6 @@ class TransfersRepository implements ITransfersRepository {
           { balance: () => `balance - ${value}` },
         );
 
-      console.log('1.3 save');
       await queryRunner.manager
         .getRepository(Account)
         .update(
@@ -60,13 +57,10 @@ class TransfersRepository implements ITransfersRepository {
           { balance: () => `balance + ${value}` },
         );
 
-      console.log('2 commit');
       await queryRunner.commitTransaction();
     } catch (err) {
-      console.log('3 err: ', err);
       await queryRunner.rollbackTransaction();
     } finally {
-      console.log('4 release');
       await queryRunner.release();
     }
 
