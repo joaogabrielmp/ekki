@@ -21,7 +21,7 @@ class TransferMoney {
     send_account_number,
     send_user_id,
     value,
-  }: ITransferDTO): Promise<Transfer> {
+  }: ITransferDTO): Promise<Transfer | void> {
     const checksAccount = await this.transfersRepository.findAccount(
       send_account_number,
     );
@@ -44,38 +44,42 @@ class TransferMoney {
       throw new AppError('Balance not available');
     }
 
-    // cancelar se ter menos que 2 minutos
-    // const checksTransfer = await this.transfersRepository.findTransfer({
-    //   receive_user_id,
-    //   send_user_id,
-    //   status: 'approved',
-    //   value,
-    // });
+    const checksTransfer = await this.transfersRepository.findTransfer({
+      receive_user_id,
+      send_user_id,
+      status: 'approved',
+      value,
+    });
 
-    // if (checksTransfer) {
-    //   const { updated_at } = checksTransfer;
-    //   const UpdateAtTimeZone = subHours(updated_at, 3);
+    let debitAcccount = true;
 
-    //   const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
-    //   const lessThanTwoMinutes =
-    //     timePassed <= transferConfig.timeToCancelInSeconds;
+    if (checksTransfer) {
+      const { updated_at } = checksTransfer;
+      const UpdateAtTimeZone = subHours(updated_at, 3);
 
-    //   if (lessThanTwoMinutes) {
-    //     await this.transfersRepository.cancelTransfer({
-    //       status: 'cancelled',
-    //       transfer_id: checksTransfer.id,
-    //     });
-    //   }
-    // }
+      const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
+      const lessThanTwoMinutes =
+        timePassed <= transferConfig.timeToCancelInSeconds;
+
+      if (lessThanTwoMinutes) {
+        console.log('lessThanTwoMinutes: ', lessThanTwoMinutes);
+        await this.transfersRepository.cancelTransfer({
+          status: 'cancelled',
+          transfer_id: checksTransfer.id,
+        });
+
+        debitAcccount = false;
+      }
+    }
 
     const transfer = await this.transfersRepository.processTransfer({
+      debitAcccount,
       debitLimit,
       receive_account_number,
       receive_user_id,
       send_account_number,
       send_user_id,
       status: 'approved',
-      transfer_id: '1',
       value,
     });
 

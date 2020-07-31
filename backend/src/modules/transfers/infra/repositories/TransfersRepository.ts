@@ -1,6 +1,6 @@
 import { getConnection, getRepository, Repository } from 'typeorm';
 
-// import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
+import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
 import IFindTransferDTO from '@modules/transfers/dtos/IFindTransferDTO';
 import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
@@ -16,6 +16,18 @@ class TransfersRepository implements ITransfersRepository {
   constructor() {
     this.ormAccountRepository = getRepository(Account);
     this.ormTransferRepository = getRepository(Transfer);
+  }
+
+  public async cancelTransfer({
+    status,
+    transfer_id,
+  }: ICancelTransferDTO): Promise<Transfer> {
+    const transfer = await this.ormTransferRepository.save({
+      status,
+      id: transfer_id,
+    });
+
+    return transfer;
   }
 
   public async findAccount(
@@ -45,13 +57,13 @@ class TransfersRepository implements ITransfersRepository {
   }
 
   public async processTransfer({
+    debitAcccount,
     debitLimit,
     receive_account_number,
     receive_user_id,
     send_account_number,
     send_user_id,
     status,
-    transfer_id,
     value,
   }: ITransferDTO): Promise<Transfer> {
     const connection = getConnection();
@@ -70,29 +82,31 @@ class TransfersRepository implements ITransfersRepository {
     try {
       await queryRunner.manager.save(transfer);
 
-      if (debitLimit) {
-        await queryRunner.manager.getRepository(Account).update(
-          { account_number: send_account_number },
-          {
-            balance: () => `balance - balance`,
-            limit: () => `"limit" - ${debitLimit}`,
-          },
-        );
-      } else {
-        await queryRunner.manager.getRepository(Account).update(
-          { account_number: send_account_number },
-          {
-            balance: () => `balance - ${value}`,
-          },
-        );
-      }
+      if (debitAcccount) {
+        if (debitLimit) {
+          await queryRunner.manager.getRepository(Account).update(
+            { account_number: send_account_number },
+            {
+              balance: () => `balance - balance`,
+              limit: () => `"limit" - ${debitLimit}`,
+            },
+          );
+        } else {
+          await queryRunner.manager.getRepository(Account).update(
+            { account_number: send_account_number },
+            {
+              balance: () => `balance - ${value}`,
+            },
+          );
+        }
 
-      await queryRunner.manager
-        .getRepository(Account)
-        .update(
-          { account_number: receive_account_number },
-          { balance: () => `balance + ${value}` },
-        );
+        await queryRunner.manager
+          .getRepository(Account)
+          .update(
+            { account_number: receive_account_number },
+            { balance: () => `balance + ${value}` },
+          );
+      }
 
       await queryRunner.commitTransaction();
     } catch (err) {
@@ -103,18 +117,6 @@ class TransfersRepository implements ITransfersRepository {
 
     return transfer;
   }
-
-  // public async cancelTransfer({
-  //   status,
-  //   transfer_id,
-  // }: ICancelTransferDTO): Promise<Transfer> {
-  //   const transfer = await this.ormRepository.save({
-  //     status,
-  //     id: transfer_id,
-  //   });
-
-  //   return transfer;
-  // }
 }
 
 export default TransfersRepository;

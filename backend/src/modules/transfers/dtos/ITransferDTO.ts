@@ -1,4 +1,5 @@
 export default interface ITransferDTO {
+  debitAcccount: boolean;
   debitLimit?: number;
   receive_account_number?: string;
   receive_user_id: string;
