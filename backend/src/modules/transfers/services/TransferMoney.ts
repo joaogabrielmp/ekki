@@ -1,4 +1,4 @@
-import { differenceInSeconds, subHours } from 'date-fns';
+import { differenceInSeconds, getDate, subHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
@@ -7,6 +7,8 @@ import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepo
 import transferConfig from '@config/transfer';
 import Transfer from '@modules/transfers/entities/Transfer';
 import AppError from '@shared/errors/AppError';
+
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
 
 @injectable()
 class TransferMoney {
@@ -56,15 +58,16 @@ class TransferMoney {
     if (checksTransfer) {
       const { updated_at } = checksTransfer;
       const UpdateAtTimeZone = subHours(updated_at, 3);
+      const currentTime = new Date();
 
-      const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
+      const timePassed = differenceInSeconds(currentTime, UpdateAtTimeZone);
+
       const lessThanTwoMinutes =
         timePassed <= transferConfig.timeToCancelInSeconds;
 
       if (lessThanTwoMinutes) {
-        console.log('lessThanTwoMinutes: ', lessThanTwoMinutes);
         await this.transfersRepository.cancelTransfer({
-          status: 'cancelled',
+          status: TransferStatus.Cancelled,
           transfer_id: checksTransfer.id,
         });
 

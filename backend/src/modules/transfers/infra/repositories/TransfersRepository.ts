@@ -46,12 +46,19 @@ class TransfersRepository implements ITransfersRepository {
     status,
     value,
   }: IFindTransferDTO): Promise<Transfer | undefined> {
-    const transfer = await this.ormTransferRepository.findOne({
-      balance: value,
-      receive_user_id,
-      send_user_id,
-      status,
-    });
+    const transfer = await this.ormTransferRepository.findOne(
+      {
+        balance: value,
+        receive_user_id,
+        send_user_id,
+        status,
+      },
+      {
+        order: {
+          created_at: 'DESC',
+        },
+      },
+    );
 
     return transfer;
   }

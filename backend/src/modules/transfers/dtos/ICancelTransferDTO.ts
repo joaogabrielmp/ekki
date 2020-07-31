@@ -1,4 +1,6 @@
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
+
 export default interface ICancelTransferDTO {
-  status: 'approved' | 'cancelled';
+  status: TransferStatus;
   transfer_id: string;
 }
