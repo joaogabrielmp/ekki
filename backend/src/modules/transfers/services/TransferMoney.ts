@@ -1,8 +1,10 @@
+import { differenceInSeconds, subHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 
+import transferConfig from '@config/transfer';
 import Transfer from '@modules/transfers/entities/Transfer';
 import AppError from '@shared/errors/AppError';
 
@@ -28,12 +30,19 @@ class TransferMoney {
     });
 
     if (checksTransfer) {
-      await this.transfersRepository.cancelTransfer({
-        beneficiary_id,
-        user_id,
-        status: 'cancelled',
-        transfer_id: checksTransfer.id,
-      });
+      const { updated_at } = checksTransfer;
+      const UpdateAtTimeZone = subHours(updated_at, 3);
+
+      const timePassed = differenceInSeconds(Date.now(), UpdateAtTimeZone);
+      const lessThanTwoMinutes =
+        timePassed <= transferConfig.timeToCancelInSeconds;
+
+      if (lessThanTwoMinutes) {
+        await this.transfersRepository.cancelTransfer({
+          status: 'cancelled',
+          transfer_id: checksTransfer.id,
+        });
+      }
     }
 
     const transfer = await this.transfersRepository.create({

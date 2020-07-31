@@ -25,15 +25,11 @@ class TransfersRepository implements ITransfersRepository {
   }
 
   public async cancelTransfer({
-    beneficiary_id,
     status,
-    user_id,
     transfer_id,
   }: ICancelTransferDTO): Promise<Transfer> {
     const transfer = await this.ormRepository.save({
-      beneficiary_id,
       status,
-      user_id,
       id: transfer_id,
     });
 
@@ -46,8 +42,6 @@ class TransfersRepository implements ITransfersRepository {
     status,
     user_id,
   }: IFindTransferDTO): Promise<Transfer | undefined> {
-    console.log('status: ', status);
-
     const userBeneficiary = await this.ormRepository.findOne({
       balance,
       beneficiary_id,
