@@ -55,7 +55,6 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 4. Execute as migrations para criação das tabelas `yarn migration:run`;
 5. Executa os seeds para popular o banco de dados `yarn seed:run`;
 
-
 ---
 
 ## 🔥 Instalação e execução
@@ -73,6 +72,13 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 1. Entre na pasta `backend`;
 2. Para testes unitários, execute `yarn test:unit`;
 2. Para testes de integração, execute `yarn test:integration`;
+
+---
+
+## 📖 Documentação das rotas
+
+1. Na pasta `backend/docs`, está o arquivo `Insomnia.json`;
+2. Importe no Insomnia para ver todas as rotas disponíveis;
 
 ---
 
