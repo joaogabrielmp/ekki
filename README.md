@@ -29,11 +29,11 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [TSyringe (Injeção de dependência)](https://github.com/microsoft/tsyringe)
 - [Celebrate (Validation)](https://github.com/arb/celebrate)
 - [Jest](https://jestjs.io/)
-
+---
 ### Frontend
 - [React](https://reactjs.org)
 - [Styled-Components](https://www.styled-components.com/)
-
+---
 ### Ambos
 - [Typescript](https://www.typescriptlang.org/)
 - [Eslint](https://eslint.org/)
@@ -49,10 +49,11 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 
 ## ✋🏻 Pré-requisitos
 
-1. Tenha o Docker instalado
-2. Execute o comando para criação do banco de dados `docker run --name ekki_pg -e POSTGRES_DB=ekki -e POSTGRES_USER=ekki -e POSTGRES_PASSWORD=ekki -p 5432:5432 -d postgres`
-3. Execute as migrations para criação das tabelas `yarn migration:run`
-4. Executa os seeds para popular o banco de dados `yarn seed:run`
+1. Ter o NodeJS instalado
+2. Tenha o Docker instalado
+3. Execute o comando para criação do banco de dados `docker run --name ekki_pg -e POSTGRES_DB=ekki -e POSTGRES_USER=ekki -e POSTGRES_PASSWORD=ekki -p 5432:5432 -d postgres`;
+4. Execute as migrations para criação das tabelas `yarn migration:run`;
+5. Executa os seeds para popular o banco de dados `yarn seed:run`;
 
 
 ---
@@ -70,15 +71,16 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 ## 📄 Executação dos testes (Backend)
 
 1. Entre na pasta `backend`;
-2. Para testes unitários, execute `yarn test:unit`
-2. Para testes de integração, execute `yarn test:integration`
+2. Para testes unitários, execute `yarn test:unit`;
+2. Para testes de integração, execute `yarn test:integration`;
 
 ---
 
-## 🔨 To do
+## 🔨 A fazer
 
-1. Utilizar a biblioteca faker.js para gerar valores para os testes;
-2. Criar testes E2E para o frontend;
+1. Cobrir mais cenários nos testes unitários e de integração;
+2. Utilizar a biblioteca faker.js para gerar valores para os testes;
+3. Criar testes E2E para o frontend;
 
 ---
 
