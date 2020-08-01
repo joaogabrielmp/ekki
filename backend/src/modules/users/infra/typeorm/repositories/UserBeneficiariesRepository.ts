@@ -1,5 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 
+import IFindAllBeneficiariesDTO from '@modules/users/dtos/IFindAllBeneficiariesDTO';
 import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
 
@@ -30,15 +31,15 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
-  public async findAllByUser(
-    page: number,
-    per_page: number,
-    id: string,
-  ): Promise<UserBeneficiary[]> {
+  public async findAllByUser({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
     const userBeneficiaries = await this.ormRepository.find({
       skip: per_page * page - per_page,
       take: per_page,
-      where: { user_id: id },
+      where: { user_id },
     });
 
     return userBeneficiaries;

@@ -37,11 +37,11 @@ export default class UsersController {
 
     const findAllUserBeneficiary = container.resolve(FindAllUserBeneficiary);
 
-    const userBeneficiary = await findAllUserBeneficiary.execute(
+    const userBeneficiary = await findAllUserBeneficiary.execute({
       page,
       per_page,
       user_id,
-    );
+    });
 
     return response.json(classToClass(userBeneficiary));
   }

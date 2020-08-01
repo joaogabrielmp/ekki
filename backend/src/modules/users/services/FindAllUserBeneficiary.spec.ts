@@ -23,11 +23,11 @@ describe('FindAllUserBeneficiary', () => {
       user_id: 'cf41da34-a7c3-4c68-b79f-a42740aaec04',
     });
 
-    const userBeneficiaries = await findAllUserBeneficiary.execute(
+    const userBeneficiaries = await findAllUserBeneficiary.execute({
       page,
       per_page,
       user_id,
-    );
+    });
 
     expect(userBeneficiaries).toMatchObject([
       {

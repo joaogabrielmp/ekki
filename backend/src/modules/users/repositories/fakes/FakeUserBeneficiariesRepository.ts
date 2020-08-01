@@ -1,3 +1,4 @@
+import IFindAllBeneficiariesDTO from '@modules/users/dtos/IFindAllBeneficiariesDTO';
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
 import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 
@@ -35,16 +36,16 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
-  public async findAllByUser(
-    page: number,
-    per_page: number,
-    id: string,
-  ): Promise<UserBeneficiary[]> {
+  public async findAllByUser({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
     let { userBeneficiaries } = this;
 
     userBeneficiaries = this.userBeneficiaries
       .slice(page - 1, per_page)
-      .filter(userBeneficiary => userBeneficiary.user_id === id);
+      .filter(userBeneficiary => userBeneficiary.user_id === user_id);
 
     return userBeneficiaries;
   }

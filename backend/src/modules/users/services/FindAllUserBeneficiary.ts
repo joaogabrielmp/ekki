@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import IFindAllBeneficiariesDTO from '@modules/users/dtos/IFindAllBeneficiariesDTO';
 import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 
 import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
@@ -11,15 +12,13 @@ class FindAllUserBeneficiary {
     private userBeneficiariesRepository: IUserBeneficiariesRepository,
   ) {}
 
-  public async execute(
-    page: number,
-    per_page: number,
-    id: string,
-  ): Promise<UserBeneficiary[]> {
+  public async execute({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
     const userBeneficiaries = await this.userBeneficiariesRepository.findAllByUser(
-      page,
-      per_page,
-      id,
+      { page, per_page, user_id },
     );
 
     return userBeneficiaries;
