@@ -1,5 +1,3 @@
-// import { differenceInSeconds, subHours } from 'date-fns';
-
 import AppError from '@shared/errors/AppError';
 
 import FakeTransfersRepository from '@modules/transfers/repositories/fakes/FakeTransfersRepository';

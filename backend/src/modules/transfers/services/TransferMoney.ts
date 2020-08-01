@@ -2,7 +2,7 @@ import { differenceInSeconds, subHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
-import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
+import IProcessTransferDTO from '@modules/transfers/dtos/IProcessTransferDTO';
 
 import transferConfig from '@config/transfer';
 import TransferStatus from '@modules/transfers/enums/TransferStatus';
@@ -22,7 +22,7 @@ class TransferMoney {
     send_account_number,
     send_user_id,
     value,
-  }: ITransferDTO): Promise<Transfer | void> {
+  }: IProcessTransferDTO): Promise<Transfer | void> {
     const checksAccount = await this.transfersRepository.findAccount(
       send_account_number,
     );

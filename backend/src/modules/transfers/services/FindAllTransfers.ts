@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
+import IFindAllTransfersDTO from '@modules/transfers/dtos/IFindAllTransfersDTO';
 
 import Transfer from '@modules/transfers/entities/Transfer';
 
@@ -11,16 +12,16 @@ class FindAllTransfers {
     private transfersRepository: ITransfersRepository,
   ) {}
 
-  public async execute(
-    page: number,
-    per_page: number,
-    send_user_id: string,
-  ): Promise<Transfer[] | undefined> {
-    const transfers = await this.transfersRepository.findAllById(
+  public async execute({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
+    const transfers = await this.transfersRepository.findAllById({
       page,
       per_page,
-      send_user_id,
-    );
+      user_id,
+    });
 
     return transfers;
   }

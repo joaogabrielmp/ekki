@@ -1,6 +1,6 @@
 import TransferStatus from '@modules/transfers/enums/TransferStatus';
 
-export default interface ITransferDTO {
+export default interface IProcessTransferDTO {
   debitAcccount?: boolean;
   debitLimit?: number;
   receive_account_number?: string;

@@ -1,8 +1,9 @@
 import { getConnection, getRepository, Repository } from 'typeorm';
 
 import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
+import IFindAllTransfersDTO from '@modules/transfers/dtos/IFindAllTransfersDTO';
 import IFindTransferDTO from '@modules/transfers/dtos/IFindTransferDTO';
-import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
+import IProcessTransferDTO from '@modules/transfers/dtos/IProcessTransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 
 import Account from '@modules/accounts/entities/Account';
@@ -41,15 +42,15 @@ class TransfersRepository implements ITransfersRepository {
     return account;
   }
 
-  public async findAllById(
-    page: number,
-    per_page: number,
-    send_user_id: string,
-  ): Promise<Transfer[] | undefined> {
+  public async findAllById({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
     const transfers = await this.ormTransferRepository.find({
       skip: per_page * page - per_page,
       take: per_page,
-      where: { send_user_id, status: TransferStatus.Approved },
+      where: { send_user_id: user_id, status: TransferStatus.Approved },
       order: {
         updated_at: 'DESC',
       },
@@ -90,7 +91,7 @@ class TransfersRepository implements ITransfersRepository {
     send_user_id,
     status,
     value,
-  }: ITransferDTO): Promise<Transfer> {
+  }: IProcessTransferDTO): Promise<Transfer> {
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
     await queryRunner.connect();

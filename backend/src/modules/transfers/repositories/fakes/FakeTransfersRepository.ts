@@ -1,6 +1,7 @@
 import ICancelTransferDTO from '@modules/transfers/dtos/ICancelTransferDTO';
+import IFindAllTransfersDTO from '@modules/transfers/dtos/IFindAllTransfersDTO';
 import IFindTransferDTO from '@modules/transfers/dtos/IFindTransferDTO';
-import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
+import IProcessTransferDTO from '@modules/transfers/dtos/IProcessTransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 
 import Account from '@modules/accounts/entities/Account';
@@ -53,11 +54,11 @@ class FakeTransfersRepository implements ITransfersRepository {
     return findAccount;
   }
 
-  public async findAllById(
-    page: number,
-    per_page: number,
-    user_id: string,
-  ): Promise<Transfer[]> {
+  public async findAllById({
+    page,
+    per_page,
+    user_id,
+  }: IFindAllTransfersDTO): Promise<Transfer[]> {
     let { transfers } = this;
 
     transfers = this.transfers
@@ -103,7 +104,7 @@ class FakeTransfersRepository implements ITransfersRepository {
     send_user_id,
     status,
     value,
-  }: ITransferDTO): Promise<Transfer> {
+  }: IProcessTransferDTO): Promise<Transfer> {
     const transfer = new Transfer();
 
     Object.assign(transfer, {
