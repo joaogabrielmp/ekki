@@ -48,6 +48,7 @@ class TransfersRepository implements ITransfersRepository {
     user_id,
   }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
     const transfers = await this.ormTransferRepository.find({
+      select: ['id', 'balance'],
       skip: per_page * page - per_page,
       take: per_page,
       where: { send_user_id: user_id, status: TransferStatus.Approved },
