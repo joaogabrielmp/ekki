@@ -27,7 +27,7 @@ userBeneficiariesRouter.get(
       per_page: Joi.number().required(),
     },
   }),
-  userBeneficiariesController.findAllByUser,
+  userBeneficiariesController.getAll,
 );
 
 userBeneficiariesRouter.post(

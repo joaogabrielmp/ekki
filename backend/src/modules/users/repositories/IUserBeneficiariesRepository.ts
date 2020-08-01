@@ -7,7 +7,7 @@ export default interface IUserBeneficiariesRepository {
   findAllByUser(
     page: number,
     per_page: number,
-    id: string,
+    user_id: string,
   ): Promise<UserBeneficiary[]>;
   findByUserAndBeneficiary(
     data: IUserBeneficiaryDTO,

@@ -30,10 +30,7 @@ export default class UsersController {
     return response.json({ message });
   }
 
-  public async findAllByUser(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
+  public async getAll(request: Request, response: Response): Promise<Response> {
     const { user_id } = request.params;
     const page = Number(request.query.page);
     const per_page = Number(request.query.per_page);

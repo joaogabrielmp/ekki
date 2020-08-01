@@ -53,6 +53,20 @@ class FakeTransfersRepository implements ITransfersRepository {
     return findAccount;
   }
 
+  public async findAllById(
+    page: number,
+    per_page: number,
+    user_id: string,
+  ): Promise<Transfer[]> {
+    let { transfers } = this;
+
+    transfers = this.transfers
+      .slice(page - 1, per_page)
+      .filter(transfer => transfer.send_user_id === user_id);
+
+    return transfers;
+  }
+
   public async findTransfer({
     receive_user_id,
     send_user_id,

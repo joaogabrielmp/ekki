@@ -6,6 +6,7 @@ import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 
 import Account from '@modules/accounts/entities/Account';
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
 import Transfer from '@modules/transfers/entities/Transfer';
 
 class TransfersRepository implements ITransfersRepository {
@@ -38,6 +39,23 @@ class TransfersRepository implements ITransfersRepository {
     });
 
     return account;
+  }
+
+  public async findAllById(
+    page: number,
+    per_page: number,
+    send_user_id: string,
+  ): Promise<Transfer[] | undefined> {
+    const transfers = await this.ormTransferRepository.find({
+      skip: per_page * page - per_page,
+      take: per_page,
+      where: { send_user_id, status: TransferStatus.Approved },
+      order: {
+        updated_at: 'DESC',
+      },
+    });
+
+    return transfers;
   }
 
   public async findTransfer({

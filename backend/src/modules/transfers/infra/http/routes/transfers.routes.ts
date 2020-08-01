@@ -6,6 +6,20 @@ import TransfersController from '@modules/transfers/infra/http/controllers/Trans
 const transfersRouter = Router();
 const transfersController = new TransfersController();
 
+transfersRouter.get(
+  '/:user_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      user_id: Joi.string().uuid().required(),
+    },
+    [Segments.QUERY]: {
+      page: Joi.number().min(1).required(),
+      per_page: Joi.number().required(),
+    },
+  }),
+  transfersController.getAll,
+);
+
 transfersRouter.post(
   '/',
   celebrate(
