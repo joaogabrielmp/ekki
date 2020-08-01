@@ -25,7 +25,7 @@ export default class TransfersController {
       value,
     });
 
-    return response.sendStatus(200);
+    return response.sendStatus(201);
   }
 
   public async getAll(request: Request, response: Response): Promise<Response> {
@@ -35,7 +35,11 @@ export default class TransfersController {
 
     const findAllTransfers = container.resolve(FindAllTransfers);
 
-    const transfers = await findAllTransfers.execute(page, per_page, user_id);
+    const transfers = await findAllTransfers.execute({
+      page,
+      per_page,
+      user_id,
+    });
 
     return response.json(classToClass(transfers));
   }

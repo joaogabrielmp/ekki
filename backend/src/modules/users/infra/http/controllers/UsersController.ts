@@ -12,13 +12,13 @@ export default class UsersController {
 
     const createUser = container.resolve(CreateUser);
 
-    const user = await createUser.execute({
+    await createUser.execute({
       cellphone,
       cpf,
       name,
     });
 
-    return response.json(classToClass(user));
+    return response.sendStatus(201);
   }
 
   public async getById(
@@ -40,8 +40,8 @@ export default class UsersController {
 
     const updateUser = container.resolve(UpdateUser);
 
-    const user = await updateUser.execute({ cellphone, cpf, name, user_id });
+    await updateUser.execute({ cellphone, cpf, name, user_id });
 
-    return response.json(classToClass(user));
+    return response.sendStatus(204);
   }
 }

@@ -12,12 +12,12 @@ export default class UsersController {
 
     const createUserBeneficiary = container.resolve(CreateUserBeneficiary);
 
-    const userBeneficiary = await createUserBeneficiary.execute({
+    await createUserBeneficiary.execute({
       beneficiary_id,
       user_id,
     });
 
-    return response.json(classToClass(userBeneficiary));
+    return response.sendStatus(201);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
