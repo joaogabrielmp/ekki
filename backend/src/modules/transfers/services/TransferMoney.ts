@@ -4,9 +4,8 @@ import { inject, injectable } from 'tsyringe';
 import ITransfersRepository from '@modules/transfers/repositories/ITransfersRepository';
 import ITransferDTO from '@modules/transfers/dtos/ITransferDTO';
 
-import TransferStatus from '@modules/transfers/enums/TransferStatus';
-
 import transferConfig from '@config/transfer';
+import TransferStatus from '@modules/transfers/enums/TransferStatus';
 import Transfer from '@modules/transfers/entities/Transfer';
 import AppError from '@shared/errors/AppError';
 
@@ -58,7 +57,7 @@ class TransferMoney {
     if (checksTransfer) {
       const { updated_at } = checksTransfer;
       const UpdateAtTimeZone = subHours(updated_at, 3);
-      const currentTime = new Date();
+      const currentTime = Date.now();
 
       const timePassed = differenceInSeconds(currentTime, UpdateAtTimeZone);
 

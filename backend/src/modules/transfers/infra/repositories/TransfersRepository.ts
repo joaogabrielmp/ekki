@@ -33,11 +33,11 @@ class TransfersRepository implements ITransfersRepository {
   public async findAccount(
     account_number: string,
   ): Promise<Account | undefined> {
-    const transfer = await this.ormAccountRepository.findOne({
+    const account = await this.ormAccountRepository.findOne({
       account_number,
     });
 
-    return transfer;
+    return account;
   }
 
   public async findTransfer({

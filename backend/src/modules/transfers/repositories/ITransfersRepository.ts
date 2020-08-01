@@ -5,9 +5,9 @@ import Account from '@modules/accounts/entities/Account';
 import Transfer from '@modules/transfers/entities/Transfer';
 
 export default interface ITransfersRepository {
+  cancelTransfer(data: ICancelTransferDTO): Promise<Transfer>;
   findAccount(account_number: string): Promise<Account | undefined>;
+  // findAllById(id: string): Promise<Transfer | undefined>;
   findTransfer(data: IFindTransferDTO): Promise<Transfer | undefined>;
   processTransfer(data: ITransferDTO): Promise<Transfer>;
-  cancelTransfer(data: ICancelTransferDTO): Promise<Transfer>;
-  // findAllById(id: string): Promise<Transfer | undefined>;
 }
