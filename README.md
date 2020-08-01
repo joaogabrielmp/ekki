@@ -49,8 +49,8 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 
 ## ✋🏻 Pré-requisitos
 
-1. Ter o NodeJS instalado
-2. Tenha o Docker instalado
+1. Ter o NodeJS (>=12) instalado;
+2. Tenha o Docker instalado;
 3. Execute o comando para criação do banco de dados `docker run --name ekki_pg -e POSTGRES_DB=ekki -e POSTGRES_USER=ekki -e POSTGRES_PASSWORD=ekki -p 5432:5432 -d postgres`;
 4. Execute as migrations para criação das tabelas `yarn migration:run`;
 5. Executa os seeds para popular o banco de dados `yarn seed:run`;
