@@ -28,18 +28,16 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [TypeORM](https://typeorm.io/)
 - [TSyringe (Injeção de dependência)](https://github.com/microsoft/tsyringe)
 - [Celebrate (Validation)](https://github.com/arb/celebrate)
+- [Jest](https://jestjs.io/)
 
 ### Frontend
 - [React](https://reactjs.org)
 - [Styled-Components](https://www.styled-components.com/)
 
-### Lint
-- [Eslint](https://eslint.org/)
-- [Prettier](https://prettier.io/)
-
 ### Ambos
 - [Typescript](https://www.typescriptlang.org/)
-- [Jest](https://jestjs.io/)
+- [Eslint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
 
 ---
 
