@@ -3,6 +3,7 @@ dist/
 build/
 temp/
 coverage/
+__tests__/coverage/
 
 # .env
 # ormconfig.js

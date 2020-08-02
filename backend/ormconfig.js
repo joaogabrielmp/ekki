@@ -8,7 +8,7 @@ module.exports = {
     "password": "ekki",
     "database": "ekki",
     "entities": [
-      "./src/modules/**/entities/*.ts"
+      "./src/modules/**/entities/*.ts",
     ],
     "migrations": [
       "./src/shared/infra/typeorm/migrations/*.ts"
