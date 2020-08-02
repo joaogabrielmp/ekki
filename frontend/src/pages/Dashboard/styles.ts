@@ -61,6 +61,19 @@ export const Card = styled.div`
   }
 `;
 
+export const Button = styled.button`
+  color: #000;
+  font-size: 1.4rem;
+  text-align: center;
+  border: none;
+
+  width: 350px;
+  padding: 56px 30px;
+  margin: 5px;
+  border-radius: 10px;
+  background: #f5f5f5;
+`;
+
 export const TextContent = styled.div`
   text-align: center;
   padding-top: 20px;
