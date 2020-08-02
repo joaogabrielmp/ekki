@@ -1,8 +1,9 @@
-[
-  {
+const db_port = process.env.DB_PORT || 5432;
+
+module.exports = {
     "type": "postgres",
     "host": "localhost",
-    "port": 5432,
+    "port": db_port,
     "username": "ekki",
     "password": "ekki",
     "database": "ekki",
@@ -18,5 +19,5 @@
     "cli": {
       "migrationsDir": "./src/shared/infra/typeorm/migrations"
     }
-  }
-]
+}
+

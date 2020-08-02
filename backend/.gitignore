@@ -5,4 +5,4 @@ temp/
 coverage/
 
 # .env
-# ormconfig.json
+# ormconfig.js
