@@ -71,7 +71,6 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 
 1. Entre na pasta `backend`;
 2. Para testes unitários, execute `yarn test:unit`;
-2. Para testes de integração, execute `yarn test:integration`;
 
 ---
 
@@ -86,7 +85,8 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 
 1. Cobrir mais cenários nos testes unitários e de integração;
 2. Utilizar a biblioteca faker.js para gerar valores para os testes;
-3. Criar testes E2E para o frontend;
+3. Criar testes de integração para o backend;
+4. Criar testes E2E para o frontend;
 
 ---
 
