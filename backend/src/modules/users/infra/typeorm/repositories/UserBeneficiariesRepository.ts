@@ -1,12 +1,10 @@
-import { getManager, getRepository, Repository, QueryRunner } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import IFindAllBeneficiariesDTO from '@modules/users/dtos/IFindAllBeneficiariesDTO';
 import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
 
 import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
-import { query } from 'express';
-import { areIntervalsOverlappingWithOptions } from 'date-fns/esm/fp';
 
 class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
   private ormRepository: Repository<UserBeneficiary>;
