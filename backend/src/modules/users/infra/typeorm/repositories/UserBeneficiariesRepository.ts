@@ -1,10 +1,12 @@
-import { getRepository, Repository } from 'typeorm';
+import { getManager, getRepository, Repository, QueryRunner } from 'typeorm';
 
 import IFindAllBeneficiariesDTO from '@modules/users/dtos/IFindAllBeneficiariesDTO';
 import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBeneficiariesRepository';
 import IUserBeneficiaryDTO from '@modules/users/dtos/IUserBeneficiaryDTO';
 
 import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
+import { query } from 'express';
+import { areIntervalsOverlappingWithOptions } from 'date-fns/esm/fp';
 
 class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
   private ormRepository: Repository<UserBeneficiary>;
@@ -36,11 +38,20 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     per_page,
     user_id,
   }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
-    const userBeneficiaries = await this.ormRepository.find({
-      skip: per_page * page - per_page,
-      take: per_page,
-      where: { user_id },
-    });
+    const userBeneficiaries = await this.ormRepository.manager.query(
+      `
+        select
+        ub.beneficiary_id,
+        u.name,
+        u.account_id,
+        a.account_number
+        from user_beneficiaries ub
+        inner join users u on ub.beneficiary_id = u.id
+        inner join accounts a on a.id = u.account_id
+        where ub.user_id = '${user_id}'
+        limit ${per_page} offset ${per_page * page - per_page}
+      `,
+    );
 
     return userBeneficiaries;
   }
