@@ -66,12 +66,19 @@ export const Button = styled.button`
   font-size: 1.4rem;
   text-align: center;
   border: none;
-
+  font-weight: bold;
   width: 350px;
   padding: 56px 30px;
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
+
+  transition: 0.3s ease all;
+
+  &:hover {
+    background: #ffa500;
+    color: #f5f5f5;
+  }
 `;
 
 export const TextContent = styled.div`
