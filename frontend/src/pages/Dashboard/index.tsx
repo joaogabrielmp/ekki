@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-// import { Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 
 import api from '../../services/api';
@@ -75,14 +74,6 @@ const Dashboard: React.FC = () => {
     return formatMoney(limit);
   }, [user]);
 
-  // const allTransfers = useMemo(() => {
-  //   const transfersFormatted = transfers.map(transfer => {
-  //     return {
-  //       ...appointment,
-  //       hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
-  //     };
-  // }, [user]);
-
   return (
     <>
       <Header />
@@ -103,9 +94,9 @@ const Dashboard: React.FC = () => {
             <p>{userLimit}</p>
           </S.Card>
 
-          <S.Button>Meus dados</S.Button>
+          <S.Button to="/profile">Meus dados</S.Button>
 
-          <S.Button>Ver lista de favorecidos</S.Button>
+          <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
         </S.CardContent>
 
         <S.TextContent>

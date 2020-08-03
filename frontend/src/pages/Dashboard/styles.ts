@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import media from 'styled-media-query';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   display: grid;
@@ -62,15 +63,18 @@ export const Card = styled.div`
   }
 `;
 
-export const Button = styled.button`
+export const Button = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   color: #000;
   font-size: 1.4rem;
-  text-align: center;
+  text-decoration: none;
   border: none;
   font-weight: bold;
   width: 350px;
   height: 170px;
-  padding: 56px 30px;
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
