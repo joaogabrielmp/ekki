@@ -23,21 +23,14 @@ const Dashboard: React.FC = () => {
 
           <S.Card>
             <h4>
-              <b>Últ. transferência</b>
+              <b>Limite</b>
             </h4>
-            <p>R$ 150,00</p>
+            <p>R$ 500,00</p>
           </S.Card>
 
-          <S.Card>
-            <h4>
-              <b>Total recebido</b>
-            </h4>
-            <p>R$ 150,00</p>
-          </S.Card>
+          <S.Button>Meus dados</S.Button>
 
-          {/* <S.Card> */}
           <S.Button>Ver lista de favorecidos</S.Button>
-          {/* </S.Card> */}
         </S.CardContent>
 
         <S.TextContent>

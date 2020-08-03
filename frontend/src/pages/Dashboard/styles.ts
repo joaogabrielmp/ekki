@@ -22,6 +22,7 @@ export const CardContent = styled.div`
 
 export const Card = styled.div`
   width: 350px;
+  height: 170px;
   padding: 56px 30px;
   margin: 5px;
   border-radius: 10px;
@@ -68,6 +69,7 @@ export const Button = styled.button`
   border: none;
   font-weight: bold;
   width: 350px;
+  height: 170px;
   padding: 56px 30px;
   margin: 5px;
   border-radius: 10px;
