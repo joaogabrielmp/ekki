@@ -104,23 +104,6 @@ export const TransferCard = styled.div`
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
-
-  /* h4 {
-    color: #000;
-    font-size: 1.4rem;
-    text-align: center;
-
-    @media screen and (max-width: 1395px) {
-      font-size: 1.2rem;
-    }
-  } */
-
-  /* p {
-    color: #000;
-    font-size: 1.4rem;
-    text-align: center;
-    line-height: 30px;
-  } */
 `;
 
 export const Table = styled.table`

@@ -9,13 +9,15 @@ export const Header = styled.header`
 `;
 
 export const HeaderContent = styled.div`
-  max-width: 1120px;
-  margin: 0 auto;
   display: flex;
+  justify-content: center;
   align-items: center;
 
+  max-width: 1120px;
+  margin: 0 auto;
+
   ${media.lessThan('huge')`
-    padding: 0 110px 0;
+    /* padding: 0 110px 0; */
   `}
 
   > img {
