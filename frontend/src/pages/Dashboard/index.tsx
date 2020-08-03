@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 // import { Link } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
 
 import api from '../../services/api';
 import formatMoney from '../../helpers/formatMonye';
@@ -23,6 +24,10 @@ interface UserData {
 interface TransferData {
   id: string;
   balance: number;
+  created_at: string;
+  name: string;
+  balanceFormatted: string;
+  dateFormatted: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -32,25 +37,31 @@ const Dashboard: React.FC = () => {
   const [transfers, setTransfers] = useState<TransferData[]>([]);
 
   useEffect(() => {
-    api.get(`/users/${user_id}`).then(response => {
+    api.get<UserData>(`/users/${user_id}`).then(response => {
       setUser(response.data);
     });
   }, [user_id]);
 
   useEffect(() => {
     api
-      .get(`/transfers/${user_id}`, {
+      .get<TransferData[]>(`/transfers/${user_id}`, {
         params: {
           page: 1,
           per_page: 10,
         },
       })
       .then(response => {
-        setTransfers(response.data);
+        const transfersFormatted = response.data.map(transfer => {
+          return {
+            ...transfer,
+            balanceFormatted: formatMoney(transfer.balance),
+            dateFormatted: format(parseISO(transfer.created_at), 'dd/MM/yyyy'),
+          };
+        });
+
+        setTransfers(transfersFormatted);
       });
   }, [user_id]);
-
-  console.log(transfers);
 
   const userBalance = useMemo(() => {
     const balance = user?.account.balance || 0;
@@ -63,6 +74,14 @@ const Dashboard: React.FC = () => {
 
     return formatMoney(limit);
   }, [user]);
+
+  // const allTransfers = useMemo(() => {
+  //   const transfersFormatted = transfers.map(transfer => {
+  //     return {
+  //       ...appointment,
+  //       hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
+  //     };
+  // }, [user]);
 
   return (
     <>
@@ -104,71 +123,11 @@ const Dashboard: React.FC = () => {
                 <tbody>
                   {transfers.map(transfer => (
                     <tr key={transfer.id}>
-                      <td>{transfer.balance}</td>
-                      <td>{transfer.balance}</td>
+                      <td>{transfer.name}</td>
+                      <td>{transfer.balanceFormatted}</td>
+                      <td>{transfer.dateFormatted}</td>
                     </tr>
                   ))}
-                  {/*
-                  <tr>
-                    <td>Alfreds Futterkiste</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Centro comercial Moctezuma</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Ernst Handel</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Island Trading</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Laughing Bacchus Winecellars</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr>
-                  <tr>
-                    <td>Magazzini Alimentari Riuniti</td>
-                    <td>R$ 100,00</td>
-                    <td>03/08/2020</td>
-                  </tr> */}
                 </tbody>
               </S.Table>
 
