@@ -132,6 +132,16 @@ const Dashboard: React.FC = () => {
                     <td>R$ 100,00</td>
                     <td>03/08/2020</td>
                   </tr>
+                  <tr>
+                    <td>Magazzini Alimentari Riuniti</td>
+                    <td>R$ 100,00</td>
+                    <td>03/08/2020</td>
+                  </tr>
+                  <tr>
+                    <td>Magazzini Alimentari Riuniti</td>
+                    <td>R$ 100,00</td>
+                    <td>03/08/2020</td>
+                  </tr>
                 </tbody>
               </S.Table>
 

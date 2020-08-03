@@ -100,28 +100,46 @@ export const TransferCardContent = styled.div`
 export const TransferCard = styled.div`
   width: 900px;
   height: 720px;
-  /* padding: 60px 30px; */
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
 `;
 
 export const Table = styled.table`
-  color: #000;
-  border-collapse: collapse;
   width: 100%;
+
+  table-layout: fixed;
+  color: #000;
+  border: none;
+  border-collapse: collapse;
 
   th,
   td {
-    text-align: left;
-    padding: 16px;
+    padding: 10px 80px;
+  }
+
+  thead {
+    display: inline-block;
+
+    width: 100%;
+    border-bottom: 2px solid;
+  }
+
+  tbody {
+    display: inline-block;
+
+    height: 620px;
+    width: 100%;
+    overflow: auto;
   }
 
   tr > th {
+    width: 100%;
     height: 70px;
   }
 
   tr > td {
+    width: 100%;
     height: 60px;
   }
 
