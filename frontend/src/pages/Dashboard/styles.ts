@@ -105,7 +105,7 @@ export const TransferCard = styled.div`
   border-radius: 10px;
   background: #f5f5f5;
 
-  h4 {
+  /* h4 {
     color: #000;
     font-size: 1.4rem;
     text-align: center;
@@ -113,12 +113,36 @@ export const TransferCard = styled.div`
     @media screen and (max-width: 1395px) {
       font-size: 1.2rem;
     }
-  }
+  } */
 
-  p {
+  /* p {
     color: #000;
     font-size: 1.4rem;
     text-align: center;
     line-height: 30px;
+  } */
+`;
+
+export const Table = styled.table`
+  color: #000;
+  border-collapse: collapse;
+  width: 100%;
+
+  th,
+  td {
+    text-align: left;
+    padding: 16px;
+  }
+
+  tr > th {
+    height: 70px;
+  }
+
+  tr > td {
+    height: 60px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
   }
 `;

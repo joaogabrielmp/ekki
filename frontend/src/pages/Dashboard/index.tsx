@@ -36,7 +36,65 @@ const Dashboard: React.FC = () => {
         <S.TextContent>
           <S.Title>Histórico de transferências</S.Title>
           <S.TransferCardContent>
-            <S.TransferCard />
+            <S.TransferCard>
+              <S.Table>
+                <tr>
+                  <th>Beneficiário</th>
+                  <th>Valor</th>
+                  <th>Data</th>
+                </tr>
+                <tr>
+                  <td>Alfreds Futterkiste</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Centro comercial Moctezuma</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Ernst Handel</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Island Trading</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Laughing Bacchus Winecellars</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+                <tr>
+                  <td>Magazzini Alimentari Riuniti</td>
+                  <td>R$ 100,00</td>
+                  <td>03/08/2020</td>
+                </tr>
+              </S.Table>
+            </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
       </S.Container>
