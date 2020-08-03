@@ -6,7 +6,12 @@ import User from '@modules/users/entities/User';
 class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
 
-  public async create({ cellphone, cpf, name }: IUserDTO): Promise<User> {
+  public async create({
+    cellphone,
+    cpf,
+    name,
+    user_id,
+  }: IUserDTO): Promise<User> {
     const user = new User();
 
     Object.assign(user, {

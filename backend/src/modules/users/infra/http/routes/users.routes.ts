@@ -23,6 +23,7 @@ usersRouter.post(
       cellphone: Joi.string().required(),
       cpf: Joi.string().length(11).required(),
       name: Joi.string().required(),
+      user_id: Joi.string().uuid(),
     },
   }),
   usersController.create,

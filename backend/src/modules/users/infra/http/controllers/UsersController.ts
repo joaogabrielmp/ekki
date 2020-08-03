@@ -8,7 +8,7 @@ import UpdateUser from '@modules/users/services/UpdateUser';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { cellphone, cpf, name } = request.body;
+    const { cellphone, cpf, name, user_id } = request.body;
 
     const createUser = container.resolve(CreateUser);
 
@@ -16,6 +16,7 @@ export default class UsersController {
       cellphone,
       cpf,
       name,
+      user_id,
     });
 
     return response.sendStatus(201);

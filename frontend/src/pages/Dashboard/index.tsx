@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 
 import api from '../../services/api';
-import formatMoney from '../../helpers/formatMonye';
+import formatMoney from '../../helpers/formatMoney';
 
 import Header from '../../components/Header';
 
 import * as S from './styles';
 
-interface UserData {
+interface User {
   name: string;
   cpf: string;
   cellphone: string;
@@ -20,7 +20,7 @@ interface UserData {
   };
 }
 
-interface TransferData {
+interface Transfer {
   id: string;
   balance: number;
   created_at: string;
@@ -32,18 +32,18 @@ interface TransferData {
 const Dashboard: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
 
-  const [user, setUser] = useState<UserData>();
-  const [transfers, setTransfers] = useState<TransferData[]>([]);
+  const [user, setUser] = useState<User>();
+  const [transfers, setTransfers] = useState<Transfer[]>([]);
 
   useEffect(() => {
-    api.get<UserData>(`/users/${user_id}`).then(response => {
+    api.get<User>(`/users/${user_id}`).then(response => {
       setUser(response.data);
     });
   }, [user_id]);
 
   useEffect(() => {
     api
-      .get<TransferData[]>(`/transfers/${user_id}`, {
+      .get<Transfer[]>(`/transfers/${user_id}`, {
         params: {
           page: 1,
           per_page: 10,
@@ -119,7 +119,7 @@ const Dashboard: React.FC = () => {
               <S.Table>
                 <thead>
                   <tr>
-                    <th>Beneficiário</th>
+                    <th>Favorecido</th>
                     <th>Valor</th>
                     <th>Data</th>
                   </tr>

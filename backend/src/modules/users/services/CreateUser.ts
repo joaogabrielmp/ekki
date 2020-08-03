@@ -13,7 +13,12 @@ class CreateUser {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ cellphone, cpf, name }: IUserDTO): Promise<User> {
+  public async execute({
+    cellphone,
+    cpf,
+    name,
+    user_id,
+  }: IUserDTO): Promise<User> {
     const checkUserExists = await this.usersRepository.findByCPF(cpf);
 
     if (checkUserExists) {
@@ -24,6 +29,7 @@ class CreateUser {
       cellphone,
       cpf,
       name,
+      user_id,
     });
 
     return user;

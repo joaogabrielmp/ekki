@@ -6,6 +6,7 @@ import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import Account from '@modules/accounts/entities/Account';
 import User from '@modules/users/entities/User';
+import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 
 class UsersRepository implements IUsersRepository {
   private ormUserRepository: Repository<User>;
@@ -17,34 +18,56 @@ class UsersRepository implements IUsersRepository {
     this.ormAccountRepository = getRepository(Account);
   }
 
-  public async create({ cellphone, cpf, name }: IUserDTO): Promise<User> {
+  public async create({
+    cellphone,
+    cpf,
+    name,
+    user_id,
+  }: IUserDTO): Promise<User> {
     const account_number = await this.generateAccountNumber();
 
     const connection = getConnection();
     const queryRunner = connection.createQueryRunner();
     await queryRunner.connect();
 
-    const uuid = uuidv4();
+    const accountId = uuidv4();
+    const userId = uuidv4();
 
     const account = queryRunner.manager.getRepository(Account).create({
-      id: uuid,
+      id: accountId,
       account_number,
       balance: 0,
       limit: 500,
     });
 
     const user = queryRunner.manager.getRepository(User).create({
-      account_id: uuid,
+      account_id: accountId,
       cellphone,
       cpf,
       name,
+      id: userId,
     });
+
+    let userBeneficiary;
+
+    if (user_id) {
+      userBeneficiary = queryRunner.manager
+        .getRepository(UserBeneficiary)
+        .create({
+          beneficiary_id: userId,
+          user_id,
+        });
+    }
 
     await queryRunner.startTransaction();
 
     try {
       await queryRunner.manager.save(account);
       await queryRunner.manager.save(user);
+
+      if (user_id) {
+        await queryRunner.manager.save(userBeneficiary);
+      }
 
       await queryRunner.commitTransaction();
     } catch (err) {
