@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import media from 'styled-media-query';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
