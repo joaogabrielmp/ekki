@@ -79,18 +79,18 @@ export const Table = styled.table`
   }
 
   thead {
-    display: inline-block;
+    /* display: inline-block; */
 
     width: 100%;
     border-bottom: 2px solid;
   }
 
   tbody {
-    display: inline-block;
+    /* display: inline-block; */
 
     height: 580px;
     width: 100%;
-    overflow: auto;
+    /* overflow: auto; */
   }
 
   tr > th {

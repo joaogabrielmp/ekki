@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, subHours } from 'date-fns';
 
 import api from '../../services/api';
 import formatMoney from '../../helpers/formatMoney';
 
 import Header from '../../components/Header';
+import Pagination from '../../components/Pagination';
 
 import * as S from './styles';
 
@@ -54,7 +55,10 @@ const Dashboard: React.FC = () => {
           return {
             ...transfer,
             balanceFormatted: formatMoney(transfer.balance),
-            dateFormatted: format(parseISO(transfer.created_at), 'dd/MM/yyyy'),
+            dateFormatted: format(
+              subHours(parseISO(transfer.created_at), 3),
+              'dd/MM/yyyy',
+            ),
           };
         });
 
@@ -134,6 +138,7 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </S.Table>
+              <Pagination />
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
