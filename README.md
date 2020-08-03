@@ -8,8 +8,6 @@
 
 ---
 
-<br>
-
 <p align="center">
   <img alt="Ekki" src=".github/ekki_web.png" width="100%">
 </p>
