@@ -22,6 +22,11 @@ export const CardContent = styled.div`
 `;
 
 export const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 350px;
   height: 170px;
   padding: 56px 30px;
@@ -48,7 +53,6 @@ export const Card = styled.div`
   h4 {
     color: #000;
     font-size: 1.4rem;
-    text-align: center;
 
     @media screen and (max-width: 1395px) {
       font-size: 1.2rem;

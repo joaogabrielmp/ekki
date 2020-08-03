@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard';
 import Beneficiaries from '../pages/Beneficiaries';
-import Profile from '../pages/Profile';
 import NotFound from '../pages/NotFound';
 
 const Routes: React.FC = () => (
@@ -11,7 +10,6 @@ const Routes: React.FC = () => (
     <Route path="/" exact component={Dashboard} />
 
     <Route path="/beneficiaries" component={Beneficiaries} />
-    <Route path="/profile" component={Profile} />
 
     <Route component={NotFound} />
   </Switch>

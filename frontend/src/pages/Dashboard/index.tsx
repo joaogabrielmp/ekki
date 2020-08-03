@@ -62,6 +62,14 @@ const Dashboard: React.FC = () => {
       });
   }, [user_id]);
 
+  const userName = useMemo(() => {
+    return user?.name || 'Usuário';
+  }, [user]);
+
+  const userAccount = useMemo(() => {
+    return user?.account.account_number || '000000-0';
+  }, [user]);
+
   const userBalance = useMemo(() => {
     const balance = user?.account.balance || 0;
 
@@ -82,6 +90,13 @@ const Dashboard: React.FC = () => {
           <S.Title>Resumo</S.Title>
           <S.Card>
             <h4>
+              <b>{userName}</b>
+            </h4>
+            <p>Conta: {userAccount}</p>
+          </S.Card>
+
+          <S.Card>
+            <h4>
               <b>Saldo atual</b>
             </h4>
             <p>{userBalance}</p>
@@ -93,8 +108,6 @@ const Dashboard: React.FC = () => {
             </h4>
             <p>{userLimit}</p>
           </S.Card>
-
-          <S.Button to="/profile">Meus dados</S.Button>
 
           <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
         </S.CardContent>
@@ -121,12 +134,6 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </S.Table>
-
-              {/* <Pagination
-                currentPage={currentPage}
-                pages={pages}
-                total={total}
-              /> */}
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
