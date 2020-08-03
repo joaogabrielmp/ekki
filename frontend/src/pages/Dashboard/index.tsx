@@ -5,7 +5,6 @@ import api from '../../services/api';
 import formatMoney from '../../helpers/formatMonye';
 
 import Header from '../../components/Header';
-// import Pagination from '../../components/Pagination';
 
 import * as S from './styles';
 
@@ -21,16 +20,37 @@ interface UserData {
   };
 }
 
+interface TransferData {
+  id: string;
+  balance: number;
+}
+
 const Dashboard: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
 
   const [user, setUser] = useState<UserData>();
+  const [transfers, setTransfers] = useState<TransferData[]>([]);
 
   useEffect(() => {
     api.get(`/users/${user_id}`).then(response => {
       setUser(response.data);
     });
   }, [user_id]);
+
+  useEffect(() => {
+    api
+      .get(`/transfers/${user_id}`, {
+        params: {
+          page: 1,
+          per_page: 10,
+        },
+      })
+      .then(response => {
+        setTransfers(response.data);
+      });
+  }, [user_id]);
+
+  console.log(transfers);
 
   const userBalance = useMemo(() => {
     const balance = user?.account.balance || 0;
@@ -82,6 +102,13 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
+                  {transfers.map(transfer => (
+                    <tr key={transfer.id}>
+                      <td>{transfer.balance}</td>
+                      <td>{transfer.balance}</td>
+                    </tr>
+                  ))}
+                  {/*
                   <tr>
                     <td>Alfreds Futterkiste</td>
                     <td>R$ 100,00</td>
@@ -141,7 +168,7 @@ const Dashboard: React.FC = () => {
                     <td>Magazzini Alimentari Riuniti</td>
                     <td>R$ 100,00</td>
                     <td>03/08/2020</td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </S.Table>
 

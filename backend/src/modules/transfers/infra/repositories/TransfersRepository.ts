@@ -47,15 +47,31 @@ class TransfersRepository implements ITransfersRepository {
     per_page,
     user_id,
   }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
-    const transfers = await this.ormTransferRepository.find({
-      select: ['id', 'balance'],
-      skip: per_page * page - per_page,
-      take: per_page,
-      where: { send_user_id: user_id, status: TransferStatus.Approved },
-      order: {
-        updated_at: 'DESC',
-      },
-    });
+    const transfers = await this.ormTransferRepository.manager.query(
+      `
+        select
+        t.id,
+        t.balance,
+        t.created_at,
+        u.name
+        from transfers t
+        inner join users u on t.receive_user_id = u.id
+        where t.send_user_id = '${user_id}'
+        and t.status = '${TransferStatus.Approved}'
+        order by t.updated_at desc
+        limit ${per_page} offset ${per_page * page - per_page}
+      `,
+    );
+
+    // const transfers = await this.ormTransferRepository.find({
+    //   select: ['id', 'balance'],
+    //   skip: per_page * page - per_page,
+    //   take: per_page,
+    //   where: { send_user_id: user_id, status: TransferStatus.Approved },
+    //   order: {
+    //     updated_at: 'DESC',
+    //   },
+    // });
 
     return transfers;
   }
