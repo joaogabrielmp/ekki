@@ -59,6 +59,19 @@ describe('CreateUserBeneficiary', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
+  it('should not be able to make a transfer with invalid beneficiary account', async () => {
+    await expect(
+      transferMoney.execute({
+        debitAcccount: true,
+        receive_account_number: 'non-existing-account-number',
+        receive_user_id: 'id',
+        send_account_number: 'account_number',
+        send_user_id: 'id',
+        value: 100,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
   it('should be able to make a transfer using limit', async () => {
     const debitAcccount = true;
     const receive_account_number = '112233';

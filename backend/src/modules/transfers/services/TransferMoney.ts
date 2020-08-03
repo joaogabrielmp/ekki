@@ -31,6 +31,14 @@ class TransferMoney {
       throw new AppError('Account not found');
     }
 
+    const checksAccountBeneficiary = await this.transfersRepository.findAccount(
+      receive_account_number,
+    );
+
+    if (!checksAccountBeneficiary) {
+      throw new AppError('Beneficiary account not found');
+    }
+
     const { balance, limit } = checksAccount;
 
     const totalAvailable = Number(balance) + Number(limit);
