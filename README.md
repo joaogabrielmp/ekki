@@ -11,7 +11,6 @@
 <br>
 
 <p align="center">
-  Adicionar imagem do frontend
   <img alt="Ekki" src=".github/ekki_web.png" width="100%">
 </p>
 
