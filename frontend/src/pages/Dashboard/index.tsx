@@ -5,7 +5,7 @@ import api from '../../services/api';
 import formatMoney from '../../helpers/formatMoney';
 
 import Header from '../../components/Header';
-import Pagination from '../../components/Pagination';
+import createPagination from '../../components/Pagination/createPagination.js';
 
 import * as S from './styles';
 
@@ -22,19 +22,41 @@ interface User {
 }
 
 interface Transfer {
-  id: string;
-  balance: number;
-  created_at: string;
-  name: string;
-  balanceFormatted: string;
-  dateFormatted: string;
+  total: number;
+  transfers: [
+    {
+      id: string;
+      balance: number;
+      created_at: string;
+      name: string;
+      balanceFormatted: string;
+      dateFormatted: string;
+    },
+  ];
 }
 
 const Dashboard: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
 
   const [user, setUser] = useState<User>();
-  const [transfers, setTransfers] = useState<Transfer[]>([]);
+
+  const [transfersAndTotal, setTransfersAndTotal] = useState({
+    total: 0,
+    transfers: [
+      {
+        id: '',
+        balance: 0,
+        created_at: '',
+        name: '',
+        balanceFormatted: '',
+        dateFormatted: '',
+      },
+    ],
+  });
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleClick = (page: number): void => setCurrentPage(page);
 
   useEffect(() => {
     api.get<User>(`/users/${user_id}`).then(response => {
@@ -44,17 +66,15 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     api
-      .get<Transfer[]>(`/transfers/${user_id}`, {
+      .get<Transfer>(`/transfers/${user_id}`, {
         params: {
-          page: 1,
+          page: currentPage,
           per_page: 10,
         },
       })
       .then(response => {
-        const totalTransfers = response.data[0];
-        console.log(totalTransfers);
-
-        const transfersFormatted = response.data.map(transfer => {
+        const { total } = response.data;
+        const allTransfers = response.data.transfers.map(transfer => {
           return {
             ...transfer,
             balanceFormatted: formatMoney(transfer.balance),
@@ -65,9 +85,21 @@ const Dashboard: React.FC = () => {
           };
         });
 
-        setTransfers(transfersFormatted);
+        const transfersFormatted = {
+          total,
+          transfers: allTransfers,
+        };
+
+        setTransfersAndTotal(transfersFormatted);
       });
-  }, [user_id]);
+  }, [user_id, currentPage]);
+
+  const { pagination } = createPagination({
+    numberOfArticles: transfersAndTotal.total,
+    articlesPerPage: 10,
+    numberOfButtons: 8,
+    currentPage,
+  });
 
   const userName = useMemo(() => {
     return user?.name || 'Usuário';
@@ -82,14 +114,12 @@ const Dashboard: React.FC = () => {
 
     return formatMoney(balance);
   }, [user]);
+
   const userLimit = useMemo(() => {
     const limit = user?.account.limit || 0;
 
     return formatMoney(limit);
   }, [user]);
-
-  // const numberOfArticles = transfers.length;
-  const numberOfArticles = 11;
 
   return (
     <>
@@ -134,7 +164,7 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {transfers.map(transfer => (
+                  {transfersAndTotal.transfers.map(transfer => (
                     <tr key={transfer.id}>
                       <td>{transfer.name}</td>
                       <td>{transfer.balanceFormatted}</td>
@@ -143,7 +173,40 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </S.Table>
-              <Pagination numberOfArticles={numberOfArticles} />
+
+              <S.Pagination>
+                <ul>
+                  <S.PaginationItem
+                    className={`${pagination[0] === currentPage && 'disabled'}`}
+                    onClick={() => {
+                      handleClick(currentPage - 1);
+                    }}
+                  >
+                    Anterior
+                  </S.PaginationItem>
+                  {pagination.map(page => (
+                    <S.PaginationItem
+                      className={`${currentPage === page && 'active'}`}
+                      onClick={() => {
+                        handleClick(page);
+                      }}
+                      key={page}
+                    >
+                      {page}
+                    </S.PaginationItem>
+                  ))}
+                  <S.PaginationItem
+                    className={`${
+                      pagination.reverse()[0] === currentPage && 'disabled'
+                    }`}
+                    onClick={() => {
+                      handleClick(currentPage + 1);
+                    }}
+                  >
+                    Próximo
+                  </S.PaginationItem>
+                </ul>
+              </S.Pagination>
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
