@@ -31,13 +31,19 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
+  public async findAllAndCountById(user_id: string): Promise<number> {
+    const totalBeneficiaries = await this.ormRepository.count({
+      user_id,
+    });
+
+    return totalBeneficiaries;
+  }
+
   public async findAllByUser({
     page,
     per_page,
     user_id,
   }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
-    const beneficiariesCount = await this.ormRepository.count({ user_id });
-
     const userBeneficiaries = await this.ormRepository.manager.query(
       `
         select
@@ -53,7 +59,7 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
       `,
     );
 
-    return [{ beneficiariesCount }, userBeneficiaries];
+    return userBeneficiaries;
   }
 
   public async findByUserAndBeneficiary({

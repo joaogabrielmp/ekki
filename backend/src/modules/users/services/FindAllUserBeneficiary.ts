@@ -5,6 +5,10 @@ import IUserBeneficiariesRepository from '@modules/users/repositories/IUserBenef
 
 import UserBeneficiary from '@modules/users/entities/UserBeneficiary';
 
+interface ITotal {
+  total: number;
+}
+
 @injectable()
 class FindAllUserBeneficiary {
   constructor(
@@ -16,12 +20,20 @@ class FindAllUserBeneficiary {
     page,
     per_page,
     user_id,
-  }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
+  }: IFindAllBeneficiariesDTO): Promise<
+    ITotal | UserBeneficiary[] | undefined
+  > {
+    const total = await this.userBeneficiariesRepository.findAllAndCountById(
+      user_id,
+    );
+
     const userBeneficiaries = await this.userBeneficiariesRepository.findAllByUser(
       { page, per_page, user_id },
     );
 
-    return userBeneficiaries;
+    const userBeneficiariesAndTotal = { total, userBeneficiaries };
+
+    return userBeneficiariesAndTotal;
   }
 }
 

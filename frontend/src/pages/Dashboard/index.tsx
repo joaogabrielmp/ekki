@@ -77,6 +77,7 @@ const Dashboard: React.FC = () => {
         const allTransfers = response.data.transfers.map(transfer => {
           return {
             ...transfer,
+            name: transfer.name.split(' ').slice(0, 1).join(' '),
             balanceFormatted: formatMoney(transfer.balance),
             dateFormatted: format(
               subHours(parseISO(transfer.created_at), 3),
