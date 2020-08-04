@@ -20,6 +20,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ### Backend
 - [Node.js](https://nodejs.org/en/)
+- [ExpressJS](https://expressjs.com/)
 - [Docker](https://www.docker.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [TypeORM](https://typeorm.io/)
@@ -29,6 +30,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 ---
 ### Frontend
 - [React](https://reactjs.org)
+- [React Router](https://reactrouter.com/)
 - [Styled-Components](https://www.styled-components.com/)
 ---
 ### Ambos
