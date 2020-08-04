@@ -100,7 +100,7 @@ const Dashboard: React.FC = () => {
   );
 
   const { pagination } = createPagination({
-    numberOfArticles: transfersAndTotal.total + 100,
+    numberOfArticles: transfersAndTotal.total,
     articlesPerPage: 10,
     numberOfButtons: isMobile ? 2 : 8,
     currentPage,
