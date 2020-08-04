@@ -50,7 +50,9 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
         ub.beneficiary_id,
         u.name,
         u.account_id,
-        a.account_number
+        a.account_number,
+        a.balance,
+        a.limit
         from user_beneficiaries ub
         inner join users u on ub.beneficiary_id = u.id
         inner join accounts a on a.id = u.account_id
