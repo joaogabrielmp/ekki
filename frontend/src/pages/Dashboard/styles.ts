@@ -28,6 +28,10 @@ export const ResumeContent = styled.div`
 export const Title = styled.h2`
   text-align: center;
   font-size: 1.6rem;
+
+  ${media.lessThan('small')`
+  font-size: 1.4rem;
+  `}
 `;
 
 export const CardContent = styled.div`
@@ -167,6 +171,10 @@ export const TransferCard = styled.div`
   ${media.lessThan('small')`
     width: 350px;
   `}
+
+  @media only screen and (max-width: 376px) {
+    width: 320px;
+  }
 `;
 
 export const Table = styled.table`

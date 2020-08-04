@@ -1,37 +1,114 @@
-import React, { useEffect, useState } from 'react';
-import { Money } from 'styled-icons/boxicons-regular';
-import { Delete } from 'styled-icons/material';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import formatMoney from '../../helpers/formatMoney';
 import api from '../../services/api';
 
 import Header from '../../components/Header';
+import createPagination from '../../components/Pagination/createPagination.js';
 
 import * as S from './styles';
 
-interface Beneficiaries {
-  beneficiary_id: string;
-  name: string;
-  account_id: string;
-  account_number: string;
+interface Beneficiary {
+  total: number;
+  userBeneficiaries: [
+    {
+      beneficiary_id: string;
+      name: string;
+      account_id: string;
+      account_number: string;
+      balance: number;
+      balanceFormatted: string;
+      limit: number;
+      limitFormatted: string;
+    },
+  ];
 }
 
 const Beneficiaries: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
 
-  const [beneficiaries, setBeneficiaries] = useState<Beneficiaries[]>([]);
+  const [beneficiariesAndTotal, setBeneficiariesAndTotal] = useState({
+    total: 0,
+    userBeneficiaries: [
+      {
+        beneficiary_id: '',
+        name: '',
+        account_id: '',
+        account_number: '',
+        balance: 0,
+        balanceFormatted: '',
+        limit: 0,
+        limitFormatted: '',
+      },
+    ],
+  });
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleClick = (page: number): void => setCurrentPage(page);
 
   useEffect(() => {
     api
-      .get<Beneficiaries[]>(`/users/beneficiaries/${user_id}`, {
+      .get<Beneficiary>(`/users/beneficiaries/${user_id}`, {
         params: {
-          page: 1,
+          page: currentPage,
           per_page: 10,
         },
       })
       .then(response => {
-        setBeneficiaries(response.data);
+        const { total } = response.data;
+        const allBeneficiaries = response.data.userBeneficiaries.map(
+          beneficiary => {
+            return {
+              ...beneficiary,
+              name: beneficiary.name.split(' ').slice(0, 1).join(' '),
+              balanceFormatted: formatMoney(beneficiary.balance),
+              limitFormatted: formatMoney(beneficiary.balance),
+            };
+          },
+        );
+
+        const beneficiariesFormatted = {
+          total,
+          userBeneficiaries: allBeneficiaries,
+        };
+
+        setBeneficiariesAndTotal(beneficiariesFormatted);
       });
-  }, [user_id]);
+  }, [user_id, currentPage]);
+
+  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+
+  const { pagination } = createPagination({
+    numberOfArticles: beneficiariesAndTotal.total,
+    articlesPerPage: 10,
+    numberOfButtons: isMobile ? 2 : 8,
+    currentPage,
+  });
+
+  // const beneficiaryName = useMemo(() => {
+  //   const name = user?.name.split(' ').slice(0, 1).join(' ');
+
+  //   return name || 'Usuário';
+  // }, [user]);
+
+  // const beneficiaryAccount = useMemo(() => {
+  //   return user?.account.account_number || '000000-0';
+  // }, [user]);
+
+  // const beneficiaryBalance = useMemo(() => {
+  //   const balance = user?.account.balance || 0;
+
+  //   return formatMoney(balance);
+  // }, [user]);
+
+  // const beneficiaryLimit = useMemo(() => {
+  //   const limit = user?.account.limit || 0;
+
+  //   return formatMoney(limit);
+  // }, [user]);
 
   return (
     <>
@@ -40,7 +117,9 @@ const Beneficiaries: React.FC = () => {
         <S.TextContent>
           <S.ButtonContent>
             <S.Button to="/new">Novo</S.Button>
-            <S.Button to="/">Voltar para home</S.Button>
+            <S.Button to="/">Transferir</S.Button>
+            <S.Button to="/">Excluir</S.Button>
+            <S.Button to="/">Voltar</S.Button>
           </S.ButtonContent>
 
           <S.TransferCardContent>
@@ -50,25 +129,59 @@ const Beneficiaries: React.FC = () => {
                   <tr>
                     <th>Favorecido</th>
                     <th>Conta</th>
-                    <th>Transferir</th>
-                    <th>Remover</th>
+                    <th>Saldo</th>
+                    <th>Limite</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {beneficiaries.map(beneficiary => (
+                  {beneficiariesAndTotal.userBeneficiaries.map(beneficiary => (
                     <tr key={beneficiary.beneficiary_id}>
                       <td>{beneficiary.name}</td>
                       <td>{beneficiary.account_number}</td>
-                      <td>
-                        <Money style={{ color: '#000', width: '36px' }} />
-                      </td>
-                      <td>
-                        <Delete style={{ color: '#000', width: '36px' }} />
-                      </td>
+                      <td>{beneficiary.balanceFormatted}</td>
+                      <td>{beneficiary.limitFormatted}</td>
                     </tr>
                   ))}
                 </tbody>
               </S.Table>
+
+              {beneficiariesAndTotal.total > 0 && (
+                <S.Pagination>
+                  <ul>
+                    <S.PaginationItem
+                      className={`${
+                        pagination[0] === currentPage && 'disabled'
+                      }`}
+                      onClick={() => {
+                        handleClick(currentPage - 1);
+                      }}
+                    >
+                      Anterior
+                    </S.PaginationItem>
+                    {pagination.map(page => (
+                      <S.PaginationItem
+                        className={`${currentPage === page && 'active'}`}
+                        onClick={() => {
+                          handleClick(page);
+                        }}
+                        key={page}
+                      >
+                        {page}
+                      </S.PaginationItem>
+                    ))}
+                    <S.PaginationItem
+                      className={`${
+                        pagination.reverse()[0] === currentPage && 'disabled'
+                      }`}
+                      onClick={() => {
+                        handleClick(currentPage + 1);
+                      }}
+                    >
+                      Próximo
+                    </S.PaginationItem>
+                  </ul>
+                </S.Pagination>
+              )}
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>

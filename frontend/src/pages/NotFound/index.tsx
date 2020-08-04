@@ -5,10 +5,14 @@ const NotFound: React.FC = () => (
     style={{
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'center',
       flexDirection: 'column',
+      height: '100vh',
+      width: '100vw',
     }}
   >
-    <h1 style={{ textAlign: 'center' }}>Not Found</h1>
+    <h1 style={{ textAlign: 'center' }}>Página não encontrada</h1>
+    <br />
     <button type="button">
       <a href="/" style={{ color: '#000', textDecoration: 'none' }}>
         Voltar para home

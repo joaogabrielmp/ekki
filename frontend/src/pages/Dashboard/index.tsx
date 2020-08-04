@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { format, parseISO, subHours } from 'date-fns';
 
-import api from '../../services/api';
 import formatMoney from '../../helpers/formatMoney';
+import api from '../../services/api';
 
 import Header from '../../components/Header';
 import createPagination from '../../components/Pagination/createPagination.js';
@@ -184,39 +184,43 @@ const Dashboard: React.FC = () => {
                 </tbody>
               </S.Table>
 
-              <S.Pagination>
-                <ul>
-                  <S.PaginationItem
-                    className={`${pagination[0] === currentPage && 'disabled'}`}
-                    onClick={() => {
-                      handleClick(currentPage - 1);
-                    }}
-                  >
-                    Anterior
-                  </S.PaginationItem>
-                  {pagination.map(page => (
+              {transfersAndTotal.total > 0 && (
+                <S.Pagination>
+                  <ul>
                     <S.PaginationItem
-                      className={`${currentPage === page && 'active'}`}
+                      className={`${
+                        pagination[0] === currentPage && 'disabled'
+                      }`}
                       onClick={() => {
-                        handleClick(page);
+                        handleClick(currentPage - 1);
                       }}
-                      key={page}
                     >
-                      {page}
+                      Anterior
                     </S.PaginationItem>
-                  ))}
-                  <S.PaginationItem
-                    className={`${
-                      pagination.reverse()[0] === currentPage && 'disabled'
-                    }`}
-                    onClick={() => {
-                      handleClick(currentPage + 1);
-                    }}
-                  >
-                    Próximo
-                  </S.PaginationItem>
-                </ul>
-              </S.Pagination>
+                    {pagination.map(page => (
+                      <S.PaginationItem
+                        className={`${currentPage === page && 'active'}`}
+                        onClick={() => {
+                          handleClick(page);
+                        }}
+                        key={page}
+                      >
+                        {page}
+                      </S.PaginationItem>
+                    ))}
+                    <S.PaginationItem
+                      className={`${
+                        pagination.reverse()[0] === currentPage && 'disabled'
+                      }`}
+                      onClick={() => {
+                        handleClick(currentPage + 1);
+                      }}
+                    >
+                      Próximo
+                    </S.PaginationItem>
+                  </ul>
+                </S.Pagination>
+              )}
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TransferContent>
