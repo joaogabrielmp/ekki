@@ -219,7 +219,7 @@ export const Pagination = styled.div`
 export const PaginationItem = styled.button`
   border: none;
   background: #ffa500;
-  padding: 10px 15px;
+  padding: 10px 14px;
   margin-right: 4px;
   border-radius: 4px;
   font-family: sans-serif;

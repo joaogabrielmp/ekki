@@ -95,10 +95,14 @@ const Dashboard: React.FC = () => {
       });
   }, [user_id, currentPage]);
 
+  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+
   const { pagination } = createPagination({
-    numberOfArticles: transfersAndTotal.total,
+    numberOfArticles: transfersAndTotal.total + 100,
     articlesPerPage: 10,
-    numberOfButtons: 8,
+    numberOfButtons: isMobile ? 2 : 8,
     currentPage,
   });
 
