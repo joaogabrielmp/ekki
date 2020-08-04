@@ -36,6 +36,8 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
     per_page,
     user_id,
   }: IFindAllBeneficiariesDTO): Promise<UserBeneficiary[]> {
+    const beneficiariesCount = await this.ormRepository.count({ user_id });
+
     const userBeneficiaries = await this.ormRepository.manager.query(
       `
         select
@@ -51,7 +53,7 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
       `,
     );
 
-    return userBeneficiaries;
+    return [{ beneficiariesCount }, userBeneficiaries];
   }
 
   public async findByUserAndBeneficiary({

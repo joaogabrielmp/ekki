@@ -4,10 +4,14 @@ import createPagination from './createPagination.js';
 
 import * as S from './styles';
 
-const Pagination: React.FC = () => {
+type PaginationProps = {
+  numberOfArticles: number;
+};
+
+const Pagination: React.FC<PaginationProps> = ({ numberOfArticles }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const numberOfArticles = 100;
+  // const numberOfArticles = 100;
   const articlesPerPage = 10;
   const numberOfButtons = 8;
 
@@ -37,6 +41,7 @@ const Pagination: React.FC = () => {
             onClick={() => {
               handleClick(page);
             }}
+            key={page}
           >
             {page}
           </S.PaginationItem>

@@ -86,6 +86,9 @@ const Dashboard: React.FC = () => {
     return formatMoney(limit);
   }, [user]);
 
+  // const numberOfArticles = transfers.length;
+  const numberOfArticles = 11;
+
   return (
     <>
       <Header />
@@ -138,7 +141,7 @@ const Dashboard: React.FC = () => {
                   ))}
                 </tbody>
               </S.Table>
-              <Pagination />
+              <Pagination numberOfArticles={numberOfArticles} />
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
