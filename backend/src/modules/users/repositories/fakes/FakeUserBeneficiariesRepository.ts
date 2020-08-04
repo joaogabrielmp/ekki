@@ -36,6 +36,12 @@ class FakeUserBeneficiariesRepository implements IUserBeneficiariesRepository {
     return isDeleted;
   }
 
+  public async findAllAndCountById(user_id: string): Promise<number> {
+    const total = this.userBeneficiaries.length;
+
+    return total;
+  }
+
   public async findAllByUser({
     page,
     per_page,

@@ -29,12 +29,15 @@ describe('FindAllUserBeneficiary', () => {
       user_id,
     });
 
-    expect(userBeneficiaries).toMatchObject([
-      {
-        id: 'a756ea69-5103-463f-8946-84e00e8e66e4',
-        beneficiary_id: '11dfae66-8495-4bd5-ad76-79f1d26f5f23',
-        user_id: 'cf41da34-a7c3-4c68-b79f-a42740aaec04',
-      },
-    ]);
+    expect(userBeneficiaries).toMatchObject({
+      total: 1,
+      userBeneficiaries: [
+        {
+          beneficiary_id: '11dfae66-8495-4bd5-ad76-79f1d26f5f23',
+          id: 'a756ea69-5103-463f-8946-84e00e8e66e4',
+          user_id: 'cf41da34-a7c3-4c68-b79f-a42740aaec04',
+        },
+      ],
+    });
   });
 });
