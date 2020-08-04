@@ -8,6 +8,7 @@ import Transfer from '@modules/transfers/entities/Transfer';
 export default interface ITransfersRepository {
   cancelTransfer(data: ICancelTransferDTO): Promise<Transfer>;
   findAccount(account_number: string): Promise<Account | undefined>;
+  findAllAndCountById(user_id: string): Promise<number>;
   findAllById(data: IFindAllTransfersDTO): Promise<Transfer[] | undefined>;
   findTransfer(data: IFindTransferDTO): Promise<Transfer | undefined>;
   processTransfer(data: IProcessTransferDTO): Promise<Transfer>;

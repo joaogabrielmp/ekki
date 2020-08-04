@@ -54,6 +54,12 @@ class FakeTransfersRepository implements ITransfersRepository {
     return findAccount;
   }
 
+  public async findAllAndCountById(user_id: string): Promise<number> {
+    const total = this.transfers.length;
+
+    return total;
+  }
+
   public async findAllById({
     page,
     per_page,

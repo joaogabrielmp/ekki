@@ -51,7 +51,8 @@ const Dashboard: React.FC = () => {
         },
       })
       .then(response => {
-        console.log(response.data);
+        const totalTransfers = response.data[0];
+        console.log(totalTransfers);
 
         const transfersFormatted = response.data.map(transfer => {
           return {
@@ -81,7 +82,6 @@ const Dashboard: React.FC = () => {
 
     return formatMoney(balance);
   }, [user]);
-
   const userLimit = useMemo(() => {
     const limit = user?.account.limit || 0;
 

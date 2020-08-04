@@ -42,15 +42,19 @@ class TransfersRepository implements ITransfersRepository {
     return account;
   }
 
+  public async findAllAndCountById(user_id: string): Promise<number> {
+    const totalTransfers = await this.ormTransferRepository.count({
+      send_user_id: user_id,
+    });
+
+    return totalTransfers;
+  }
+
   public async findAllById({
     page,
     per_page,
     user_id,
   }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
-    const transfersCount = await this.ormTransferRepository.count({
-      send_user_id: user_id,
-    });
-
     const transfers = await this.ormTransferRepository.manager.query(
       `
         select
@@ -67,7 +71,7 @@ class TransfersRepository implements ITransfersRepository {
       `,
     );
 
-    return [{ transfersCount }, transfers];
+    return transfers;
   }
 
   public async findTransfer({

@@ -38,15 +38,18 @@ describe('FindAllTransfers', () => {
       user_id,
     });
 
-    expect(transfers).toMatchObject([
-      {
-        id: 'a756ea69-5103-463f-8946-84e00e8e66e4',
-        balance: 1100,
-        receive_user_id: '1437216b-57ea-4dec-a1aa-12448c897e3b',
-        send_user_id: 'beec37e5-bb27-40d3-a1e0-c02faa9252d7',
-        status,
-        value,
-      },
-    ]);
+    expect(transfers).toMatchObject({
+      total: 1,
+      transfers: [
+        {
+          balance: 1100,
+          id: 'a756ea69-5103-463f-8946-84e00e8e66e4',
+          receive_user_id: '1437216b-57ea-4dec-a1aa-12448c897e3b',
+          send_user_id: 'beec37e5-bb27-40d3-a1e0-c02faa9252d7',
+          status: 'approved',
+          value: 1100,
+        },
+      ],
+    });
   });
 });
