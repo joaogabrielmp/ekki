@@ -51,6 +51,8 @@ const Dashboard: React.FC = () => {
         },
       })
       .then(response => {
+        console.log(response.data);
+
         const transfersFormatted = response.data.map(transfer => {
           return {
             ...transfer,

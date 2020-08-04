@@ -47,6 +47,10 @@ class TransfersRepository implements ITransfersRepository {
     per_page,
     user_id,
   }: IFindAllTransfersDTO): Promise<Transfer[] | undefined> {
+    const transfersCount = await this.ormTransferRepository.count({
+      send_user_id: user_id,
+    });
+
     const transfers = await this.ormTransferRepository.manager.query(
       `
         select
@@ -63,17 +67,7 @@ class TransfersRepository implements ITransfersRepository {
       `,
     );
 
-    // const transfers = await this.ormTransferRepository.find({
-    //   select: ['id', 'balance'],
-    //   skip: per_page * page - per_page,
-    //   take: per_page,
-    //   where: { send_user_id: user_id, status: TransferStatus.Approved },
-    //   order: {
-    //     updated_at: 'DESC',
-    //   },
-    // });
-
-    return transfers;
+    return [{ transfersCount }, transfers];
   }
 
   public async findTransfer({
