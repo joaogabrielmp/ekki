@@ -10,6 +10,10 @@
 
 <p align="center">
   <img alt="Ekki" src=".github/ekki_web.png" width="100%">
+  <img alt="Ekki" src=".github/ekki_ipad.png" width="46%">
+  <img alt="Ekki" src=".github/ekki_pixel_2.png" width="24.7%">
+</p>
+
 </p>
 
 ---
