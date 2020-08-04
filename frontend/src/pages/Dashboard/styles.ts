@@ -5,6 +5,29 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 40% 60%;
+
+  ${media.lessThan('large')`
+    grid-template-columns: 100%;
+  `}
+`;
+
+export const ResumeContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-top: 20px;
+  padding-left: 320px;
+
+  ${media.lessThan('huge')`
+    padding-top: 10px;
+    padding-left: 0px;
+  `}
+`;
+
+export const Title = styled.h2`
+  text-align: center;
+  font-size: 1.6rem;
 `;
 
 export const CardContent = styled.div`
@@ -13,12 +36,12 @@ export const CardContent = styled.div`
   justify-content: space-around;
   align-items: center;
 
-  padding-top: 20px;
-  padding-left: 320px;
-
-  h2 {
-    text-align: center;
-  }
+  ${media.lessThan('large')`
+    display: grid;
+    justify-content: center;
+    grid-template-columns: auto auto;
+    /* background-color: #2196F3; */
+  `}
 `;
 
 export const Card = styled.div`
@@ -34,29 +57,29 @@ export const Card = styled.div`
   border-radius: 10px;
   background: #F5F5F5;
 
-  ${media.lessThan('huge')`
-    /* width: 26%; */
-  `}
-
   ${media.lessThan('large')`
-    /* width: 50%; */
+    width: 75%;
   `}
 
   ${media.lessThan('medium')`
-    /* width: 50%; */
+    width: 250px;
   `}
 
   ${media.lessThan('small')`
-    /* width: 50%; */
+    width: 160px;
   `}
 
   h4 {
     color: #000;
     font-size: 1.4rem;
 
-    @media screen and (max-width: 1395px) {
+    ${media.lessThan('huge')`
       font-size: 1.2rem;
-    }
+    `}
+
+    ${media.lessThan('small')`
+      font-size: 1.1rem;
+    `}
   }
 
   p {
@@ -64,6 +87,10 @@ export const Card = styled.div`
     font-size: 1.4rem;
     text-align: center;
     line-height: 30px;
+
+    ${media.lessThan('small')`
+      font-size: 1.1rem;
+    `}
   }
 `;
 
@@ -82,6 +109,7 @@ export const Button = styled(Link)`
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
+  text-align: center;
 
   transition: 0.3s ease all;
 
@@ -89,20 +117,40 @@ export const Button = styled(Link)`
     background: #ffa500;
     color: #f5f5f5;
   }
+
+  ${media.lessThan('large')`
+    width: 75%;
+  `}
+
+  ${media.lessThan('medium')`
+    font-size: 1.2rem;
+    width: 250px;
+  `}
+
+  ${media.lessThan('small')`
+    width: 160px;
+    font-size: 1.1rem;
+  `}
 `;
 
-export const TextContent = styled.div`
-  text-align: center;
+export const TransferContent = styled.div`
   padding-top: 20px;
-`;
 
-export const Title = styled.h2`
-  font-size: 1.6rem;
+  ${media.lessThan('huge')`
+    padding-right: 20px;
+  `}
+
+  ${media.lessThan('large')`
+    padding-bottom: 30px;
+    padding-right: 0px;
+  `}
 `;
 
 export const TransferCardContent = styled.div`
   display: flex;
   justify-content: center;
+
+  text-align: center;
 `;
 
 export const TransferCard = styled.div`
@@ -111,6 +159,14 @@ export const TransferCard = styled.div`
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
+
+  ${media.lessThan('medium')`
+    width: 700px;
+  `}
+
+  ${media.lessThan('small')`
+    width: 350px;
+  `}
 `;
 
 export const Table = styled.table`
@@ -120,11 +176,6 @@ export const Table = styled.table`
   color: #000;
   border: none;
   border-collapse: collapse;
-
-  th,
-  td {
-    padding: 10px 80px;
-  }
 
   thead {
     width: 100%;

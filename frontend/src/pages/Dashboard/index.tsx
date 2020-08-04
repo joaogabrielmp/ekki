@@ -102,7 +102,9 @@ const Dashboard: React.FC = () => {
   });
 
   const userName = useMemo(() => {
-    return user?.name || 'Usuário';
+    const name = user?.name.split(' ').slice(0, 1).join(' ');
+
+    return name || 'Usuário';
   }, [user]);
 
   const userAccount = useMemo(() => {
@@ -124,34 +126,37 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      {/* <S.Container>
-        <S.CardContent>
+      <S.Container>
+        <S.ResumeContent>
           <S.Title>Resumo</S.Title>
-          <S.Card>
-            <h4>
-              <b>{userName}</b>
-            </h4>
-            <p>Conta: {userAccount}</p>
-          </S.Card>
 
-          <S.Card>
-            <h4>
-              <b>Saldo atual</b>
-            </h4>
-            <p>{userBalance}</p>
-          </S.Card>
+          <S.CardContent>
+            <S.Card>
+              <h4>
+                <b>{userName}</b>
+              </h4>
+              <p>Conta: {userAccount}</p>
+            </S.Card>
 
-          <S.Card>
-            <h4>
-              <b>Limite</b>
-            </h4>
-            <p>{userLimit}</p>
-          </S.Card>
+            <S.Card>
+              <h4>
+                <b>Saldo atual</b>
+              </h4>
+              <p>{userBalance}</p>
+            </S.Card>
 
-          <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
-        </S.CardContent>
+            <S.Card>
+              <h4>
+                <b>Limite</b>
+              </h4>
+              <p>{userLimit}</p>
+            </S.Card>
 
-        <S.TextContent>
+            <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
+          </S.CardContent>
+        </S.ResumeContent>
+
+        <S.TransferContent>
           <S.Title>Histórico de transferências</S.Title>
           <S.TransferCardContent>
             <S.TransferCard>
@@ -209,8 +214,8 @@ const Dashboard: React.FC = () => {
               </S.Pagination>
             </S.TransferCard>
           </S.TransferCardContent>
-        </S.TextContent>
-      </S.Container> */}
+        </S.TransferContent>
+      </S.Container>
     </>
   );
 };
