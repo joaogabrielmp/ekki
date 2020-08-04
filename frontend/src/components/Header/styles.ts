@@ -13,14 +13,23 @@ export const HeaderContent = styled.div`
   justify-content: center;
   align-items: center;
 
-  max-width: 1120px;
-  margin: 0 auto;
-
-  ${media.lessThan('huge')`
-    /* padding: 0 110px 0; */
-  `}
-
   > img {
     width: 120px;
+
+    ${media.lessThan('huge')`
+      width: 110px;
+    `}
+
+    ${media.lessThan('large')`
+      width: 90px;
+    `}
+
+    ${media.lessThan('medium')`
+      width: 70px;
+    `}
+
+    ${media.lessThan('small')`
+      width: 60px;
+    `}
   }
 `;

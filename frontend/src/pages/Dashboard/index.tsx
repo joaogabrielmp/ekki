@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <S.Container>
+      {/* <S.Container>
         <S.CardContent>
           <S.Title>Resumo</S.Title>
           <S.Card>
@@ -210,7 +210,7 @@ const Dashboard: React.FC = () => {
             </S.TransferCard>
           </S.TransferCardContent>
         </S.TextContent>
-      </S.Container>
+      </S.Container> */}
     </>
   );
 };
