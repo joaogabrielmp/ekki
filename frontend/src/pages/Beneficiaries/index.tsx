@@ -45,7 +45,9 @@ const Beneficiaries: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleClick = (page: number): void => setCurrentPage(page);
+  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
 
   useEffect(() => {
     api
@@ -77,10 +79,6 @@ const Beneficiaries: React.FC = () => {
       });
   }, [user_id, currentPage]);
 
-  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-
   const { pagination } = createPagination({
     numberOfArticles: beneficiariesAndTotal.total,
     articlesPerPage: 10,
@@ -88,33 +86,13 @@ const Beneficiaries: React.FC = () => {
     currentPage,
   });
 
-  // const beneficiaryName = useMemo(() => {
-  //   const name = user?.name.split(' ').slice(0, 1).join(' ');
-
-  //   return name || 'Usuário';
-  // }, [user]);
-
-  // const beneficiaryAccount = useMemo(() => {
-  //   return user?.account.account_number || '000000-0';
-  // }, [user]);
-
-  // const beneficiaryBalance = useMemo(() => {
-  //   const balance = user?.account.balance || 0;
-
-  //   return formatMoney(balance);
-  // }, [user]);
-
-  // const beneficiaryLimit = useMemo(() => {
-  //   const limit = user?.account.limit || 0;
-
-  //   return formatMoney(limit);
-  // }, [user]);
+  const handleClick = (page: number): void => setCurrentPage(page);
 
   return (
     <>
       <Header />
       <S.Container>
-        <S.TextContent>
+        <S.Content>
           <S.ButtonContent>
             <S.Button to="/new">Novo</S.Button>
             <S.Button to="/">Transferir</S.Button>
@@ -122,8 +100,8 @@ const Beneficiaries: React.FC = () => {
             <S.Button to="/">Voltar</S.Button>
           </S.ButtonContent>
 
-          <S.TransferCardContent>
-            <S.TransferCard>
+          <S.BeneficiaryContent>
+            <S.BeneficiaryCard>
               <S.Table>
                 <thead>
                   <tr>
@@ -182,9 +160,9 @@ const Beneficiaries: React.FC = () => {
                   </ul>
                 </S.Pagination>
               )}
-            </S.TransferCard>
-          </S.TransferCardContent>
-        </S.TextContent>
+            </S.BeneficiaryCard>
+          </S.BeneficiaryContent>
+        </S.Content>
       </S.Container>
     </>
   );

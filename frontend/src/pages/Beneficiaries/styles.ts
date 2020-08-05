@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
@@ -8,11 +9,7 @@ export const Container = styled.div`
   padding-top: 20px;
 `;
 
-export const Content = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+export const Content = styled.div``;
 
 export const ButtonContent = styled.div`
   display: flex;
@@ -42,27 +39,40 @@ export const Button = styled(Link)`
     background: #ffa500;
     color: #f5f5f5;
   }
+
+  ${media.lessThan('small')`
+    width: 80px;
+    height: 40px;
+    font-size: 0.8rem;
+  `}
 `;
 
-export const TextContent = styled.div`
+export const BeneficiaryContent = styled.div`
+  display: flex;
+  justify-content: center;
+
   text-align: center;
 `;
 
-export const Title = styled.h2`
-  font-size: 1.6rem;
-`;
-
-export const TransferCardContent = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-export const TransferCard = styled.div`
+export const BeneficiaryCard = styled.div`
   width: 900px;
-  height: 680px;
+  height: 720px;
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
+
+  ${media.lessThan('medium')`
+    width: 700px;
+    margin-bottom: 25px;
+  `}
+
+  ${media.lessThan('small')`
+    width: 380px;
+  `}
+
+  @media only screen and (max-width: 376px) {
+    width: 350px;
+  }
 `;
 
 export const Table = styled.table`
@@ -73,19 +83,16 @@ export const Table = styled.table`
   border: none;
   border-collapse: collapse;
 
-  th,
-  td {
-    padding: 10px 80px;
-  }
-
   thead {
     width: 100%;
     border-bottom: 2px solid;
+    font-size: 0.9rem;
   }
 
   tbody {
-    height: 580px;
+    height: 620px;
     width: 100%;
+    font-size: 0.9rem;
   }
 
   tr > th {
