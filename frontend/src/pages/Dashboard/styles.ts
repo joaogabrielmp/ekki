@@ -62,11 +62,11 @@ export const Card = styled.div`
   background: #F5F5F5;
 
   ${media.lessThan('large')`
-    width: 75%;
+    width: 350px;
   `}
 
   ${media.lessThan('medium')`
-    width: 250px;
+    width: 220px;
   `}
 
   ${media.lessThan('small')`
@@ -123,12 +123,12 @@ export const Button = styled(Link)`
   }
 
   ${media.lessThan('large')`
-    width: 75%;
+    width: 350px;
   `}
 
   ${media.lessThan('medium')`
     font-size: 1.2rem;
-    width: 250px;
+    width: 220px;
   `}
 
   ${media.lessThan('small')`

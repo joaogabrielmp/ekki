@@ -40,6 +40,18 @@ export const Button = styled(Link)`
     color: #f5f5f5;
   }
 
+  @media (max-width: 680px) {
+    width: 120px;
+  }
+
+  @media (max-width: 575px) {
+    width: 110px;
+  }
+
+  @media (max-width: 525px) {
+    width: 100px;
+  }
+
   ${media.lessThan('small')`
     width: 80px;
     height: 40px;
@@ -61,10 +73,26 @@ export const BeneficiaryCard = styled.div`
   border-radius: 10px;
   background: #f5f5f5;
 
-  ${media.lessThan('medium')`
-    width: 700px;
+  ${media.lessThan('large')`
+    width: 760px;
     margin-bottom: 25px;
   `}
+
+  ${media.lessThan('medium')`
+    width: 660px;
+  `}
+
+  @media (max-width: 680px) {
+    width: 560px;
+  }
+
+  @media (max-width: 575px) {
+    width: 500px;
+  }
+
+  @media (max-width: 525px) {
+    width: 480px;
+  }
 
   ${media.lessThan('small')`
     width: 380px;
