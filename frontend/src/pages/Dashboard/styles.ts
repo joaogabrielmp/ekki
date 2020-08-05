@@ -19,9 +19,25 @@ export const ResumeContent = styled.div`
   padding-top: 20px;
   padding-left: 320px;
 
+  @media (max-width: 1600px) {
+    padding-left: 280px;
+  }
+
+  @media (max-width: 1550px) {
+    padding-left: 240px;
+  }
+
+  @media (max-width: 1500px) {
+    padding-left: 200px;
+  }
+
   ${media.lessThan('huge')`
     padding-top: 10px;
-    padding-left: 0px;
+    padding-left: 100px;
+  `}
+
+  ${media.lessThan('large')`
+    padding-left: 0;
   `}
 `;
 
@@ -44,7 +60,6 @@ export const CardContent = styled.div`
     display: grid;
     justify-content: center;
     grid-template-columns: auto auto;
-    /* background-color: #2196F3; */
   `}
 `;
 
