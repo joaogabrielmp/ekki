@@ -25,9 +25,11 @@ export default class UsersController {
 
     const deleteBeneficiary = container.resolve(DeleteBeneficiary);
 
-    const message = await deleteBeneficiary.execute(beneficiary_id);
+    const isDeleted = await deleteBeneficiary.execute(beneficiary_id);
 
-    return response.json({ message });
+    const code = isDeleted ? 200 : 404;
+
+    return response.sendStatus(code);
   }
 
   public async getAll(request: Request, response: Response): Promise<Response> {

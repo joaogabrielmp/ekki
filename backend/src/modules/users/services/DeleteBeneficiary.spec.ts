@@ -20,7 +20,7 @@ describe('DeleteBeneficiary', () => {
 
     const isDeleted = await deleteBeneficiary.execute(beneficiary_id);
 
-    expect(isDeleted).toBe('Beneficiary deleted');
+    expect(isDeleted).toBe(true);
   });
 
   it('should not be able to delete beneficiary with invalid id', async () => {
@@ -33,6 +33,6 @@ describe('DeleteBeneficiary', () => {
       'non-existing-beneficiary-id',
     );
 
-    expect(isDeleted).toBe('Beneficiary not found');
+    expect(isDeleted).toBe(false);
   });
 });

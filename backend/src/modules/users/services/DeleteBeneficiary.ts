@@ -9,12 +9,12 @@ class DeleteBeneficiary {
     private userBeneficiariesRepository: IUserBeneficiariesRepository,
   ) {}
 
-  public async execute(beneficiary_id: string): Promise<string> {
+  public async execute(beneficiary_id: string): Promise<boolean> {
     const isDeleted = await this.userBeneficiariesRepository.delete(
       beneficiary_id,
     );
 
-    return isDeleted ? 'Beneficiary deleted' : 'Beneficiary not found';
+    return isDeleted;
   }
 }
 
