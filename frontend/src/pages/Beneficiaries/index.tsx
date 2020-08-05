@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import formatMoney from '../../helpers/formatMoney';
 import api from '../../services/api';

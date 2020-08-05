@@ -1,8 +1,9 @@
-const formatMoney = (int: number): string => {
-  let balance = `${int}`;
-  balance = balance.replace('.', ',');
+const formatMoney = (value: number): string => {
+  const numero = Number(value).toFixed(2).split('.');
+  numero[0] = `R$ ${numero[0].split(/(?=(?:...)*$)/).join('.')}`;
+  const balance = numero.join(',');
 
-  return `R$ ${balance}`;
+  return balance;
 };
 
 export default formatMoney;

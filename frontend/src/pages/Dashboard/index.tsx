@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format, parseISO, subHours } from 'date-fns';
 
 import formatMoney from '../../helpers/formatMoney';
@@ -17,7 +17,9 @@ interface User {
     id: string;
     account_number: string;
     balance: number;
+    balanceFormatted: string;
     limit: number;
+    limitFormatted: string;
   };
 }
 
@@ -56,11 +58,23 @@ const Dashboard: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleClick = (page: number): void => setCurrentPage(page);
-
   useEffect(() => {
     api.get<User>(`/users/${user_id}`).then(response => {
-      setUser(response.data);
+      const userFormatted = {
+        name: response.data.name.split(' ').slice(0, 1).join(' '),
+        cpf: response.data.cpf,
+        cellphone: response.data.cellphone,
+        account: {
+          id: response.data.account.id,
+          account_number: response.data.account.account_number,
+          balance: response.data.account.balance,
+          balanceFormatted: formatMoney(response.data.account.balance),
+          limit: response.data.account.limit,
+          limitFormatted: formatMoney(response.data.account.limit),
+        },
+      };
+
+      setUser(userFormatted);
     });
   }, [user_id]);
 
@@ -106,27 +120,7 @@ const Dashboard: React.FC = () => {
     currentPage,
   });
 
-  const userName = useMemo(() => {
-    const name = user?.name.split(' ').slice(0, 1).join(' ');
-
-    return name || 'Usuário';
-  }, [user]);
-
-  const userAccount = useMemo(() => {
-    return user?.account.account_number || '000000-0';
-  }, [user]);
-
-  const userBalance = useMemo(() => {
-    const balance = user?.account.balance || 0;
-
-    return formatMoney(balance);
-  }, [user]);
-
-  const userLimit = useMemo(() => {
-    const limit = user?.account.limit || 0;
-
-    return formatMoney(limit);
-  }, [user]);
+  const handleClick = (page: number): void => setCurrentPage(page);
 
   return (
     <>
@@ -138,23 +132,23 @@ const Dashboard: React.FC = () => {
           <S.CardContent>
             <S.Card>
               <h4>
-                <b>{userName}</b>
+                <b>{user?.name}</b>
               </h4>
-              <p>Conta: {userAccount}</p>
+              <p>Conta: {user?.account.account_number}</p>
             </S.Card>
 
             <S.Card>
               <h4>
                 <b>Saldo atual</b>
               </h4>
-              <p>{userBalance}</p>
+              <p>{user?.account.balanceFormatted}</p>
             </S.Card>
 
             <S.Card>
               <h4>
                 <b>Limite</b>
               </h4>
-              <p>{userLimit}</p>
+              <p>{user?.account.limitFormatted}</p>
             </S.Card>
 
             <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
