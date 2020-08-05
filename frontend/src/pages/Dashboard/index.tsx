@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
     currentPage,
   });
 
-  const handleClick = (page: number): void => setCurrentPage(page);
+  const handlePaginationClick = (page: number): void => setCurrentPage(page);
 
   return (
     <>
@@ -186,7 +186,7 @@ const Dashboard: React.FC = () => {
                         pagination[0] === currentPage && 'disabled'
                       }`}
                       onClick={() => {
-                        handleClick(currentPage - 1);
+                        handlePaginationClick(currentPage - 1);
                       }}
                     >
                       Anterior
@@ -195,7 +195,7 @@ const Dashboard: React.FC = () => {
                       <S.PaginationItem
                         className={`${currentPage === page && 'active'}`}
                         onClick={() => {
-                          handleClick(page);
+                          handlePaginationClick(page);
                         }}
                         key={page}
                       >
@@ -207,7 +207,7 @@ const Dashboard: React.FC = () => {
                         pagination.reverse()[0] === currentPage && 'disabled'
                       }`}
                       onClick={() => {
-                        handleClick(currentPage + 1);
+                        handlePaginationClick(currentPage + 1);
                       }}
                     >
                       Próximo

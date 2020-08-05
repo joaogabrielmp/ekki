@@ -121,6 +121,10 @@ export const Table = styled.table`
     height: 620px;
     width: 100%;
     font-size: 0.9rem;
+
+    tr:hover {
+      background-color: #ffa500;
+    }
   }
 
   tr > th {
@@ -131,6 +135,7 @@ export const Table = styled.table`
   tr > td {
     width: 100%;
     height: 60px;
+    cursor: pointer;
   }
 
   tr:nth-child(even) {
@@ -189,4 +194,52 @@ export const PaginationItem = styled.button`
     background: #dcdcdc;
     pointer-events: none;
   }
+`;
+
+export const ModalContent = styled.div``;
+
+export const ModalTitle = styled.h2`
+  text-align: center;
+
+  padding-bottom: 20px;
+`;
+
+export const ModalButtonContent = styled.div``;
+
+export const ModalButton = styled.button`
+  color: #000;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  font-weight: bold;
+  width: 140px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10px;
+  background: #f5f5f5;
+
+  transition: 0.3s ease all;
+
+  &:hover {
+    background: #ffa500;
+    color: #f5f5f5;
+  }
+
+  @media (max-width: 680px) {
+    width: 120px;
+  }
+
+  @media (max-width: 575px) {
+    width: 110px;
+  }
+
+  @media (max-width: 525px) {
+    width: 100px;
+  }
+
+  ${media.lessThan('small')`
+    width: 80px;
+    height: 40px;
+    font-size: 0.8rem;
+  `}
 `;

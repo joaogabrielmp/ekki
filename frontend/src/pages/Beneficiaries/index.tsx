@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 import formatMoney from '../../helpers/formatMoney';
 import api from '../../services/api';
@@ -24,6 +25,15 @@ interface Beneficiary {
   ];
 }
 
+interface SelectBeneficiary {
+  beneficiary_id: string;
+  name: string;
+  account_id: string;
+  account_number: string;
+}
+
+Modal.setAppElement('#root');
+
 const Beneficiaries: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
 
@@ -43,11 +53,14 @@ const Beneficiaries: React.FC = () => {
     ],
   });
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectBenficiary, setSelectBeneficiary] = useState<SelectBeneficiary>({
+    beneficiary_id: '',
+    name: '',
+    account_id: '',
+    account_number: '',
+  });
 
-  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     api
@@ -63,7 +76,6 @@ const Beneficiaries: React.FC = () => {
           beneficiary => {
             return {
               ...beneficiary,
-              name: beneficiary.name.split(' ').slice(0, 1).join(' '),
               balanceFormatted: formatMoney(beneficiary.balance),
               limitFormatted: formatMoney(beneficiary.limit),
             };
@@ -79,6 +91,10 @@ const Beneficiaries: React.FC = () => {
       });
   }, [user_id, currentPage]);
 
+  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+
   const { pagination } = createPagination({
     numberOfArticles: beneficiariesAndTotal.total,
     articlesPerPage: 10,
@@ -86,7 +102,30 @@ const Beneficiaries: React.FC = () => {
     currentPage,
   });
 
-  const handleClick = (page: number): void => setCurrentPage(page);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleModal = (value: boolean, data?: SelectBeneficiary): void => {
+    if (data) {
+      setSelectBeneficiary(data);
+    }
+
+    setModalIsOpen(value);
+  };
+
+  const handleDeleteBeneficiary = useCallback(async (id: string) => {
+    try {
+      const response = await api.delete(`/users/beneficiaries/${id}1`);
+
+      alert(response);
+      handleModal(false);
+    } catch (error) {
+      alert(error);
+    }
+  }, []);
+
+  const handlePaginationClick = (page: number): void => setCurrentPage(page);
+
+  const { beneficiary_id } = selectBenficiary;
 
   return (
     <>
@@ -94,13 +133,52 @@ const Beneficiaries: React.FC = () => {
       <S.Container>
         <S.Content>
           <S.ButtonContent>
-            <S.Button to="/new">Novo</S.Button>
-            <S.Button to="/">Transferir</S.Button>
-            <S.Button to="/">Excluir</S.Button>
+            <S.Button to="/">Novo</S.Button>
             <S.Button to="/">Voltar</S.Button>
           </S.ButtonContent>
 
           <S.BeneficiaryContent>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={() => handleModal(false)}
+              style={{
+                content: {
+                  backgroundColor: '#312E38',
+                  width: '30%',
+                  height: '25%',
+                  margin: 'auto',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '10px',
+                },
+              }}
+            >
+              <S.ModalContent>
+                <S.ModalTitle>Opções</S.ModalTitle>
+                <S.ModalButtonContent>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() => handleModal(false)}
+                  >
+                    Transferir
+                  </S.ModalButton>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() => handleDeleteBeneficiary(beneficiary_id)}
+                  >
+                    Excluir
+                  </S.ModalButton>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() => handleModal(false)}
+                  >
+                    Voltar
+                  </S.ModalButton>
+                </S.ModalButtonContent>
+              </S.ModalContent>
+            </Modal>
+
             <S.BeneficiaryCard>
               <S.Table>
                 <thead>
@@ -113,7 +191,10 @@ const Beneficiaries: React.FC = () => {
                 </thead>
                 <tbody>
                   {beneficiariesAndTotal.userBeneficiaries.map(beneficiary => (
-                    <tr key={beneficiary.beneficiary_id}>
+                    <tr
+                      key={beneficiary.beneficiary_id}
+                      onClick={() => handleModal(true, beneficiary)}
+                    >
                       <td>{beneficiary.name}</td>
                       <td>{beneficiary.account_number}</td>
                       <td>{beneficiary.balanceFormatted}</td>
@@ -131,7 +212,7 @@ const Beneficiaries: React.FC = () => {
                         pagination[0] === currentPage && 'disabled'
                       }`}
                       onClick={() => {
-                        handleClick(currentPage - 1);
+                        handlePaginationClick(currentPage - 1);
                       }}
                     >
                       Anterior
@@ -140,7 +221,7 @@ const Beneficiaries: React.FC = () => {
                       <S.PaginationItem
                         className={`${currentPage === page && 'active'}`}
                         onClick={() => {
-                          handleClick(page);
+                          handlePaginationClick(page);
                         }}
                         key={page}
                       >
@@ -152,7 +233,7 @@ const Beneficiaries: React.FC = () => {
                         pagination.reverse()[0] === currentPage && 'disabled'
                       }`}
                       onClick={() => {
-                        handleClick(currentPage + 1);
+                        handlePaginationClick(currentPage + 1);
                       }}
                     >
                       Próximo
