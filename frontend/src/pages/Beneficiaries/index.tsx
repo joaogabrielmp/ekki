@@ -65,7 +65,7 @@ const Beneficiaries: React.FC = () => {
               ...beneficiary,
               name: beneficiary.name.split(' ').slice(0, 1).join(' '),
               balanceFormatted: formatMoney(beneficiary.balance),
-              limitFormatted: formatMoney(beneficiary.balance),
+              limitFormatted: formatMoney(beneficiary.limit),
             };
           },
         );
