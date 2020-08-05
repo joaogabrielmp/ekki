@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-
-import formatMoney from '../../helpers/formatMoney';
-import api from '../../services/api';
 
 import Header from '../../components/Header';
 import createPagination from '../../components/Pagination/createPagination.js';
+import formatMoney from '../../helpers/formatMoney';
+import api from '../../services/api';
 
 import * as S from './styles';
 
@@ -112,17 +111,6 @@ const Beneficiaries: React.FC = () => {
     setModalIsOpen(value);
   };
 
-  const handleDeleteBeneficiary = useCallback(async (id: string) => {
-    try {
-      const response = await api.delete(`/users/beneficiaries/${id}1`);
-
-      alert(response);
-      handleModal(false);
-    } catch (error) {
-      alert(error);
-    }
-  }, []);
-
   const handlePaginationClick = (page: number): void => setCurrentPage(page);
 
   const { beneficiary_id } = selectBenficiary;
@@ -144,31 +132,21 @@ const Beneficiaries: React.FC = () => {
               style={{
                 content: {
                   backgroundColor: '#312E38',
-                  width: '30%',
-                  height: '25%',
+                  width: isMobile ? '350px' : '500px',
+                  height: '35%',
                   margin: 'auto',
+                  borderRadius: '10px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius: '10px',
                 },
               }}
             >
               <S.ModalContent>
                 <S.ModalTitle>Opções</S.ModalTitle>
                 <S.ModalButtonContent>
-                  <S.ModalButton
-                    type="button"
-                    onClick={() => handleModal(false)}
-                  >
-                    Transferir
-                  </S.ModalButton>
-                  <S.ModalButton
-                    type="button"
-                    onClick={() => handleDeleteBeneficiary(beneficiary_id)}
-                  >
-                    Excluir
-                  </S.ModalButton>
+                  <S.Button to="/beneficiaries/delete">Excluir</S.Button>
+                  <S.Button to="/beneficiaries/transfer">Transferir</S.Button>
                   <S.ModalButton
                     type="button"
                     onClick={() => handleModal(false)}

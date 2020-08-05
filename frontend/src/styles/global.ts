@@ -38,4 +38,27 @@ export default createGlobalStyle`
   tbody::-webkit-scrollbar-thumb {
     background-color: #ff7700;
   }
+
+  .ReactModal__Overlay {
+      z-index: 99;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(255,255,255,0.75);
+  }
+
+  .ReactModal__Content {
+      position: absolute;
+      left: 2.5rem;
+      right: 2.5rem;
+      top: 2.5rem;
+      bottom: 2.5rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px 0 rgba(0,0,97,0.5);
+      overflow: auto;
+      border-radius: 4px;
+      outline: none;
+  }
 `;

@@ -204,7 +204,10 @@ export const ModalTitle = styled.h2`
   padding-bottom: 20px;
 `;
 
-export const ModalButtonContent = styled.div``;
+export const ModalButtonContent = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 export const ModalButton = styled.button`
   color: #000;
