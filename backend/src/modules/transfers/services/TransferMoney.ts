@@ -60,7 +60,7 @@ class TransferMoney {
       value,
     });
 
-    let debitAcccount = true;
+    let debitAccount = true;
 
     if (checksTransfer) {
       const { updated_at } = checksTransfer;
@@ -78,12 +78,12 @@ class TransferMoney {
           transfer_id: checksTransfer.id,
         });
 
-        debitAcccount = false;
+        debitAccount = false;
       }
     }
 
     const transfer = await this.transfersRepository.processTransfer({
-      debitAcccount,
+      debitAccount,
       debitLimit,
       receive_account_number,
       receive_user_id,

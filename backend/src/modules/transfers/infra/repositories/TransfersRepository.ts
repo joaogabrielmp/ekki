@@ -98,7 +98,7 @@ class TransfersRepository implements ITransfersRepository {
   }
 
   public async processTransfer({
-    debitAcccount,
+    debitAccount,
     debitLimit,
     receive_account_number,
     receive_user_id,
@@ -123,7 +123,7 @@ class TransfersRepository implements ITransfersRepository {
     try {
       await queryRunner.manager.save(transfer);
 
-      if (debitAcccount) {
+      if (debitAccount) {
         if (debitLimit) {
           await queryRunner.manager.getRepository(Account).update(
             { account_number: send_account_number },
