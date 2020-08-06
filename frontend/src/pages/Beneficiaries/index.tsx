@@ -43,9 +43,7 @@ interface TransferData {
 Modal.setAppElement('#root');
 
 const Beneficiaries: React.FC = () => {
-  // const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
-
-  const { user } = useUser();
+  const { user, fetchUser } = useUser();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -104,6 +102,10 @@ const Beneficiaries: React.FC = () => {
         });
     }
   }, [user.id, currentPage, refresh]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser, refresh]);
 
   const { pagination } = createPagination({
     numberOfArticles: beneficiariesAndTotal.total,
@@ -165,37 +167,58 @@ const Beneficiaries: React.FC = () => {
             placeholder: 'Informe valor a ser transferido',
             value: 0,
             type: 'number',
+            // input mask
           },
         },
-      })
-        .then(async value => {
-          if (value > 0) {
-            // input mask
+      }).then(value => {
+        if (value > 0) {
+          let message = `Seu saldo atual é ${user.account?.balanceFormatted}.`;
 
-            await api.post('/transfers', {
-              receive_account_number: data.account_number,
-              receive_user_id: data.beneficiary_id,
-              send_account_number: user.account?.account_number,
-              send_user_id: user.id,
-              value: Number(value),
-            });
-
-            setRefresh(state => !state);
-
-            swal('Valor transferido!', {
-              icon: 'success',
-            });
+          if (Number(value) > user.account?.balance) {
+            message = `${message} Será usado seu limite para completar a a transação. Limite atual: ${user.account?.limitFormatted}`;
           }
-        })
-        .catch(err => {
-          if (err) {
-            swal(
-              'Erro',
-              'Ocorreu uma falha ao transferir o valor. Entre em contato com o suporte.',
-              'error',
-            );
-          }
-        });
+
+          swal({
+            title: 'Confirma a transferência?',
+            text: message,
+            buttons: ['Cancelar', 'Tudo bem, transferir!'],
+          })
+            .then(async isConfirmed => {
+              if (isConfirmed) {
+                await api.post('/transfers', {
+                  receive_account_number: data.account_number,
+                  receive_user_id: data.beneficiary_id,
+                  send_account_number: user.account?.account_number,
+                  send_user_id: user.id,
+                  value: Number(value),
+                });
+
+                setRefresh(state => !state);
+
+                swal('Valor transferido!', {
+                  icon: 'success',
+                });
+              }
+            })
+            .catch(err => {
+              if (err) {
+                if (err.response.data.message === 'Balance not available') {
+                  swal(
+                    '',
+                    'Saldo indisponível. A transação foi cancelada',
+                    'error',
+                  );
+                } else {
+                  swal(
+                    'Erro',
+                    'Ocorreu uma falha ao remover o favorecido. Entre em contato com o suporte.',
+                    'error',
+                  );
+                }
+              }
+            });
+        }
+      });
     },
     [user],
   );

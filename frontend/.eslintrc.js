@@ -40,6 +40,7 @@ module.exports = {
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
     "import/no-duplicates": "off",
+    "react/jsx-curly-newline": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": [
