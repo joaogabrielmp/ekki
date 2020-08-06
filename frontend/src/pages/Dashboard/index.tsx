@@ -10,20 +10,6 @@ import api from '../../services/api';
 
 import * as S from './styles';
 
-interface User {
-  name: string;
-  cpf: string;
-  cellphone: string;
-  account: {
-    id: string;
-    account_number: string;
-    balance: number;
-    balanceFormatted: string;
-    limit: number;
-    limitFormatted: string;
-  };
-}
-
 interface Transfer {
   total: number;
   transfers: [

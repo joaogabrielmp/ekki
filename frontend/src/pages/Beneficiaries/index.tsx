@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import createPagination from '../../components/Pagination/createPagination.js';
 import checkIsMobile from '../../helpers/checkIsMobile';
 import formatMoney from '../../helpers/formatMoney';
+import { useUser } from '../../hooks/user';
 import api from '../../services/api';
 
 import * as S from './styles';
@@ -42,7 +43,9 @@ interface TransferData {
 Modal.setAppElement('#root');
 
 const Beneficiaries: React.FC = () => {
-  const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
+  // const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
+
+  const { user } = useUser();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -72,33 +75,35 @@ const Beneficiaries: React.FC = () => {
   });
 
   useEffect(() => {
-    api
-      .get<Beneficiary>(`/users/beneficiaries/${user_id}`, {
-        params: {
-          page: currentPage,
-          per_page: 10,
-        },
-      })
-      .then(response => {
-        const { total } = response.data;
-        const allBeneficiaries = response.data.userBeneficiaries.map(
-          beneficiary => {
-            return {
-              ...beneficiary,
-              balanceFormatted: formatMoney(beneficiary.balance),
-              limitFormatted: formatMoney(beneficiary.limit),
-            };
+    if (user.id) {
+      api
+        .get<Beneficiary>(`/users/beneficiaries/${user.id}`, {
+          params: {
+            page: currentPage,
+            per_page: 10,
           },
-        );
+        })
+        .then(response => {
+          const { total } = response.data;
+          const allBeneficiaries = response.data.userBeneficiaries.map(
+            beneficiary => {
+              return {
+                ...beneficiary,
+                balanceFormatted: formatMoney(beneficiary.balance),
+                limitFormatted: formatMoney(beneficiary.limit),
+              };
+            },
+          );
 
-        const beneficiariesFormatted = {
-          total,
-          userBeneficiaries: allBeneficiaries,
-        };
+          const beneficiariesFormatted = {
+            total,
+            userBeneficiaries: allBeneficiaries,
+          };
 
-        setBeneficiariesAndTotal(beneficiariesFormatted);
-      });
-  }, [user_id, currentPage, refresh]);
+          setBeneficiariesAndTotal(beneficiariesFormatted);
+        });
+    }
+  }, [user.id, currentPage, refresh]);
 
   const { pagination } = createPagination({
     numberOfArticles: beneficiariesAndTotal.total,
@@ -165,13 +170,12 @@ const Beneficiaries: React.FC = () => {
       .then(async value => {
         if (value > 0) {
           // input mask
-          // context api
 
           await api.post('/transfers', {
             receive_account_number: data.account_number,
             receive_user_id: data.beneficiary_id,
-            send_account_number: '1234561',
-            send_user_id: user_id,
+            send_account_number: user.account?.account_number,
+            send_user_id: user.id,
             value: Number(value),
           });
 
@@ -234,8 +238,7 @@ const Beneficiaries: React.FC = () => {
                   <S.ModalButton
                     type="button"
                     onClick={() =>
-                      handleTransfer({ account_number, beneficiary_id, name })
-                    }
+                      handleTransfer({ account_number, beneficiary_id, name })}
                   >
                     Transferir
                   </S.ModalButton>
