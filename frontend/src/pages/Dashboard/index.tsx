@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { format, parseISO, subHours } from 'date-fns';
 
+import createPagination from '../../components/Pagination/createPagination.js';
+import Header from '../../components/Header';
+import checkIsMobile from '../../helpers/checkIsMobile';
 import formatMoney from '../../helpers/formatMoney';
 import api from '../../services/api';
-
-import Header from '../../components/Header';
-import createPagination from '../../components/Pagination/createPagination.js';
 
 import * as S from './styles';
 
@@ -109,14 +109,10 @@ const Dashboard: React.FC = () => {
       });
   }, [user_id, currentPage]);
 
-  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-
   const { pagination } = createPagination({
     numberOfArticles: transfersAndTotal.total,
     articlesPerPage: 10,
-    numberOfButtons: isMobile ? 2 : 8,
+    numberOfButtons: checkIsMobile() ? 2 : 8,
     currentPage,
   });
 

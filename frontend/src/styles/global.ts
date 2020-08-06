@@ -39,26 +39,22 @@ export default createGlobalStyle`
     background-color: #ff7700;
   }
 
-  .ReactModal__Overlay {
-      z-index: 99;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background-color: rgba(255,255,255,0.75);
+  /* .swal-modal {
+    background-color: #312E38;
+    border-radius: 10px;
   }
 
-  .ReactModal__Content {
-      position: absolute;
-      left: 2.5rem;
-      right: 2.5rem;
-      top: 2.5rem;
-      bottom: 2.5rem;
-      background-color: #fff;
-      box-shadow: 0 0 10px 0 rgba(0,0,97,0.5);
-      overflow: auto;
-      border-radius: 4px;
-      outline: none;
+  .swal-title {
+    color: #f5f5f5;
   }
+
+  .swal-text {
+    color: #f5f5f5;
+  }
+
+
+  .swal-icon::before, .swal-icon::after, .swal-icon--success__hide-corners {
+    background-color: #312E38;
+  } */
+
 `;

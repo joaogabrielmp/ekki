@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import swal from 'sweetalert';
 
 import Header from '../../components/Header';
 import createPagination from '../../components/Pagination/createPagination.js';
+import checkIsMobile from '../../helpers/checkIsMobile';
 import formatMoney from '../../helpers/formatMoney';
 import api from '../../services/api';
 
@@ -60,6 +62,8 @@ const Beneficiaries: React.FC = () => {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     api
@@ -88,20 +92,14 @@ const Beneficiaries: React.FC = () => {
 
         setBeneficiariesAndTotal(beneficiariesFormatted);
       });
-  }, [user_id, currentPage]);
-
-  const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
+  }, [user_id, currentPage, refresh]);
 
   const { pagination } = createPagination({
     numberOfArticles: beneficiariesAndTotal.total,
     articlesPerPage: 10,
-    numberOfButtons: isMobile ? 2 : 8,
+    numberOfButtons: checkIsMobile() ? 2 : 8,
     currentPage,
   });
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleModal = (value: boolean, data?: SelectBeneficiary): void => {
     if (data) {
@@ -113,7 +111,38 @@ const Beneficiaries: React.FC = () => {
 
   const handlePaginationClick = (page: number): void => setCurrentPage(page);
 
-  const { beneficiary_id } = selectBenficiary;
+  const handleDelete = useCallback(async (id: string, beneficiary: string) => {
+    handleModal(false);
+
+    swal({
+      title: 'Tem certeza?',
+      text: `Deseja remover ${beneficiary} da lista de favorecidos?`,
+      buttons: ['Não', 'Sim'],
+      dangerMode: true,
+    })
+      .then(async willDelete => {
+        if (willDelete) {
+          await api.delete(`/users/beneficiaries/${id}`);
+
+          setRefresh(state => !state);
+
+          swal('Favorecido removido!', {
+            icon: 'success',
+          });
+        }
+      })
+      .catch(err => {
+        if (err) {
+          swal(
+            'Erro',
+            'Ocorreu uma falha ao remover o favorecido. Entre em contato com o suporte.',
+            'error',
+          );
+        }
+      });
+  }, []);
+
+  const { beneficiary_id, name } = selectBenficiary;
 
   return (
     <>
@@ -132,7 +161,7 @@ const Beneficiaries: React.FC = () => {
               style={{
                 content: {
                   backgroundColor: '#312E38',
-                  width: isMobile ? '350px' : '500px',
+                  width: checkIsMobile() ? '350px' : '500px',
                   height: '35%',
                   margin: 'auto',
                   borderRadius: '10px',
@@ -145,7 +174,12 @@ const Beneficiaries: React.FC = () => {
               <S.ModalContent>
                 <S.ModalTitle>Opções</S.ModalTitle>
                 <S.ModalButtonContent>
-                  <S.Button to="/beneficiaries/delete">Excluir</S.Button>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() => handleDelete(beneficiary_id, name)}
+                  >
+                    Excluir
+                  </S.ModalButton>
                   <S.Button to="/beneficiaries/transfer">Transferir</S.Button>
                   <S.ModalButton
                     type="button"
