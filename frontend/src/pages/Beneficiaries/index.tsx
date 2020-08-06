@@ -33,10 +33,20 @@ interface SelectBeneficiary {
   account_number: string;
 }
 
+interface TransferData {
+  account_number: string;
+  beneficiary_id: string;
+  name: string;
+}
+
 Modal.setAppElement('#root');
 
 const Beneficiaries: React.FC = () => {
   const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const [beneficiariesAndTotal, setBeneficiariesAndTotal] = useState({
     total: 0,
@@ -60,10 +70,6 @@ const Beneficiaries: React.FC = () => {
     account_id: '',
     account_number: '',
   });
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     api
@@ -142,7 +148,52 @@ const Beneficiaries: React.FC = () => {
       });
   }, []);
 
-  const { beneficiary_id, name } = selectBenficiary;
+  const handleTransfer = useCallback(async (data: TransferData) => {
+    handleModal(false);
+
+    swal(`Quanto você deseja transferir para ${data.name}?`, {
+      buttons: ['Cancelar', 'Confirmar'],
+      content: {
+        element: 'input',
+        attributes: {
+          placeholder: 'Informe valor a ser transferido',
+          value: 0,
+          type: 'number',
+        },
+      },
+    })
+      .then(async value => {
+        if (value > 0) {
+          // input mask
+          // context api
+
+          await api.post('/transfers', {
+            receive_account_number: data.account_number,
+            receive_user_id: data.beneficiary_id,
+            send_account_number: '1234561',
+            send_user_id: user_id,
+            value: Number(value),
+          });
+
+          setRefresh(state => !state);
+
+          swal('Valor transferido!', {
+            icon: 'success',
+          });
+        }
+      })
+      .catch(err => {
+        if (err) {
+          swal(
+            'Erro',
+            'Ocorreu uma falha ao transferir o valor. Entre em contato com o suporte.',
+            'error',
+          );
+        }
+      });
+  }, []);
+
+  const { account_number, beneficiary_id, name } = selectBenficiary;
 
   return (
     <>
@@ -180,7 +231,14 @@ const Beneficiaries: React.FC = () => {
                   >
                     Excluir
                   </S.ModalButton>
-                  <S.Button to="/beneficiaries/transfer">Transferir</S.Button>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() =>
+                      handleTransfer({ account_number, beneficiary_id, name })
+                    }
+                  >
+                    Transferir
+                  </S.ModalButton>
                   <S.ModalButton
                     type="button"
                     onClick={() => handleModal(false)}

@@ -5,6 +5,7 @@ import createPagination from '../../components/Pagination/createPagination.js';
 import Header from '../../components/Header';
 import checkIsMobile from '../../helpers/checkIsMobile';
 import formatMoney from '../../helpers/formatMoney';
+import { useUser } from '../../hooks/user';
 import api from '../../services/api';
 
 import * as S from './styles';
@@ -38,9 +39,12 @@ interface Transfer {
 }
 
 const Dashboard: React.FC = () => {
-  const user_id = 'cf41da34-a7c3-4c68-b79f-a42740aaec04';
+  const { user, fetchUser } = useUser();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   const [transfersAndTotal, setTransfersAndTotal] = useState({
     total: 0,
@@ -56,58 +60,38 @@ const Dashboard: React.FC = () => {
     ],
   });
 
-  const [currentPage, setCurrentPage] = useState(1);
-
   useEffect(() => {
-    api.get<User>(`/users/${user_id}`).then(response => {
-      const userFormatted = {
-        name: response.data.name.split(' ').slice(0, 1).join(' '),
-        cpf: response.data.cpf,
-        cellphone: response.data.cellphone,
-        account: {
-          id: response.data.account.id,
-          account_number: response.data.account.account_number,
-          balance: response.data.account.balance,
-          balanceFormatted: formatMoney(response.data.account.balance),
-          limit: response.data.account.limit,
-          limitFormatted: formatMoney(response.data.account.limit),
-        },
-      };
+    if (user.id) {
+      api
+        .get<Transfer>(`/transfers/${user.id}`, {
+          params: {
+            page: currentPage,
+            per_page: 10,
+          },
+        })
+        .then(response => {
+          const { total } = response.data;
+          const allTransfers = response.data.transfers.map(transfer => {
+            return {
+              ...transfer,
+              name: transfer.name.split(' ').slice(0, 1).join(' '),
+              balanceFormatted: formatMoney(transfer.balance),
+              dateFormatted: format(
+                subHours(parseISO(transfer.created_at), 3),
+                'dd/MM/yyyy',
+              ),
+            };
+          });
 
-      setUser(userFormatted);
-    });
-  }, [user_id]);
-
-  useEffect(() => {
-    api
-      .get<Transfer>(`/transfers/${user_id}`, {
-        params: {
-          page: currentPage,
-          per_page: 10,
-        },
-      })
-      .then(response => {
-        const { total } = response.data;
-        const allTransfers = response.data.transfers.map(transfer => {
-          return {
-            ...transfer,
-            name: transfer.name.split(' ').slice(0, 1).join(' '),
-            balanceFormatted: formatMoney(transfer.balance),
-            dateFormatted: format(
-              subHours(parseISO(transfer.created_at), 3),
-              'dd/MM/yyyy',
-            ),
+          const transfersFormatted = {
+            total,
+            transfers: allTransfers,
           };
+
+          setTransfersAndTotal(transfersFormatted);
         });
-
-        const transfersFormatted = {
-          total,
-          transfers: allTransfers,
-        };
-
-        setTransfersAndTotal(transfersFormatted);
-      });
-  }, [user_id, currentPage]);
+    }
+  }, [user.id, currentPage]);
 
   const { pagination } = createPagination({
     numberOfArticles: transfersAndTotal.total,
@@ -128,23 +112,23 @@ const Dashboard: React.FC = () => {
           <S.CardContent>
             <S.Card>
               <h4>
-                <b>{user?.name}</b>
+                <b>{user.name}</b>
               </h4>
-              <p>Conta: {user?.account.account_number}</p>
+              <p>Conta: {user.account?.account_number}</p>
             </S.Card>
 
             <S.Card>
               <h4>
                 <b>Saldo atual</b>
               </h4>
-              <p>{user?.account.balanceFormatted}</p>
+              <p>{user.account?.balanceFormatted}</p>
             </S.Card>
 
             <S.Card>
               <h4>
                 <b>Limite</b>
               </h4>
-              <p>{user?.account.limitFormatted}</p>
+              <p>{user.account?.limitFormatted}</p>
             </S.Card>
 
             <S.Button to="/beneficiaries">Ver lista de favorecidos</S.Button>
