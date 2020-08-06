@@ -153,49 +153,52 @@ const Beneficiaries: React.FC = () => {
       });
   }, []);
 
-  const handleTransfer = useCallback(async (data: TransferData) => {
-    handleModal(false);
+  const handleTransfer = useCallback(
+    async (data: TransferData) => {
+      handleModal(false);
 
-    swal(`Quanto você deseja transferir para ${data.name}?`, {
-      buttons: ['Cancelar', 'Confirmar'],
-      content: {
-        element: 'input',
-        attributes: {
-          placeholder: 'Informe valor a ser transferido',
-          value: 0,
-          type: 'number',
+      swal(`Quanto você deseja transferir para ${data.name}?`, {
+        buttons: ['Cancelar', 'Confirmar'],
+        content: {
+          element: 'input',
+          attributes: {
+            placeholder: 'Informe valor a ser transferido',
+            value: 0,
+            type: 'number',
+          },
         },
-      },
-    })
-      .then(async value => {
-        if (value > 0) {
-          // input mask
-
-          await api.post('/transfers', {
-            receive_account_number: data.account_number,
-            receive_user_id: data.beneficiary_id,
-            send_account_number: user.account?.account_number,
-            send_user_id: user.id,
-            value: Number(value),
-          });
-
-          setRefresh(state => !state);
-
-          swal('Valor transferido!', {
-            icon: 'success',
-          });
-        }
       })
-      .catch(err => {
-        if (err) {
-          swal(
-            'Erro',
-            'Ocorreu uma falha ao transferir o valor. Entre em contato com o suporte.',
-            'error',
-          );
-        }
-      });
-  }, []);
+        .then(async value => {
+          if (value > 0) {
+            // input mask
+
+            await api.post('/transfers', {
+              receive_account_number: data.account_number,
+              receive_user_id: data.beneficiary_id,
+              send_account_number: user.account?.account_number,
+              send_user_id: user.id,
+              value: Number(value),
+            });
+
+            setRefresh(state => !state);
+
+            swal('Valor transferido!', {
+              icon: 'success',
+            });
+          }
+        })
+        .catch(err => {
+          if (err) {
+            swal(
+              'Erro',
+              'Ocorreu uma falha ao transferir o valor. Entre em contato com o suporte.',
+              'error',
+            );
+          }
+        });
+    },
+    [user],
+  );
 
   const { account_number, beneficiary_id, name } = selectBenficiary;
 
@@ -238,7 +241,8 @@ const Beneficiaries: React.FC = () => {
                   <S.ModalButton
                     type="button"
                     onClick={() =>
-                      handleTransfer({ account_number, beneficiary_id, name })}
+                      handleTransfer({ account_number, beneficiary_id, name })
+                    }
                   >
                     Transferir
                   </S.ModalButton>
