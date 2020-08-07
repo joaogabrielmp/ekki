@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import media from 'styled-media-query';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
@@ -9,14 +10,16 @@ export const Container = styled.div`
   height: 80vh;
 `;
 
-export const Content = styled.div`
+export const Content = styled.div``;
+
+export const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 700px;
-  height: 240px;
+  height: 340px;
   margin: 5px;
   border-radius: 10px;
   background: #f5f5f5;
@@ -25,6 +28,7 @@ export const Content = styled.div`
   h2 {
     text-align: center;
     font-weight: bold;
+    padding-bottom: 20px;
   }
 
   ${media.lessThan('large')`
@@ -65,12 +69,12 @@ export const ButtonContent = styled.div`
   padding-top: 20px;
 `;
 
-export const Button = styled.button`
+export const LinkButton = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #f5f5f5;
+  color: #000;
   font-size: 1rem;
   text-decoration: none;
   border: none;
@@ -79,19 +83,68 @@ export const Button = styled.button`
   height: 50px;
   margin: 5px;
   border-radius: 10px;
-  background: #006400;
+  background: #f5f5f5;
 
   transition: 0.3s ease all;
 
-  &:nth-child(2) {
-    background: #8b0000;
+  &:hover {
+    background: #ffa500;
+    color: #f5f5f5;
   }
+
+  @media (max-width: 680px) {
+    width: 120px;
+  }
+
+  @media (max-width: 575px) {
+    width: 110px;
+  }
+
+  @media (max-width: 525px) {
+    width: 100px;
+  }
+
+  ${media.lessThan('small')`
+    width: 80px;
+    height: 40px;
+    font-size: 0.8rem;
+  `}
+`;
+
+export const Button = styled.button`
+  color: #000;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  font-weight: bold;
+  width: 140px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 10px;
+  background: #f5f5f5;
+
+  transition: 0.3s ease all;
 
   &:hover {
-    background: #228b22;
+    background: #ffa500;
+    color: #f5f5f5;
   }
 
-  &:nth-child(2):hover {
-    background: #b80f0a;
+  @media (max-width: 680px) {
+    width: 120px;
   }
+
+  @media (max-width: 575px) {
+    width: 110px;
+  }
+
+  @media (max-width: 525px) {
+    width: 100px;
+  }
+
+  ${media.lessThan('small')`
+    width: 80px;
+    height: 40px;
+    font-size: 0.8rem;
+  `}
 `;

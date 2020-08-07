@@ -55,7 +55,7 @@ const NewBeneficiary: React.FC = () => {
           abortEarly: false,
         });
 
-        // await api.post('/users', data);
+        await api.post('/users', formData);
 
         history.push('/beneficiaries');
 
@@ -68,8 +68,8 @@ const NewBeneficiary: React.FC = () => {
           formRef.current?.setErrors(errors);
         } else {
           swal(
-            'Erro',
-            'Ocorreu uma falha ao cadastrar o favorecido. Entre em contato com o suporte.',
+            'Ocorreu uma falha ao cadastrar o favorecido',
+            'Verifique os dados informados. Caso persista, etre em contato com o suporte.',
             'error',
           );
         }
@@ -93,28 +93,32 @@ const NewBeneficiary: React.FC = () => {
       <Header />
       <S.Container>
         <S.Content>
-          <h2>Novo favorecido</h2>
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <br />
-            <button type="submit">Cadastrar favorecido</button>
-            <button type="button">Voltar</button>
-            <br /> <br />
-            <Input name="name" placeholder="Nome" />
-            <Input
-              name="cpf"
-              maxLength={14}
-              value={cpfState}
-              onChange={handleCPFChange}
-              placeholder="CPF"
-            />
-            <Input
-              name="cellphone"
-              maxLength={15}
-              value={cellphoneState}
-              onChange={handleCellphoneChange}
-              placeholder="Telefone"
-            />
-          </Form>
+          <S.ButtonContent>
+            <S.Button type="submit" form="formNewBeneficiary">
+              Cadastrar
+            </S.Button>
+            <S.LinkButton to="/beneficiaries">Voltar</S.LinkButton>
+          </S.ButtonContent>
+          <S.Card>
+            <h2>Novo favorecido</h2>
+            <Form ref={formRef} onSubmit={handleSubmit} id="formNewBeneficiary">
+              <Input name="name" type="text" placeholder="Nome" />
+              <Input
+                name="cpf"
+                maxLength={14}
+                value={cpfState}
+                onChange={handleCPFChange}
+                placeholder="CPF"
+              />
+              <Input
+                name="cellphone"
+                maxLength={15}
+                value={cellphoneState}
+                onChange={handleCellphoneChange}
+                placeholder="Telefone"
+              />
+            </Form>
+          </S.Card>
         </S.Content>
       </S.Container>
     </>
