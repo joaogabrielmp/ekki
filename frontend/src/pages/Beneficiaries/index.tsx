@@ -164,14 +164,12 @@ const Beneficiaries: React.FC = () => {
         content: {
           element: 'input',
           attributes: {
-            placeholder: 'Informe valor a ser transferido',
-            value: 0,
+            placeholder: 'R$ 0.00',
             type: 'number',
-            // input mask
           },
         },
       }).then(value => {
-        if (value > 0) {
+        if (Number(value) > 0) {
           let message = `Seu saldo atual é ${user.account?.balanceFormatted}.`;
 
           if (Number(value) > user.account?.balance) {
@@ -211,7 +209,7 @@ const Beneficiaries: React.FC = () => {
                 } else {
                   swal(
                     'Erro',
-                    'Ocorreu uma falha ao remover o favorecido. Entre em contato com o suporte.',
+                    'Ocorreu uma falha na transferência. Entre em contato com o suporte.',
                     'error',
                   );
                 }
@@ -231,7 +229,7 @@ const Beneficiaries: React.FC = () => {
       <S.Container>
         <S.Content>
           <S.ButtonContent>
-            <S.Button to="/">Novo</S.Button>
+            <S.Button to="/beneficiaries/new">Novo</S.Button>
             <S.Button to="/">Voltar</S.Button>
           </S.ButtonContent>
 
