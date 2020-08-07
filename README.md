@@ -80,16 +80,67 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 ## 📖 Documentação das rotas
 
 1. Na pasta `backend/docs`, está o arquivo `Insomnia.json`;
-2. Importe no Insomnia para ver todas as rotas disponíveis;
+2. Importe no Insomnia para realizar testes, se necessaário;
+
+---
+
+### **User /users**
+> GET /:user_id
+- Busca o usuário pelo id. 
+- Utilizado no frontend para buscar o usuário inicial com id fixo.
+
+> POST /
+- Cadastrar usuários na aplicação.
+- Body: { cellphone, cpf, name, user_id? }
+- Caso o user_id for informado, será cadastrado como favoricido deste usuário, senão,será criado apenas um usuário.
+- Quebra do SOLID? 🧐🤨
+
+> PUT /:user_id
+- Atualiza CPF, telefone e nome.
+- Body: { cellphone, cpf, name }
+
+### **User Beneficiary /users/beneficiaries**
+> GET /:user_id?page=1&per_page=10
+- Busca todos os favorecidos do usuário.
+- Parâmetros: { page, per_page }
+
+> POST /
+- Inclui um favorecido na lista do usuário.
+- Body: { beneficiary_id, user_id }
+- Não está sendo usando pelo frontend
+
+> DELETE /:user_id
+- Remove um favorecido da lista do usuário.
+
+### **Transfers /transfers**
+> GET /:user_id?page=1&per_page=10
+- Busca todos as transferências do usuário.
+- Parâmetros: { page, per_page }
+
+> POST /
+- Realiza transferência do usuário para um favorecido.
+- Body: { receive_account_number, receive_user_id, send_account_number, send_user_id, value }
 
 ---
 
 ## 🔨 A fazer
 
+Backend
 1. Cobrir mais cenários nos testes unitários e de integração;
 2. Utilizar a biblioteca faker.js para gerar valores para os testes;
 3. Criar testes de integração para o backend;
-4. Criar testes E2E para o frontend;
+
+
+Frontend
+1. Criar componente próprio de modal;
+2. Criar input mask para valor da transferência;
+ - É criado pela lib SweetAlert e houve problemas com a customização do input
+ - Após a criação do modal, criar o próprio input e assim adicionar uma mask nele)
+3. Criar loading para utilizar nos elementos que buscam dados da API;
+4. Isolar botões em um componente;
+5. Isolar paginação em um componente;
+6. Criar testes E2E para o frontend;
+
 
 ---
 
