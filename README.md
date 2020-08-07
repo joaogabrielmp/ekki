@@ -53,7 +53,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesquisas com usuários, que é necessário criar uma aplicação web para reter seus clientes, onde seja possível transferir dinheiro para outras pessoas de forma fácil, objetiva e sem taxas.
+O Ekki surgiu depois que a área de produto chegou à conclusão, fez diversas pesquisas com usuários, que é necessário criar uma aplicação web para reter seus clientes, onde seja possível transferir dinheiro para outras pessoas de forma fácil, objetiva e sem taxas.
 
 ---
 
@@ -97,7 +97,7 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 - Utilizado no frontend para buscar o usuário inicial com id fixo.
 
 > POST /
-- Cadastrar usuários na aplicação.
+- Cadastra usuários na aplicação.
 - Body: { cellphone, cpf, name, user_id? }
 - Caso o user_id for informado, será cadastrado como favoricido deste usuário, senão,será criado apenas um usuário.
 - Quebra do SOLID? 🧐🤨
@@ -114,7 +114,7 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 > POST /
 - Inclui um favorecido na lista do usuário.
 - Body: { beneficiary_id, user_id }
-- Não está sendo usando pelo frontend
+- Não está sendo usando pelo frontend.
 
 > DELETE /:user_id
 - Remove um favorecido da lista do usuário.
@@ -133,7 +133,7 @@ O Ekki surgiu após a área de produto chegou na conclusão, após diversas pesq
 ## 🔨 A fazer
 
 Backend
-1. Cobrir mais cenários nos testes unitários e de integração;
+1. Cobrir mais cenários nos testes unitários;
 2. Utilizar a biblioteca faker.js para gerar valores para os testes;
 3. Criar testes de integração para o backend;
 
