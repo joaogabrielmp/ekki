@@ -20,7 +20,7 @@ describe('CreateUserBeneficiary', () => {
   });
 
   it('should be able to make a transfer', async () => {
-    const debitAcccount = true;
+    const debitAccount = true;
     const receive_account_number = '112233';
     const receive_user_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const send_account_number = '445566';
@@ -28,7 +28,7 @@ describe('CreateUserBeneficiary', () => {
     const value = 100;
 
     const transfer = await transferMoney.execute({
-      debitAcccount,
+      debitAccount,
       receive_account_number,
       receive_user_id,
       send_account_number,
@@ -49,7 +49,7 @@ describe('CreateUserBeneficiary', () => {
   it('should not be able to make a transfer with invalid account', async () => {
     await expect(
       transferMoney.execute({
-        debitAcccount: true,
+        debitAccount: true,
         receive_account_number: 'account_number',
         receive_user_id: 'id',
         send_account_number: 'non-existing-account-number',
@@ -62,7 +62,7 @@ describe('CreateUserBeneficiary', () => {
   it('should not be able to make a transfer with invalid beneficiary account', async () => {
     await expect(
       transferMoney.execute({
-        debitAcccount: true,
+        debitAccount: true,
         receive_account_number: 'non-existing-account-number',
         receive_user_id: 'id',
         send_account_number: 'account_number',
@@ -73,7 +73,7 @@ describe('CreateUserBeneficiary', () => {
   });
 
   it('should be able to make a transfer using limit', async () => {
-    const debitAcccount = true;
+    const debitAccount = true;
     const receive_account_number = '112233';
     const receive_user_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const send_account_number = '445566';
@@ -81,7 +81,7 @@ describe('CreateUserBeneficiary', () => {
     const value = 1100;
 
     const transfer = await transferMoney.execute({
-      debitAcccount,
+      debitAccount,
       receive_account_number,
       receive_user_id,
       send_account_number,
@@ -100,7 +100,7 @@ describe('CreateUserBeneficiary', () => {
   });
 
   it('should not be able to make a transfer with amount greater than the balance and limit', async () => {
-    const debitAcccount = true;
+    const debitAccount = true;
     const receive_account_number = '112233';
     const receive_user_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const send_account_number = '445566';
@@ -109,7 +109,7 @@ describe('CreateUserBeneficiary', () => {
 
     await expect(
       transferMoney.execute({
-        debitAcccount,
+        debitAccount,
         receive_account_number,
         receive_user_id,
         send_account_number,
@@ -120,7 +120,7 @@ describe('CreateUserBeneficiary', () => {
   });
 
   it('should be able to cancel an old transfer when the time is less than two minutes', async () => {
-    const debitAcccount = true;
+    const debitAccount = true;
     const receive_account_number = '112233';
     const receive_user_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const send_account_number = '445566';
@@ -128,7 +128,7 @@ describe('CreateUserBeneficiary', () => {
     const value = 1100;
 
     const transfer = await transferMoney.execute({
-      debitAcccount,
+      debitAccount,
       receive_account_number,
       receive_user_id,
       send_account_number,

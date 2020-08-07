@@ -102,7 +102,7 @@ class FakeTransfersRepository implements ITransfersRepository {
   }
 
   public async processTransfer({
-    debitAcccount,
+    debitAccount,
     debitLimit,
     receive_account_number,
     receive_user_id,
@@ -124,7 +124,7 @@ class FakeTransfersRepository implements ITransfersRepository {
 
     this.transfers.push(transfer);
 
-    if (debitAcccount) {
+    if (debitAccount) {
       if (debitLimit) {
         // do something
       } else {

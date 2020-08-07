@@ -12,7 +12,7 @@ describe('FindAllTransfers', () => {
   });
 
   it('should be able to find transfers by user id', async () => {
-    const debitAcccount = true;
+    const debitAccount = true;
     const receive_account_number = '112233';
     const receive_user_id = '1437216b-57ea-4dec-a1aa-12448c897e3b';
     const send_account_number = '445566';
@@ -23,7 +23,7 @@ describe('FindAllTransfers', () => {
     const per_page = 10;
 
     await fakeTransfersRepository.processTransfer({
-      debitAcccount,
+      debitAccount,
       receive_account_number,
       receive_user_id,
       send_account_number,

@@ -48,8 +48,10 @@ class UserBeneficiariesRepository implements IUserBeneficiariesRepository {
       `
         select
         ub.beneficiary_id,
-        u.name,
         u.account_id,
+        u.cellphone,
+        u.cpf,
+        u.name,
         a.account_number,
         a.balance,
         a.limit
