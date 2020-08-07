@@ -53,7 +53,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## 💻 Projeto
 
-O Ekki surgiu depois que a área de produto chegou à conclusão, fez diversas pesquisas com usuários, que é necessário criar uma aplicação web para reter seus clientes, onde seja possível transferir dinheiro para outras pessoas de forma fácil, objetiva e sem taxas.
+O Ekki surgiu depois que a área de produto chegou à conclusão, após fazer diversas pesquisas com usuários, que é necessário criar uma aplicação web para reter seus clientes, onde seja possível transferir dinheiro para outras pessoas de forma fácil, objetiva e sem taxas.
 
 ---
 
@@ -99,7 +99,7 @@ O Ekki surgiu depois que a área de produto chegou à conclusão, fez diversas p
 > POST /
 - Cadastra usuários na aplicação.
 - Body: { cellphone, cpf, name, user_id? }
-- Caso o user_id for informado, será cadastrado como favoricido deste usuário, senão,será criado apenas um usuário.
+- Caso o user_id for informado, será cadastrado como favoricido deste usuário, senão, será criado apenas um usuário.
 - Quebra do SOLID? 🧐🤨
 
 > PUT /:user_id
@@ -151,4 +151,4 @@ Frontend
 
 ---
 
-Feito com ♥ by João Gabriel :wave:
+Feito com ♥ por João Gabriel :wave:
