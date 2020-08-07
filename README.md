@@ -33,14 +33,21 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [Jest](https://jestjs.io/)
 ---
 ### Frontend
+- [Axios](https://github.com/axios/axios)
 - [React](https://reactjs.org)
 - [React Router](https://reactrouter.com/)
 - [Styled-Components](https://www.styled-components.com/)
+- [Styled-Media-Query](https://github.com/morajabi/styled-media-query)
+- [SweetAlert](https://prettier.io/)
+- [Unform](https://unform.dev/)
+- [Yup](https://github.com/jquense/yup)
+
 ---
 ### Ambos
-- [Typescript](https://www.typescriptlang.org/)
+- [Date-fns](https://date-fns.org/)
 - [Eslint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
+- [Typescript](https://www.typescriptlang.org/)
 
 ---
 
