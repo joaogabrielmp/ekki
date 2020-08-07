@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import swal from 'sweetalert';
 import * as Yup from 'yup';
 
-import { isFirstDayOfMonth } from 'date-fns/esm/fp';
 import Input from '../../../components/Input';
 import Header from '../../../components/Header';
 import getValidationErrors from '../../../helpers/getValidationErrors';
 import { cpfMask, cellphoneMask, onlyNumber } from '../../../helpers/mask';
-import { useUser } from '../../../hooks/user';
 import api from '../../../services/api';
 
 import * as S from './styles';
@@ -29,7 +27,6 @@ interface BeneficiaryLocation {
 }
 
 const EditBeneficiary: React.FC = () => {
-  const { user } = useUser();
   const location = useLocation<BeneficiaryLocation>();
   const beneficiary = location?.state;
   const [cellphoneState, setCellPhoneState] = useState(
