@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 
 import Header from '../../components/Header';
@@ -21,6 +22,8 @@ interface Beneficiary {
       account_number: string;
       balance: number;
       balanceFormatted: string;
+      cellphone: string;
+      cpf: string;
       limit: number;
       limitFormatted: string;
     },
@@ -29,9 +32,11 @@ interface Beneficiary {
 
 interface SelectBeneficiary {
   beneficiary_id: string;
-  name: string;
   account_id: string;
   account_number: string;
+  cellphone: string;
+  cpf: string;
+  name: string;
 }
 
 interface TransferData {
@@ -44,6 +49,7 @@ Modal.setAppElement('#root');
 
 const Beneficiaries: React.FC = () => {
   const { user, fetchUser } = useUser();
+  const history = useHistory();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -59,18 +65,17 @@ const Beneficiaries: React.FC = () => {
         account_number: '',
         balance: 0,
         balanceFormatted: '',
+        cellphone: '',
+        cpf: '',
         limit: 0,
         limitFormatted: '',
       },
     ],
   });
 
-  const [selectBenficiary, setSelectBeneficiary] = useState<SelectBeneficiary>({
-    beneficiary_id: '',
-    name: '',
-    account_id: '',
-    account_number: '',
-  });
+  const [selectBenficiary, setSelectBeneficiary] = useState<SelectBeneficiary>(
+    {} as SelectBeneficiary,
+  );
 
   useEffect(() => {
     if (user.id) {
@@ -123,6 +128,18 @@ const Beneficiaries: React.FC = () => {
   };
 
   const handlePaginationClick = (page: number): void => setCurrentPage(page);
+
+  const handleEdit = (data: SelectBeneficiary): void => {
+    history.push({
+      pathname: '/beneficiaries/edit',
+      state: {
+        beneficiary_id: data.beneficiary_id,
+        cellphone: data.cellphone,
+        cpf: data.cpf,
+        name: data.name,
+      },
+    });
+  };
 
   const handleDelete = useCallback(async (id: string, beneficiary: string) => {
     handleModal(false);
@@ -240,8 +257,8 @@ const Beneficiaries: React.FC = () => {
               style={{
                 content: {
                   backgroundColor: '#312E38',
-                  width: checkIsMobile() ? '350px' : '500px',
-                  height: '35%',
+                  width: '300px',
+                  height: '350px',
                   margin: 'auto',
                   borderRadius: '10px',
                   display: 'flex',
@@ -253,6 +270,12 @@ const Beneficiaries: React.FC = () => {
               <S.ModalContent>
                 <S.ModalTitle>Opções</S.ModalTitle>
                 <S.ModalButtonContent>
+                  <S.ModalButton
+                    type="button"
+                    onClick={() => handleEdit(selectBenficiary)}
+                  >
+                    Alterar
+                  </S.ModalButton>
                   <S.ModalButton
                     type="button"
                     onClick={() => handleDelete(beneficiary_id, name)}

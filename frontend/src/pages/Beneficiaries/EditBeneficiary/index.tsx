@@ -1,10 +1,11 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import swal from 'sweetalert';
 import * as Yup from 'yup';
 
+import { isFirstDayOfMonth } from 'date-fns/esm/fp';
 import Input from '../../../components/Input';
 import Header from '../../../components/Header';
 import getValidationErrors from '../../../helpers/getValidationErrors';
@@ -15,15 +16,26 @@ import api from '../../../services/api';
 import * as S from './styles';
 
 interface BeneficiaryFormData {
-  name: string;
-  cpf: string;
   cellphone: string;
+  cpf: string;
+  name: string;
 }
 
-const NewBeneficiary: React.FC = () => {
+interface BeneficiaryLocation {
+  beneficiary_id: string;
+  cellphone: string;
+  cpf: string;
+  name: string;
+}
+
+const EditBeneficiary: React.FC = () => {
   const { user } = useUser();
-  const [cpfState, setCPFState] = useState('');
-  const [cellphoneState, setCellPhoneState] = useState('');
+  const location = useLocation<BeneficiaryLocation>();
+  const beneficiary = location?.state;
+  const [cellphoneState, setCellPhoneState] = useState(
+    cellphoneMask(beneficiary.cellphone),
+  );
+  const [cpfState, setCPFState] = useState(cpfMask(beneficiary.cpf));
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
@@ -42,20 +54,39 @@ const NewBeneficiary: React.FC = () => {
             .required('Telefone obrigatório'),
         });
 
-        const { name, cpf, cellphone } = data;
+        const { cellphone, cpf, name } = data;
 
-        const formData = {
-          name,
-          cpf: onlyNumber(cpf),
+        const changedPhone = beneficiary.cellphone !== onlyNumber(cellphone);
+        const changedCPF = beneficiary.cpf !== onlyNumber(cpf);
+        const changedName = beneficiary.name !== name;
+
+        const checkFormData = {
           cellphone: onlyNumber(cellphone),
-          user_id: user.id,
+          cpf: changedCPF ? onlyNumber(cpf) : beneficiary.cpf,
+          name,
         };
 
-        await schema.validate(formData, {
+        await schema.validate(checkFormData, {
           abortEarly: false,
         });
 
-        await api.post('/users', formData);
+        let formData = {};
+
+        if (changedPhone) {
+          formData = { cellphone: onlyNumber(cellphone) };
+        }
+
+        if (changedCPF) {
+          formData = { cpf: onlyNumber(cpf) };
+        }
+
+        if (changedName) {
+          formData = { name };
+        }
+
+        if (changedPhone || changedCPF || changedName) {
+          await api.put(`/users/${beneficiary.beneficiary_id}`, formData);
+        }
 
         history.push('/beneficiaries');
 
@@ -75,7 +106,7 @@ const NewBeneficiary: React.FC = () => {
         }
       }
     },
-    [history, user.id],
+    [history, beneficiary],
   );
 
   const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -95,13 +126,20 @@ const NewBeneficiary: React.FC = () => {
         <S.Content>
           <S.ButtonContent>
             <S.Button type="submit" form="formNewBeneficiary">
-              Cadastrar
+              Alterar
             </S.Button>
             <S.LinkButton to="/beneficiaries">Voltar</S.LinkButton>
           </S.ButtonContent>
           <S.Card>
-            <h2>Novo favorecido</h2>
-            <Form ref={formRef} onSubmit={handleSubmit} id="formNewBeneficiary">
+            <h2>Alterar favorecido</h2>
+            <Form
+              ref={formRef}
+              initialData={{
+                name: beneficiary.name,
+              }}
+              onSubmit={handleSubmit}
+              id="formNewBeneficiary"
+            >
               <Input name="name" placeholder="Nome" />
               <Input
                 name="cpf"
@@ -125,4 +163,4 @@ const NewBeneficiary: React.FC = () => {
   );
 };
 
-export default NewBeneficiary;
+export default EditBeneficiary;

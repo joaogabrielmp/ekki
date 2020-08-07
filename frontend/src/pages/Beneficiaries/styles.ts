@@ -206,7 +206,7 @@ export const ModalTitle = styled.h2`
 
 export const ModalButtonContent = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 export const ModalButton = styled.button`
